@@ -1,0 +1,18 @@
+import { t as jsxRuntimeExports } from "./index-CmnsDpTB.js";
+function CancellationPage() {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(
+    "div",
+    {
+      style: {
+        color: "#FAD4D8",
+        padding: "4rem 2rem",
+        fontFamily: "var(--font-display)",
+        fontSize: "2rem"
+      },
+      children: "Cancellation Policy"
+    }
+  );
+}
+export {
+  CancellationPage as default
+};

@@ -1,0 +1,242 @@
+type Yatra = 
+ record {
+   basePrice: nat;
+   category: text;
+   durationDays: nat;
+   heroImage: text;
+   id: nat;
+   name: text;
+   nextDeparture: text;
+   shortDescription: text;
+   slug: Slug;
+   tagline: text;
+ };
+type UserProfilePublic = 
+ record {
+   city: text;
+   createdAt: Timestamp;
+   email: text;
+   loyaltyTier: LoyaltyTier;
+   name: text;
+   phone: text;
+   "principal": UserId;
+   referralCode: text;
+   referralCredits: nat;
+   totalTreksCompleted: nat;
+   wishlist: vec Slug;
+ };
+type UserId = principal;
+type Trek = 
+ record {
+   basePrice: nat;
+   bestTime: text;
+   difficulty: Difficulty;
+   durationDays: nat;
+   durationNights: nat;
+   heroImage: text;
+   id: nat;
+   isFeatured: bool;
+   maxAltitude: nat;
+   name: text;
+   nearestAirport: text;
+   nearestRailhead: text;
+   region: text;
+   shortDescription: text;
+   slug: Slug;
+   startingPoint: text;
+   tagline: text;
+   trekDistance: nat;
+ };
+type TravelerInfo = 
+ record {
+   age: nat;
+   emergencyContact: text;
+   gender: text;
+   mealPreference: MealPreference;
+   medicalConditions: text;
+   name: text;
+   tshirtSize: text;
+ };
+type Timestamp = int;
+type Slug = text;
+type ReviewPublic = 
+ record {
+   createdAt: Timestamp;
+   foodRating: nat;
+   guideRating: nat;
+   helpfulVotes: nat;
+   id: nat;
+   rating: nat;
+   reviewText: text;
+   safetyRating: nat;
+   trekSlug: Slug;
+   userCity: text;
+   userId: UserId;
+   userName: text;
+   verified: bool;
+ };
+type PaymentStatus = 
+ variant {
+   Cancelled;
+   Paid;
+   Pending;
+ };
+type NewsletterPreference = 
+ variant {
+   BlogPosts;
+   NewBatches;
+   Offers;
+   WeatherAlerts;
+ };
+type MealPreference = 
+ variant {
+   NonVeg;
+   Veg;
+ };
+type LoyaltyTier = 
+ variant {
+   Explorer;
+   SummitMaster;
+   Trailblazer;
+ };
+type FaqVotesPublic = 
+ record {
+   helpful: nat;
+   notHelpful: nat;
+ };
+type Difficulty = 
+ variant {
+   Difficult;
+   Easy;
+   Extreme;
+   Moderate;
+ };
+type CorporateLead = 
+ record {
+   companyName: text;
+   contactName: text;
+   createdAt: Timestamp;
+   email: text;
+   headcount: nat;
+   id: nat;
+   message: text;
+   phone: text;
+   preferredDates: text;
+   preferredTrek: text;
+ };
+type BookingPublic = 
+ record {
+   addOns: vec AddOn;
+   batchId: nat;
+   createdAt: Timestamp;
+   id: nat;
+   paymentStatus: PaymentStatus;
+   razorpayPaymentId: opt text;
+   totalAmount: nat;
+   travelers: vec TravelerInfo;
+   trekSlug: Slug;
+   userId: UserId;
+ };
+type BlogPostPublic = 
+ record {
+   author: text;
+   category: BlogCategory;
+   content: text;
+   excerpt: text;
+   heroImage: text;
+   id: nat;
+   publishedAt: Timestamp;
+   readTime: nat;
+   slug: Slug;
+   tags: vec text;
+   title: text;
+   views: nat;
+ };
+type BlogCategory = 
+ variant {
+   Gear;
+   Stories;
+   TrekTips;
+   YatraGuides;
+ };
+type BatchStatus = 
+ variant {
+   Cancelled;
+   Completed;
+   Full;
+   Open;
+ };
+type BatchPublic = 
+ record {
+   bookedSeats: nat;
+   endDate: text;
+   guideId: text;
+   id: nat;
+   isSoldOut: bool;
+   pricePerPerson: nat;
+   seatsAvailable: nat;
+   startDate: text;
+   status: BatchStatus;
+   totalSeats: nat;
+   trekSlug: Slug;
+ };
+type BatchAvailability = 
+ record {
+   batchId: nat;
+   isSoldOut: bool;
+   seatsAvailable: nat;
+ };
+type AddOn = 
+ record {
+   name: text;
+   pricePerPerson: nat;
+ };
+service : {
+  addToWishlist: (slug: text) -> (bool);
+  calculateGroupPrice: (trekSlug: text, groupSize: nat, addOns: vec AddOn) ->
+   (nat) query;
+  cancelBooking: (id: nat) -> (bool);
+  confirmBookingPayment: (bookingId: nat, razorpayPaymentId: text) ->
+   (variant {
+      err: text;
+      ok: BookingPublic;
+    });
+  createBooking: (trekSlug: text, batchId: nat, travelers: vec TravelerInfo,
+   addOns: vec AddOn, totalAmount: nat) -> (BookingPublic);
+  createOrUpdateProfile: (name: text, email: text, phone: text, city:
+   text) -> (UserProfilePublic);
+  getAllTreks: () -> (vec Trek) query;
+  getAllYatras: () -> (vec Yatra) query;
+  getAvailableBatches: () -> (vec BatchPublic) query;
+  getAverageRating: (trekSlug: text) -> (nat) query;
+  getBatchAvailability: (batchId: nat) -> (opt BatchAvailability) query;
+  getBatchById: (id: nat) -> (opt BatchPublic) query;
+  getBatchesByTrek: (trekSlug: text) -> (vec BatchPublic) query;
+  getBlogByCategory: (category: BlogCategory) -> (vec BlogPostPublic) query;
+  getBlogBySlug: (slug: text) -> (opt BlogPostPublic) query;
+  getBlogPosts: () -> (vec BlogPostPublic) query;
+  getBookingById: (id: nat) -> (opt BookingPublic) query;
+  getBookingsByUser: () -> (vec BookingPublic) query;
+  getCorporateLeads: () -> (vec CorporateLead);
+  getFaqVotes: (trekSlug: text, faqIndex: nat) -> (FaqVotesPublic) query;
+  getFeaturedTreks: () -> (vec Trek) query;
+  getReviewsByTrek: (trekSlug: text) -> (vec ReviewPublic) query;
+  getSubscriberCount: () -> (nat) query;
+  getTrekBySlug: (slug: text) -> (opt Trek) query;
+  getTreksByDifficulty: (difficulty: Difficulty) -> (vec Trek) query;
+  getUserProfile: () -> (opt UserProfilePublic) query;
+  getYatraBySlug: (slug: text) -> (opt Yatra) query;
+  incrementBlogViews: (slug: text) -> (bool);
+  removeFromWishlist: (slug: text) -> (bool);
+  submitCorporateLead: (companyName: text, contactName: text, email: 
+   text, phone: text, headcount: nat, preferredDates: text, preferredTrek:
+   text, message: text) -> (CorporateLead);
+  submitReview: (trekSlug: text, userName: text, userCity: text, rating: 
+   nat, guideRating: nat, foodRating: nat, safetyRating: nat, reviewText:
+   text) -> (ReviewPublic);
+  subscribe: (email: text, preferences: vec NewsletterPreference) -> (bool);
+  unsubscribe: (email: text) -> (bool);
+  updatePaymentStatus: (id: nat, status: PaymentStatus) -> (bool);
+  voteFaq: (trekSlug: text, faqIndex: nat, isHelpful: bool) -> (bool);
+  voteHelpful: (reviewId: nat) -> (bool);
+}

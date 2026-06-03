@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /dashboard
+Disallow: /auth/
+
+Sitemap: https://shailhikers.com/sitemap.xml
+
+# Shail Hikers — Himalayan Trekking & Yatras
+# https://shailhikers.com

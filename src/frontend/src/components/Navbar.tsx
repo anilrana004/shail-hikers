@@ -1,0 +1,943 @@
+import { useInternetIdentity } from "@caffeineai/core-infrastructure";
+import { Link, useRouterState } from "@tanstack/react-router";
+import {
+  BarChart2,
+  BookOpen,
+  Briefcase,
+  ChevronDown,
+  HelpCircle,
+  Image,
+  Info,
+  Mountain,
+  Phone,
+  Search,
+  Shield,
+  Sparkles,
+  Users,
+  X,
+} from "lucide-react";
+import { AnimatePresence, motion } from "motion/react";
+import { useEffect, useRef, useState } from "react";
+
+const ALL_TREKS = [
+  {
+    name: "Kedarkantha",
+    slug: "kedarkantha",
+    difficulty: "Easy",
+    price: "Rs 5,999",
+    color: "#2D5016",
+    altitude: "12,500 ft",
+    days: 6,
+  },
+  {
+    name: "Har Ki Dun",
+    slug: "har-ki-dun",
+    difficulty: "Easy",
+    price: "Rs 6,499",
+    color: "#2D5016",
+    altitude: "11,670 ft",
+    days: 7,
+  },
+  {
+    name: "Valley of Flowers",
+    slug: "valley-of-flowers",
+    difficulty: "Moderate",
+    price: "Rs 7,499",
+    color: "#C9A84C",
+    altitude: "14,100 ft",
+    days: 7,
+  },
+  {
+    name: "Dayara Bugyal",
+    slug: "dayara-bugyal",
+    difficulty: "Easy",
+    price: "Rs 5,499",
+    color: "#2D5016",
+    altitude: "12,000 ft",
+    days: 5,
+  },
+  {
+    name: "Nag Tibba",
+    slug: "nag-tibba",
+    difficulty: "Easy",
+    price: "Rs 3,499",
+    color: "#2D5016",
+    altitude: "9,915 ft",
+    days: 2,
+  },
+  {
+    name: "Chopta Chandrashila",
+    slug: "chopta-chandrashila",
+    difficulty: "Moderate",
+    price: "Rs 5,999",
+    color: "#C9A84C",
+    altitude: "13,123 ft",
+    days: 4,
+  },
+  {
+    name: "Buran Ghati",
+    slug: "buran-ghati",
+    difficulty: "Difficult",
+    price: "Rs 8,999",
+    color: "#B5525E",
+    altitude: "15,000 ft",
+    days: 8,
+  },
+  {
+    name: "Rupin Pass",
+    slug: "rupin-pass",
+    difficulty: "Difficult",
+    price: "Rs 7,999",
+    color: "#B5525E",
+    altitude: "15,250 ft",
+    days: 8,
+  },
+  {
+    name: "Bali Pass",
+    slug: "bali-pass",
+    difficulty: "Difficult",
+    price: "Rs 9,499",
+    color: "#B5525E",
+    altitude: "16,207 ft",
+    days: 9,
+  },
+  {
+    name: "Ruinsara Tal",
+    slug: "ruinsara-tal",
+    difficulty: "Moderate",
+    price: "Rs 6,999",
+    color: "#C9A84C",
+    altitude: "14,780 ft",
+    days: 7,
+  },
+  {
+    name: "Borasu Pass",
+    slug: "borasu-pass",
+    difficulty: "Difficult",
+    price: "Rs 9,999",
+    color: "#B5525E",
+    altitude: "17,100 ft",
+    days: 10,
+  },
+  {
+    name: "Phulara Ridge",
+    slug: "phulara-ridge",
+    difficulty: "Moderate",
+    price: "Rs 6,499",
+    color: "#C9A84C",
+    altitude: "12,800 ft",
+    days: 5,
+  },
+  {
+    name: "Chandernahan Lake",
+    slug: "chandernahan-lake",
+    difficulty: "Moderate",
+    price: "Rs 6,999",
+    color: "#C9A84C",
+    altitude: "14,000 ft",
+    days: 6,
+  },
+  {
+    name: "Chaainsheel Bugyal",
+    slug: "chaainsheel-bugyal",
+    difficulty: "Easy",
+    price: "Rs 5,999",
+    color: "#2D5016",
+    altitude: "11,500 ft",
+    days: 4,
+  },
+];
+
+const YATRAS = [
+  {
+    name: "Chardham Yatra",
+    slug: "chardham-yatra",
+    tagline: "Four Sacred Dhams in one divine journey",
+    days: 12,
+    price: "Rs 18,999",
+  },
+  {
+    name: "Do Dham Yatra",
+    slug: "do-dham-yatra",
+    tagline: "Kedarnath & Badrinath — twin blessings",
+    days: 7,
+    price: "Rs 11,999",
+  },
+  {
+    name: "Mussoorie Tour",
+    slug: "mussoorie-tour",
+    tagline: "Queen of the Hills — weekend escape",
+    days: 3,
+    price: "Rs 5,499",
+  },
+  {
+    name: "Rishikesh Tour",
+    slug: "rishikesh-tour",
+    tagline: "Yoga, rafting & spiritual awakening",
+    days: 4,
+    price: "Rs 6,499",
+  },
+];
+
+type MegaSection = "treks" | "yatras" | "about" | "support" | null;
+
+function NavRightActions({
+  searchOpen,
+  setSearchOpen,
+}: {
+  searchOpen: boolean;
+  setSearchOpen: (v: boolean) => void;
+}) {
+  const { isAuthenticated, clear, identity } = useInternetIdentity();
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const principalShort =
+    isAuthenticated && identity
+      ? identity.getPrincipal().toText().slice(0, 6)
+      : "";
+
+  return (
+    <div className="flex items-center gap-2">
+      {/* Search */}
+      <button
+        type="button"
+        onClick={() => setSearchOpen(!searchOpen)}
+        className="p-2 rounded-lg transition-colors hover:bg-white/5"
+        style={{ color: searchOpen ? "#FAD4D8" : "#E8A0AA" }}
+        aria-label="Search treks"
+        data-ocid="navbar.search_input"
+      >
+        {searchOpen ? <X size={17} /> : <Search size={17} />}
+      </button>
+      {/* Phone */}
+      <a
+        href="tel:+918279888470"
+        className="flex items-center gap-1.5 text-xs font-medium transition-colors hover:text-[#FAD4D8] hidden lg:flex"
+        style={{ color: "#E8A0AA" }}
+      >
+        <Phone size={13} />
+        +91-82798 88470
+      </a>
+      {/* Book Now */}
+      <Link
+        to="/book/$slug"
+        params={{ slug: "kedarkantha" }}
+        className="px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all hover:opacity-90 hover:scale-[1.02]"
+        style={{ background: "#B5525E", color: "#FAD4D8" }}
+        data-ocid="navbar.book_now_button"
+      >
+        Book Now
+      </Link>
+      {/* Auth */}
+      {isAuthenticated ? (
+        <div className="relative">
+          <button
+            type="button"
+            onClick={() => setUserMenuOpen((v) => !v)}
+            className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold transition-opacity hover:opacity-80"
+            style={{ background: "#B5525E", color: "#fff" }}
+            data-ocid="navbar.user_avatar"
+            aria-label="User menu"
+          >
+            {principalShort}
+          </button>
+          {userMenuOpen && (
+            <div
+              className="absolute right-0 mt-2 w-48 rounded-xl shadow-xl overflow-hidden z-50"
+              style={{
+                background: "#1A0E10",
+                border: "1px solid rgba(181,82,94,0.3)",
+              }}
+            >
+              <Link
+                to="/dashboard"
+                onClick={() => setUserMenuOpen(false)}
+                className="flex items-center gap-2 px-4 py-3 text-sm transition-colors hover:bg-white/5"
+                style={{ color: "#FAD4D8" }}
+                data-ocid="navbar.dashboard_link"
+              >
+                My Dashboard
+              </Link>
+              <Link
+                to="/dashboard"
+                onClick={() => setUserMenuOpen(false)}
+                className="flex items-center gap-2 px-4 py-3 text-sm transition-colors hover:bg-white/5"
+                style={{ color: "#E8A0AA" }}
+                data-ocid="navbar.my_bookings_link"
+              >
+                My Bookings
+              </Link>
+              <button
+                type="button"
+                onClick={() => {
+                  clear();
+                  setUserMenuOpen(false);
+                }}
+                className="w-full text-left flex items-center gap-2 px-4 py-3 text-sm transition-colors hover:bg-white/5"
+                style={{ color: "#B5525E" }}
+                data-ocid="navbar.logout_button"
+              >
+                Logout
+              </button>
+            </div>
+          )}
+        </div>
+      ) : (
+        <Link
+          to="/auth/login"
+          className="px-3 py-2 rounded-lg text-xs font-semibold transition-all hover:opacity-90"
+          style={{ background: "#B5525E", color: "#fff" }}
+          data-ocid="navbar.login_button"
+        >
+          Login
+        </Link>
+      )}
+    </div>
+  );
+}
+
+export function Navbar() {
+  const [scrolled, setScrolled] = useState(false);
+  const [activeMega, setActiveMega] = useState<MegaSection>(null);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const routerState = useRouterState();
+  const pathname = routerState.location.pathname;
+  const megaTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    const handler = () => setScrolled(window.scrollY > 60);
+    window.addEventListener("scroll", handler, { passive: true });
+    return () => window.removeEventListener("scroll", handler);
+  }, []);
+
+  const openMega = (section: MegaSection) => {
+    if (megaTimer.current) clearTimeout(megaTimer.current);
+    setActiveMega(section);
+  };
+  const closeMega = () => {
+    megaTimer.current = setTimeout(() => setActiveMega(null), 120);
+  };
+
+  const filteredTreks = searchQuery
+    ? ALL_TREKS.filter((t) =>
+        t.name.toLowerCase().includes(searchQuery.toLowerCase()),
+      )
+    : [];
+
+  return (
+    <header className="fixed top-0 inset-x-0 z-40" data-ocid="navbar">
+      {/* Announcement bar */}
+      <div
+        style={{ background: "#B5525E" }}
+        className="overflow-hidden hidden md:block"
+      >
+        <div className="py-1.5 flex">
+          <div
+            className="animate-marquee whitespace-nowrap flex items-center gap-12 text-xs font-medium"
+            style={{ color: "#FAD4D8" }}
+          >
+            {[0, 1].map((i) => (
+              <span key={i} className="flex items-center gap-8">
+                <span>🏔 Kedarkantha Winter Batch — Jan 15 | 3 Seats Left</span>
+                <span>·</span>
+                <span>Valley of Flowers 2025 — Registrations Open</span>
+                <span>·</span>
+                <span>Har Ki Dun Spring Batch — Feb 10 | Limited Seats</span>
+                <span>·</span>
+                <span>Early Bird: Book 60 days ahead, Save 10% →</span>
+                <span>·</span>
+                <span>Buran Ghati Summer: Jul 5 | 4 Seats Left</span>
+                <span>·</span>
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Main nav */}
+      <nav
+        className={`hidden md:flex items-center transition-all duration-300 ${
+          scrolled ? "h-14" : "h-18"
+        }`}
+        style={{
+          background: scrolled ? "rgba(45,27,30,0.92)" : "rgba(26,14,16,0.88)",
+          backdropFilter: "blur(14px)",
+          WebkitBackdropFilter: "blur(14px)",
+          borderBottom: "1px solid rgba(181,82,94,0.2)",
+          height: scrolled ? 56 : 72,
+        }}
+      >
+        <div className="max-w-7xl mx-auto px-4 w-full flex items-center justify-between">
+          {/* Logo */}
+          <Link
+            to="/"
+            className="flex items-center gap-2.5 flex-shrink-0 group"
+          >
+            <svg
+              width="30"
+              height="30"
+              viewBox="0 0 40 40"
+              fill="none"
+              role="img"
+              aria-label="Shail Hikers mountain logo"
+            >
+              <path d="M20 3L38 36H2L20 3Z" fill="#B5525E" />
+              <path d="M20 13L30 36H10L20 13Z" fill="#1A0E10" opacity="0.5" />
+              <circle cx="20" cy="36" r="2" fill="#C9A84C" />
+            </svg>
+            <span
+              style={{ fontFamily: "var(--font-display)", color: "#FAD4D8" }}
+              className="font-semibold tracking-widest uppercase text-lg group-hover:text-white transition-colors"
+            >
+              Shail Hikers
+            </span>
+          </Link>
+
+          {/* Nav items */}
+          <div className="flex items-center gap-0.5">
+            {/* Treks mega menu */}
+            <div
+              className="relative"
+              onMouseEnter={() => openMega("treks")}
+              onMouseLeave={closeMega}
+            >
+              <button
+                type="button"
+                className="flex items-center gap-1 px-3 py-2 text-sm font-medium transition-colors"
+                style={{
+                  color:
+                    pathname.startsWith("/treks") || pathname === "/trek-finder"
+                      ? "#FAD4D8"
+                      : "#E8A0AA",
+                }}
+                data-ocid="navbar.treks_menu"
+              >
+                Treks
+                <ChevronDown
+                  size={13}
+                  className={`transition-transform duration-200 ${
+                    activeMega === "treks" ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
+              <AnimatePresence>
+                {activeMega === "treks" && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -8 }}
+                    transition={{ duration: 0.18 }}
+                    className="absolute top-full left-0 mt-1 rounded-2xl shadow-2xl p-5"
+                    style={{
+                      background: "#1A0E10",
+                      border: "1px solid #B5525E33",
+                      width: 680,
+                    }}
+                    onMouseEnter={() => openMega("treks")}
+                    onMouseLeave={closeMega}
+                  >
+                    <div className="flex items-center justify-between mb-4">
+                      <h3
+                        style={{
+                          color: "#FAD4D8",
+                          fontFamily: "var(--font-display)",
+                        }}
+                        className="text-lg font-semibold"
+                      >
+                        Himalayan Treks
+                      </h3>
+                      <Link
+                        to="/treks"
+                        style={{ color: "#B5525E" }}
+                        className="text-xs hover:text-[#FAD4D8] transition-colors font-medium"
+                      >
+                        View All 14 →
+                      </Link>
+                    </div>
+                    <div className="grid grid-cols-4 gap-2 mb-4">
+                      {ALL_TREKS.map((t) => (
+                        <Link
+                          key={t.slug}
+                          to="/treks/$slug"
+                          params={{ slug: t.slug }}
+                          onClick={() => setActiveMega(null)}
+                          className="rounded-xl p-2.5 transition-all hover:scale-[1.02] group"
+                          style={{
+                            background: "#2D1B1E",
+                            border: "1px solid #B5525E1A",
+                          }}
+                        >
+                          <div className="flex items-start justify-between gap-1 mb-1">
+                            <span
+                              style={{ color: "#FAD4D8" }}
+                              className="text-[11px] font-semibold leading-tight group-hover:text-white transition-colors"
+                            >
+                              {t.name}
+                            </span>
+                            <span
+                              className="text-[9px] px-1 py-0.5 rounded-full font-semibold flex-shrink-0"
+                              style={{
+                                background: `${t.color}22`,
+                                color: t.color,
+                              }}
+                            >
+                              {t.difficulty[0]}
+                            </span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <span
+                              style={{ color: "#E8A0AA" }}
+                              className="text-[10px]"
+                            >
+                              {t.altitude}
+                            </span>
+                            <span
+                              style={{ color: "#C9A84C" }}
+                              className="text-[10px] font-semibold"
+                            >
+                              {t.price}
+                            </span>
+                          </div>
+                          <div className="flex items-center gap-1 mt-1">
+                            <span
+                              className="w-1.5 h-1.5 rounded-full flex-shrink-0"
+                              style={{ background: "#2D5016" }}
+                            />
+                            <span
+                              style={{ color: "#E8A0AA77" }}
+                              className="text-[9px]"
+                            >
+                              {t.days}D
+                            </span>
+                          </div>
+                        </Link>
+                      ))}
+                    </div>
+                    <div
+                      className="grid grid-cols-2 gap-2 pt-3"
+                      style={{ borderTop: "1px solid #B5525E1A" }}
+                    >
+                      <Link
+                        to="/trek-finder"
+                        onClick={() => setActiveMega(null)}
+                        className="flex items-center gap-3 p-3 rounded-xl transition-colors"
+                        style={{
+                          background: "#B5525E15",
+                          border: "1px dashed #B5525E55",
+                        }}
+                      >
+                        <Sparkles size={16} style={{ color: "#B5525E" }} />
+                        <div>
+                          <p
+                            style={{ color: "#FAD4D8" }}
+                            className="text-xs font-semibold"
+                          >
+                            Not sure which trek?
+                          </p>
+                          <p
+                            style={{ color: "#E8A0AA" }}
+                            className="text-[10px]"
+                          >
+                            Take our 2-min AI quiz →
+                          </p>
+                        </div>
+                      </Link>
+                      <Link
+                        to="/compare"
+                        onClick={() => setActiveMega(null)}
+                        className="flex items-center gap-3 p-3 rounded-xl transition-colors"
+                        style={{
+                          background: "#B5525E15",
+                          border: "1px dashed #B5525E55",
+                        }}
+                      >
+                        <BarChart2 size={16} style={{ color: "#B5525E" }} />
+                        <div>
+                          <p
+                            style={{ color: "#FAD4D8" }}
+                            className="text-xs font-semibold"
+                          >
+                            Compare treks
+                          </p>
+                          <p
+                            style={{ color: "#E8A0AA" }}
+                            className="text-[10px]"
+                          >
+                            Side-by-side for up to 3 →
+                          </p>
+                        </div>
+                      </Link>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
+            {/* Yatras mega menu */}
+            <div
+              className="relative"
+              onMouseEnter={() => openMega("yatras")}
+              onMouseLeave={closeMega}
+            >
+              <button
+                type="button"
+                className="flex items-center gap-1 px-3 py-2 text-sm font-medium transition-colors"
+                style={{
+                  color: pathname.startsWith("/yatras") ? "#FAD4D8" : "#E8A0AA",
+                }}
+                data-ocid="navbar.yatras_menu"
+              >
+                Yatras
+                <ChevronDown
+                  size={13}
+                  className={`transition-transform duration-200 ${
+                    activeMega === "yatras" ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
+              <AnimatePresence>
+                {activeMega === "yatras" && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -8 }}
+                    transition={{ duration: 0.18 }}
+                    className="absolute top-full left-0 mt-1 rounded-2xl shadow-2xl p-5"
+                    style={{
+                      background: "#1A0E10",
+                      border: "1px solid #B5525E33",
+                      width: 360,
+                    }}
+                    onMouseEnter={() => openMega("yatras")}
+                    onMouseLeave={closeMega}
+                  >
+                    <h3
+                      style={{
+                        color: "#FAD4D8",
+                        fontFamily: "var(--font-display)",
+                      }}
+                      className="text-base font-semibold mb-3"
+                    >
+                      Yatras &amp; Sacred Tours
+                    </h3>
+                    <div className="space-y-1.5">
+                      {YATRAS.map((y) => (
+                        <Link
+                          key={y.slug}
+                          to="/yatras/$slug"
+                          params={{ slug: y.slug }}
+                          onClick={() => setActiveMega(null)}
+                          className="flex items-center justify-between p-3 rounded-xl transition-all hover:scale-[1.01] group"
+                          style={{
+                            background: "#2D1B1E",
+                            border: "1px solid #B5525E1A",
+                          }}
+                        >
+                          <div>
+                            <p
+                              style={{ color: "#FAD4D8" }}
+                              className="text-xs font-semibold group-hover:text-white transition-colors"
+                            >
+                              {y.name}
+                            </p>
+                            <p
+                              style={{ color: "#E8A0AA" }}
+                              className="text-[10px] mt-0.5"
+                            >
+                              {y.tagline}
+                            </p>
+                            <p
+                              style={{ color: "#E8A0AA77" }}
+                              className="text-[10px]"
+                            >
+                              {y.days} days
+                            </p>
+                          </div>
+                          <span
+                            style={{ color: "#C9A84C" }}
+                            className="text-xs font-bold flex-shrink-0 ml-3"
+                          >
+                            {y.price}
+                          </span>
+                        </Link>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
+            {/* Packages */}
+            <Link
+              to="/packages"
+              className="px-3 py-2 text-sm font-medium transition-colors"
+              style={{
+                color: pathname === "/packages" ? "#FAD4D8" : "#E8A0AA",
+              }}
+            >
+              Packages
+            </Link>
+
+            {/* Corporate */}
+            <Link
+              to="/corporate"
+              className="px-3 py-2 text-sm font-medium transition-colors"
+              style={{
+                color: pathname === "/corporate" ? "#FAD4D8" : "#E8A0AA",
+              }}
+            >
+              Corporate
+            </Link>
+
+            {/* About dropdown */}
+            <div
+              className="relative"
+              onMouseEnter={() => openMega("about")}
+              onMouseLeave={closeMega}
+            >
+              <button
+                type="button"
+                className="flex items-center gap-1 px-3 py-2 text-sm font-medium transition-colors"
+                style={{
+                  color:
+                    pathname.startsWith("/about") ||
+                    pathname === "/team" ||
+                    pathname === "/gallery" ||
+                    pathname === "/blog"
+                      ? "#FAD4D8"
+                      : "#E8A0AA",
+                }}
+                data-ocid="navbar.about_menu"
+              >
+                About
+                <ChevronDown
+                  size={13}
+                  className={`transition-transform duration-200 ${
+                    activeMega === "about" ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
+              <AnimatePresence>
+                {activeMega === "about" && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -8 }}
+                    transition={{ duration: 0.18 }}
+                    className="absolute top-full left-0 mt-1 rounded-2xl shadow-2xl p-3"
+                    style={{
+                      background: "#1A0E10",
+                      border: "1px solid #B5525E33",
+                      minWidth: 180,
+                    }}
+                    onMouseEnter={() => openMega("about")}
+                    onMouseLeave={closeMega}
+                  >
+                    {[
+                      { label: "About Us", to: "/about", icon: Info },
+                      { label: "Our Team", to: "/team", icon: Users },
+                      { label: "Gallery", to: "/gallery", icon: Image },
+                      { label: "Blog", to: "/blog", icon: BookOpen },
+                    ].map(({ label, to, icon: Icon }) => (
+                      <Link
+                        key={to}
+                        to={to as "/"}
+                        onClick={() => setActiveMega(null)}
+                        className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg transition-colors"
+                        style={{
+                          color: pathname === to ? "#FAD4D8" : "#E8A0AA",
+                        }}
+                      >
+                        <Icon size={14} />
+                        <span className="text-sm">{label}</span>
+                      </Link>
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
+            {/* Support dropdown */}
+            <div
+              className="relative"
+              onMouseEnter={() => openMega("support")}
+              onMouseLeave={closeMega}
+            >
+              <button
+                type="button"
+                className="flex items-center gap-1 px-3 py-2 text-sm font-medium transition-colors"
+                style={{ color: "#E8A0AA" }}
+                data-ocid="navbar.support_menu"
+              >
+                Support
+                <ChevronDown
+                  size={13}
+                  className={`transition-transform duration-200 ${
+                    activeMega === "support" ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
+              <AnimatePresence>
+                {activeMega === "support" && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -8 }}
+                    transition={{ duration: 0.18 }}
+                    className="absolute top-full right-0 mt-1 rounded-2xl shadow-2xl p-3"
+                    style={{
+                      background: "#1A0E10",
+                      border: "1px solid #B5525E33",
+                      minWidth: 200,
+                    }}
+                    onMouseEnter={() => openMega("support")}
+                    onMouseLeave={closeMega}
+                  >
+                    {[
+                      {
+                        label: "Cancellation Policy",
+                        to: "/cancellation-policy",
+                        icon: Shield,
+                      },
+                      {
+                        label: "Terms & Conditions",
+                        to: "/terms",
+                        icon: HelpCircle,
+                      },
+                      { label: "Privacy Policy", to: "/privacy", icon: Shield },
+                      {
+                        label: "Emergency Helpline",
+                        href: "tel:+918279888470",
+                        icon: Phone,
+                      },
+                    ].map(({ label, to, href, icon: Icon }) =>
+                      to ? (
+                        <Link
+                          key={to}
+                          to={to as "/"}
+                          onClick={() => setActiveMega(null)}
+                          className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg transition-colors"
+                          style={{ color: "#E8A0AA" }}
+                        >
+                          <Icon size={14} />
+                          <span className="text-sm">{label}</span>
+                        </Link>
+                      ) : (
+                        <a
+                          key={href}
+                          href={href}
+                          className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg transition-colors"
+                          style={{ color: "#B5525E" }}
+                        >
+                          <Icon size={14} />
+                          <span className="text-sm font-semibold">{label}</span>
+                        </a>
+                      ),
+                    )}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          </div>
+
+          {/* Right actions */}
+          <NavRightActions
+            searchOpen={searchOpen}
+            setSearchOpen={setSearchOpen}
+          />
+        </div>
+
+        {/* Search overlay */}
+        <AnimatePresence>
+          {searchOpen && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              className="absolute top-full inset-x-0 overflow-hidden"
+              style={{
+                background: "#1A0E10",
+                borderBottom: "1px solid #B5525E33",
+              }}
+            >
+              <div className="max-w-2xl mx-auto px-4 py-4">
+                <div className="relative">
+                  <Search
+                    size={16}
+                    className="absolute left-3 top-1/2 -translate-y-1/2"
+                    style={{ color: "#E8A0AA" }}
+                  />
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Search treks, yatras, destinations..."
+                    className="w-full pl-9 pr-4 py-3 rounded-xl text-sm outline-none"
+                    style={{
+                      background: "#2D1B1E",
+                      border: "1px solid #B5525E44",
+                      color: "#FAD4D8",
+                    }}
+                  />
+                </div>
+                {filteredTreks.length > 0 && (
+                  <div className="mt-2 space-y-1">
+                    {filteredTreks.slice(0, 5).map((t) => (
+                      <Link
+                        key={t.slug}
+                        to="/treks/$slug"
+                        params={{ slug: t.slug }}
+                        onClick={() => {
+                          setSearchOpen(false);
+                          setSearchQuery("");
+                        }}
+                        className="flex items-center justify-between px-3 py-2.5 rounded-lg transition-colors"
+                        style={{
+                          background: "#2D1B1E",
+                          border: "1px solid #B5525E1A",
+                        }}
+                      >
+                        <div className="flex items-center gap-2">
+                          <Mountain size={14} style={{ color: "#B5525E" }} />
+                          <span
+                            style={{ color: "#FAD4D8" }}
+                            className="text-sm font-medium"
+                          >
+                            {t.name}
+                          </span>
+                          <span
+                            className="text-[10px] px-1.5 py-0.5 rounded-full"
+                            style={{
+                              background: `${t.color}22`,
+                              color: t.color,
+                            }}
+                          >
+                            {t.difficulty}
+                          </span>
+                        </div>
+                        <span
+                          style={{ color: "#C9A84C" }}
+                          className="text-xs font-semibold"
+                        >
+                          {t.price}
+                        </span>
+                      </Link>
+                    ))}
+                  </div>
+                )}
+                {searchQuery && filteredTreks.length === 0 && (
+                  <p
+                    className="mt-3 text-sm text-center"
+                    style={{ color: "#E8A0AA" }}
+                  >
+                    No treks found for "{searchQuery}"
+                  </p>
+                )}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </nav>
+    </header>
+  );
+}

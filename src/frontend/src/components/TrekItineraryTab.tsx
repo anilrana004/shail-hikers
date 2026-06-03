@@ -1,0 +1,397 @@
+import type { TrekData } from "@/types";
+import { AnimatePresence, motion } from "motion/react";
+import { useState } from "react";
+
+interface Props {
+  trek: TrekData;
+}
+
+export default function TrekItineraryTab({ trek }: Props) {
+  const [openDay, setOpenDay] = useState<number | null>(0);
+  const [viewMode, setViewMode] = useState<"accordion" | "timeline">(
+    "accordion",
+  );
+
+  const TRAIL_COLORS: Record<string, string> = {
+    Forest: "#2D5016",
+    Meadow: "#4A7C2F",
+    Snow: "#A8C5DA",
+    Rocky: "#8B7355",
+    "River Crossing": "#4A9ECC",
+    Village: "#C9A84C",
+  };
+
+  return (
+    <div className="py-8 space-y-6">
+      <div className="flex items-center justify-between">
+        <h2 className="font-display text-3xl" style={{ color: "#FAD4D8" }}>
+          Day-by-Day Itinerary
+        </h2>
+        <div className="flex gap-3">
+          <button
+            type="button"
+            onClick={() => setOpenDay(0)}
+            className="text-xs px-3 py-1.5 rounded-lg border"
+            style={{ borderColor: "#E8A0AA44", color: "#E8A0AA" }}
+          >
+            Expand All
+          </button>
+          <button
+            type="button"
+            onClick={() => setOpenDay(null)}
+            className="text-xs px-3 py-1.5 rounded-lg border"
+            style={{ borderColor: "#E8A0AA44", color: "#E8A0AA" }}
+          >
+            Collapse All
+          </button>
+          <button
+            type="button"
+            onClick={() =>
+              setViewMode(viewMode === "accordion" ? "timeline" : "accordion")
+            }
+            className="text-xs px-3 py-1.5 rounded-lg"
+            style={{ background: "#B5525E", color: "#FAD4D8" }}
+          >
+            {viewMode === "accordion" ? "Timeline View" : "Accordion View"}
+          </button>
+        </div>
+      </div>
+
+      {viewMode === "accordion" ? (
+        <div className="space-y-3">
+          {trek.itinerary.map((day, i) => (
+            <div
+              key={day.dayNum}
+              className="rounded-2xl overflow-hidden border"
+              style={{ borderColor: openDay === i ? "#B5525E66" : "#E8A0AA22" }}
+            >
+              <button
+                type="button"
+                onClick={() => setOpenDay(openDay === i ? null : i)}
+                className="w-full flex items-center gap-4 px-6 py-5 text-left"
+                style={{
+                  background:
+                    openDay === i
+                      ? "rgba(181,82,94,0.12)"
+                      : "rgba(45,27,30,0.8)",
+                }}
+              >
+                <span
+                  className="text-xs font-bold px-3 py-1.5 rounded-full flex-shrink-0"
+                  style={{ background: "#B5525E", color: "#FAD4D8" }}
+                >
+                  Day {day.dayNum}
+                </span>
+                <div className="flex-1">
+                  <div className="font-semibold" style={{ color: "#FAD4D8" }}>
+                    {day.title}
+                  </div>
+                  <div className="text-xs mt-1" style={{ color: "#E8A0AA" }}>
+                    {day.distance} km / {day.walkingHours}h /{" "}
+                    {day.altitudeStart.toLocaleString()}-
+                    {day.altitudeEnd.toLocaleString()} ft
+                  </div>
+                </div>
+                <span className="text-sm" style={{ color: "#B5525E" }}>
+                  {openDay === i ? "^" : "v"}
+                </span>
+              </button>
+
+              <AnimatePresence>
+                {openDay === i && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="overflow-hidden"
+                  >
+                    <div
+                      className="px-6 py-6 space-y-5"
+                      style={{ background: "rgba(26,14,16,0.9)" }}
+                    >
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                        {(
+                          [
+                            ["Distance", `${day.distance} km`],
+                            ["Walking Time", `${day.walkingHours}h`],
+                            [
+                              "Altitude",
+                              `${day.altitudeStart.toLocaleString()}-${day.altitudeEnd.toLocaleString()} ft`,
+                            ],
+                            [
+                              "Net Change",
+                              `${day.altitudeEnd > day.altitudeStart ? "+" : ""}${(day.altitudeEnd - day.altitudeStart).toLocaleString()} ft`,
+                            ],
+                          ] as [string, string][]
+                        ).map(([label, val]) => (
+                          <div
+                            key={label}
+                            className="rounded-lg p-3 text-center"
+                            style={{ background: "rgba(45,27,30,0.8)" }}
+                          >
+                            <div
+                              className="text-xs mb-1"
+                              style={{ color: "#E8A0AA" }}
+                            >
+                              {label}
+                            </div>
+                            <div
+                              className="text-sm font-semibold"
+                              style={{ color: "#FAD4D8" }}
+                            >
+                              {val}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+
+                      <div>
+                        <div
+                          className="text-xs mb-2"
+                          style={{ color: "#E8A0AA" }}
+                        >
+                          Altitude Change
+                        </div>
+                        <div className="flex gap-2 items-center">
+                          <div
+                            className="flex-1 h-3 rounded-full"
+                            style={{ background: "rgba(45,27,30,0.8)" }}
+                          >
+                            <div
+                              className="h-3 rounded-full"
+                              style={{
+                                background:
+                                  day.altitudeEnd >= day.altitudeStart
+                                    ? "#B5525E"
+                                    : "#A8C5DA",
+                                width: `${Math.min(100, Math.abs(day.altitudeEnd - day.altitudeStart) / 100)}%`,
+                              }}
+                            />
+                          </div>
+                          <span
+                            className="text-xs"
+                            style={{
+                              color:
+                                day.altitudeEnd >= day.altitudeStart
+                                  ? "#B5525E"
+                                  : "#A8C5DA",
+                            }}
+                          >
+                            {day.altitudeEnd >= day.altitudeStart
+                              ? "Ascent"
+                              : "Descent"}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div
+                        className="text-sm leading-relaxed"
+                        style={{ color: "#E8A0AA" }}
+                      >
+                        {day.description}
+                      </div>
+
+                      <div className="flex flex-wrap gap-2">
+                        {day.trailTypes.map((t) => (
+                          <span
+                            key={t}
+                            className="text-xs px-3 py-1 rounded-full"
+                            style={{
+                              background: `${TRAIL_COLORS[t] || "#555"}33`,
+                              color: TRAIL_COLORS[t] || "#FAD4D8",
+                              border: `1px solid ${TRAIL_COLORS[t] || "#555"}66`,
+                            }}
+                          >
+                            {t}
+                          </span>
+                        ))}
+                        {day.difficultyPill && (
+                          <span
+                            className="text-xs px-3 py-1 rounded-full"
+                            style={{
+                              background: "rgba(181,82,94,0.2)",
+                              color: "#B5525E",
+                              border: "1px solid #B5525E66",
+                            }}
+                          >
+                            {day.difficultyPill}
+                          </span>
+                        )}
+                      </div>
+
+                      {day.waypoints && day.waypoints.length > 0 && (
+                        <div>
+                          <div
+                            className="text-xs font-semibold mb-2"
+                            style={{ color: "#E8A0AA" }}
+                          >
+                            Trail Waypoints
+                          </div>
+                          <div className="flex flex-wrap gap-2">
+                            {day.waypoints.map((w) => (
+                              <span
+                                key={w}
+                                className="text-xs px-2 py-1 rounded"
+                                style={{
+                                  background: "rgba(45,27,30,0.8)",
+                                  color: "#FAD4D8",
+                                }}
+                              >
+                                pin {w}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {day.campsiteInfo && (
+                        <div
+                          className="rounded-xl p-4"
+                          style={{ background: "rgba(45,27,30,0.6)" }}
+                        >
+                          <div
+                            className="text-xs font-semibold mb-1"
+                            style={{ color: "#C9A84C" }}
+                          >
+                            Camp Info
+                          </div>
+                          <div className="text-sm" style={{ color: "#FAD4D8" }}>
+                            {day.campsiteInfo}
+                          </div>
+                        </div>
+                      )}
+
+                      <div className="grid grid-cols-3 gap-3">
+                        {(
+                          [
+                            ["Breakfast", day.meals.breakfast],
+                            ["Lunch", day.meals.lunch],
+                            ["Dinner", day.meals.dinner],
+                          ] as [string, string][]
+                        ).map(([label, meal]) => (
+                          <div
+                            key={label}
+                            className="rounded-lg p-3"
+                            style={{ background: "rgba(45,27,30,0.8)" }}
+                          >
+                            <div
+                              className="text-xs font-semibold mb-1"
+                              style={{ color: "#C9A84C" }}
+                            >
+                              {label}
+                            </div>
+                            <div
+                              className="text-xs"
+                              style={{ color: "#FAD4D8" }}
+                            >
+                              {meal}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+
+                      {day.weatherNote && (
+                        <div
+                          className="text-sm px-4 py-3 rounded-xl"
+                          style={{
+                            background: "rgba(168,197,218,0.1)",
+                            color: "#A8C5DA",
+                            borderLeft: "3px solid #A8C5DA",
+                          }}
+                        >
+                          {day.weatherNote}
+                        </div>
+                      )}
+
+                      <div
+                        className="px-4 py-3 rounded-xl"
+                        style={{
+                          borderLeft: "4px solid #B5525E",
+                          background: "rgba(181,82,94,0.08)",
+                        }}
+                      >
+                        <div
+                          className="text-xs font-bold mb-1"
+                          style={{ color: "#B5525E" }}
+                        >
+                          PRO TIP
+                        </div>
+                        <div className="text-sm" style={{ color: "#FAD4D8" }}>
+                          {day.proTip}
+                        </div>
+                      </div>
+
+                      <div
+                        className="px-4 py-3 rounded-xl flex items-start gap-3"
+                        style={{ background: "rgba(201,168,76,0.1)" }}
+                      >
+                        <div>
+                          <div
+                            className="text-xs font-bold mb-1"
+                            style={{ color: "#C9A84C" }}
+                          >
+                            BEST PHOTO SPOT
+                          </div>
+                          <div className="text-sm" style={{ color: "#FAD4D8" }}>
+                            {day.photoSpot}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="relative pl-8">
+          <div
+            className="absolute left-3 top-0 bottom-0 w-0.5"
+            style={{ background: "#B5525E44" }}
+          />
+          {trek.itinerary.map((day) => (
+            <div key={day.dayNum} className="relative mb-8">
+              <div
+                className="absolute -left-5 w-5 h-5 rounded-full border-2 flex items-center justify-center"
+                style={{ background: "#1A0E10", borderColor: "#B5525E" }}
+              >
+                <div
+                  className="w-2 h-2 rounded-full"
+                  style={{ background: "#B5525E" }}
+                />
+              </div>
+              <div
+                className="rounded-2xl p-5 border"
+                style={{
+                  background: "rgba(45,27,30,0.8)",
+                  borderColor: "#E8A0AA22",
+                }}
+              >
+                <div className="flex items-center gap-3 mb-2">
+                  <span
+                    className="text-xs font-bold px-2 py-1 rounded-full"
+                    style={{ background: "#B5525E", color: "#FAD4D8" }}
+                  >
+                    Day {day.dayNum}
+                  </span>
+                  <span className="font-semibold" style={{ color: "#FAD4D8" }}>
+                    {day.title}
+                  </span>
+                </div>
+                <div className="text-xs mb-2" style={{ color: "#E8A0AA" }}>
+                  {day.altitudeStart.toLocaleString()} ft to{" "}
+                  {day.altitudeEnd.toLocaleString()} ft / {day.distance} km
+                </div>
+                <div className="text-sm" style={{ color: "#E8A0AA" }}>
+                  {day.description.slice(0, 120)}...
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
