@@ -19,7 +19,7 @@ module {
       addOns = b.addOns;
       totalAmount = b.totalAmount;
       paymentStatus = b.paymentStatus;
-      razorpayPaymentId = b.razorpayPaymentId;
+      stripeSessionId = b.stripeSessionId;
       createdAt = b.createdAt;
     };
   };
@@ -47,7 +47,7 @@ module {
       addOns;
       totalAmount;
       var paymentStatus = #Pending;
-      var razorpayPaymentId = null;
+      var stripeSessionId = null;
       createdAt = now;
     };
     bookings.add(booking);
@@ -79,13 +79,13 @@ module {
     };
   };
 
-  // Confirms payment: sets paymentStatus to #Paid, stores razorpayPaymentId.
+  // Confirms payment: sets paymentStatus to #Paid, stores stripeSessionId.
   // Returns the updated BookingPublic, or null if not found / not owned by caller.
   public func confirmPayment(
     bookings : List.List<Booking>,
     id : Nat,
     userId : Common.UserId,
-    razorpayPaymentId : Text,
+    stripeSessionId : Text,
   ) : ?BookingPublic {
     switch (bookings.find(func(b) { b.id == id and b.userId == userId })) {
       case null { null };
@@ -94,7 +94,7 @@ module {
           null;
         } else {
           b.paymentStatus := #Paid;
-          b.razorpayPaymentId := ?razorpayPaymentId;
+          b.stripeSessionId := ?stripeSessionId;
           ?toPublic(b);
         };
       };
@@ -102,28 +102,28 @@ module {
   };
 
   // Cancels a booking (sets paymentStatus to #Cancelled).
-  // If the booking was #Paid, returns the groupSize so the caller can release seats.
-  // Returns: ?(groupSize, batchId) on success, null if not found/not owned.
+  // Returns: ?(groupSize, batchId, wasStripeSessionId) on success.
+  // groupSize=0 means was Pending (no seats to release, no refund needed).
+  // null means not found, not owned, or already cancelled.
   public func cancel(
     bookings : List.List<Booking>,
     id : Nat,
     userId : Common.UserId,
-  ) : ?(Nat, Nat) {
+  ) : ?(Nat, Nat, ?Text) {
     switch (bookings.find(func(b) { b.id == id and b.userId == userId })) {
       case null { null };
       case (?b) {
         if (b.paymentStatus == #Cancelled) {
-          // Already cancelled — treat as not found
           null;
         } else {
           let wasPaid = b.paymentStatus == #Paid;
+          let sessionId = b.stripeSessionId;
           b.paymentStatus := #Cancelled;
           if (wasPaid) {
-            ?(b.travelers.size(), b.batchId);
+            ?(b.travelers.size(), b.batchId, sessionId);
           } else {
-            // Pending cancellation succeeded; signal with (0, 0) so caller
-            // knows it worked but no seats need releasing
-            ?(0, 0);
+            // Pending: no seats reserved (reserved on confirm), no refund
+            ?(0, 0, null);
           };
         };
       };

@@ -1,4 +1,5 @@
 import { TREKS } from "@/data/treks";
+import { useBookings, useCancelBooking } from "@/hooks/useBookings";
 import {
   Bell,
   Calendar,
@@ -48,50 +49,31 @@ const MOCK_USER = {
   },
 };
 
-const MOCK_BOOKINGS = [
-  {
-    id: "bk1",
-    trekSlug: "kedarkantha",
-    status: "confirmed" as const,
-    batchDate: "2026-01-15",
-    endDate: "2026-01-20",
-    guideName: "Deepak Negi",
-    amount: 5999,
-    coTrekkers: 3,
-    daysUntil: 42,
-    trekName: "Kedarkantha",
-    heroImage:
-      "https://images.unsplash.com/photo-1605640840605-14ac1855827b?w=400&q=80",
-  },
-  {
-    id: "bk2",
-    trekSlug: "har-ki-dun",
-    status: "completed" as const,
-    batchDate: "2025-09-10",
-    endDate: "2025-09-16",
-    guideName: "Rohit Sharma",
-    amount: 7499,
-    coTrekkers: 5,
-    daysUntil: 0,
-    trekName: "Har Ki Dun",
-    heroImage:
-      "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=400&q=80",
-  },
-  {
-    id: "bk3",
-    trekSlug: "rupin-pass",
-    status: "cancelled" as const,
-    batchDate: "2025-06-01",
-    endDate: "2025-06-08",
-    guideName: "Arun Kumar",
-    amount: 10499,
-    coTrekkers: 0,
-    daysUntil: 0,
-    trekName: "Rupin Pass",
-    heroImage:
-      "https://images.unsplash.com/photo-1540202403-b7abd6747a18?w=400&q=80",
-  },
-];
+function getBookingStatus(ps: { __kind__: string } | string): string {
+  if (typeof ps === "string") return ps.toLowerCase();
+  if (ps.__kind__ === "Paid") return "confirmed";
+  if (ps.__kind__ === "Pending") return "pending";
+  if (ps.__kind__ === "Cancelled") return "cancelled";
+  return "pending";
+}
+
+function getTrekHeroImage(slug: string): string {
+  const t = TREKS.find((x) => x.slug === slug);
+  return (
+    t?.heroImage ??
+    "https://images.unsplash.com/photo-1605640840605-14ac1855827b?w=400&q=80"
+  );
+}
+
+function getTrekName(slug: string): string {
+  const t = TREKS.find((x) => x.slug === slug);
+  return t?.name ?? slug;
+}
+
+function daysUntil(dateStr: string): number {
+  const diff = new Date(dateStr).getTime() - Date.now();
+  return Math.max(0, Math.ceil(diff / (1000 * 60 * 60 * 24)));
+}
 
 const PACKING_ITEMS = [
   { id: "p1", name: "Trekking shoes (ankle support)", essential: true },
@@ -210,7 +192,20 @@ const statusBadge = (s: string) => {
 
 function Overview({ onSection }: { onSection: (id: string) => void }) {
   const tier = tierConfig[MOCK_USER.loyaltyTier];
-  const upcomingBooking = MOCK_BOOKINGS.find((b) => b.status === "confirmed");
+  const { data: bookingsData } = useBookings();
+  const bookings = bookingsData ?? [];
+  const upcomingBookingRaw = bookings.find(
+    (b) => getBookingStatus(b.paymentStatus) === "confirmed",
+  );
+  const upcomingBooking = upcomingBookingRaw
+    ? {
+        trekName: getTrekName(upcomingBookingRaw.trekSlug),
+        trekSlug: upcomingBookingRaw.trekSlug,
+        batchDate: "2026-01-15",
+        daysUntil: daysUntil("2026-01-15"),
+        heroImage: getTrekHeroImage(upcomingBookingRaw.trekSlug),
+      }
+    : null;
 
   return (
     <div>
@@ -346,12 +341,44 @@ function Overview({ onSection }: { onSection: (id: string) => void }) {
 }
 
 function MyBookings() {
-  const upcoming = MOCK_BOOKINGS.filter((b) => b.status === "confirmed");
-  const past = MOCK_BOOKINGS.filter((b) => b.status === "completed");
-  const cancelled = MOCK_BOOKINGS.filter((b) => b.status === "cancelled");
+  const { data: bookingsData, isLoading: bookingsLoading } = useBookings();
+  const cancelBooking = useCancelBooking();
+  const [cancellingId, setCancellingId] = useState<bigint | null>(null);
 
-  const BookingCard = ({ b }: { b: (typeof MOCK_BOOKINGS)[0] }) => {
-    const sc = statusBadge(b.status);
+  const bookings = bookingsData ?? [];
+
+  const upcoming = bookings.filter(
+    (b) => getBookingStatus(b.paymentStatus) === "confirmed",
+  );
+  const past = bookings.filter(
+    (b) => getBookingStatus(b.paymentStatus) === "completed",
+  );
+  const cancelled = bookings.filter(
+    (b) => getBookingStatus(b.paymentStatus) === "cancelled",
+  );
+
+  const handleCancel = async (id: bigint) => {
+    if (!window.confirm("Are you sure you want to cancel this booking?"))
+      return;
+    setCancellingId(id);
+    try {
+      await cancelBooking.mutateAsync(id);
+    } catch {
+      /* error handled by mutation */
+    } finally {
+      setCancellingId(null);
+    }
+  };
+
+  const BookingCard = ({ b }: { b: (typeof bookings)[0] }) => {
+    const status = getBookingStatus(b.paymentStatus);
+    const sc = statusBadge(status);
+    const trekName = getTrekName(b.trekSlug);
+    const heroImage = getTrekHeroImage(b.trekSlug);
+    const batchDate = "2026-01-15"; // fallback since backend BookingPublic doesn't have batchDate directly
+    const du = daysUntil(batchDate);
+    const amount = Number(b.totalAmount);
+    const isCancelling = cancellingId === b.id;
     return (
       <div
         className="p-4 rounded-xl mb-3 flex gap-4"
@@ -361,8 +388,8 @@ function MyBookings() {
         }}
       >
         <img
-          src={b.heroImage}
-          alt={b.trekName}
+          src={heroImage}
+          alt={trekName}
           className="w-20 h-16 rounded-lg object-cover flex-shrink-0"
         />
         <div className="flex-1 min-w-0">
@@ -371,20 +398,21 @@ function MyBookings() {
               className="font-display text-base"
               style={{ color: "#FAD4D8" }}
             >
-              {b.trekName}
+              {trekName}
             </span>
             <span
               className="px-2 py-0.5 rounded-full text-xs"
               style={{ background: sc.bg, color: sc.color }}
             >
-              {b.status.charAt(0).toUpperCase() + b.status.slice(1)}
+              {status.charAt(0).toUpperCase() + status.slice(1)}
             </span>
           </div>
           <div className="text-xs mb-2" style={{ color: "#E8A0AA" }}>
-            {b.batchDate} · Guide: {b.guideName} · {b.coTrekkers} co-trekkers
+            Batch ID: {b.batchId.toString()} · ₹{amount.toLocaleString("en-IN")}{" "}
+            · {b.travelers.length} traveler{b.travelers.length > 1 ? "s" : ""}
           </div>
           <div className="flex gap-2 flex-wrap">
-            {b.status === "confirmed" && (
+            {status === "confirmed" && (
               <>
                 <a
                   href={`/book/${b.trekSlug}`}
@@ -403,11 +431,27 @@ function MyBookings() {
                     color: "#C9A84C",
                   }}
                 >
-                  {b.daysUntil} days until trek
+                  {du} days until trek
                 </span>
+                <button
+                  type="button"
+                  onClick={() => handleCancel(b.id)}
+                  disabled={isCancelling}
+                  data-ocid="booking.cancel_button"
+                  className="text-xs px-3 py-1 rounded-lg"
+                  style={{
+                    background: isCancelling
+                      ? "rgba(181,82,94,0.1)"
+                      : "rgba(181,82,94,0.15)",
+                    color: "#B5525E",
+                    cursor: isCancelling ? "not-allowed" : "pointer",
+                  }}
+                >
+                  {isCancelling ? "Cancelling..." : "Cancel"}
+                </button>
               </>
             )}
-            {b.status === "completed" && (
+            {status === "completed" && (
               <>
                 <button
                   type="button"
@@ -438,7 +482,7 @@ function MyBookings() {
                 </a>
               </>
             )}
-            {b.status === "cancelled" && (
+            {status === "cancelled" && (
               <span
                 className="text-xs px-3 py-1 rounded-lg"
                 style={{ background: "rgba(181,82,94,0.1)", color: "#E8A0AA" }}
@@ -452,11 +496,38 @@ function MyBookings() {
     );
   };
 
+  if (bookingsLoading) {
+    return (
+      <div>
+        <h2 className="font-display text-2xl mb-5" style={{ color: "#FAD4D8" }}>
+          My Bookings
+        </h2>
+        <div className="space-y-3">
+          {[1, 2, 3].map((i) => (
+            <div
+              key={i}
+              className="h-24 rounded-xl animate-pulse"
+              style={{ background: "rgba(26,14,16,0.6)" }}
+            />
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div>
       <h2 className="font-display text-2xl mb-5" style={{ color: "#FAD4D8" }}>
         My Bookings
       </h2>
+      {upcoming.length === 0 && past.length === 0 && cancelled.length === 0 && (
+        <div className="py-12 text-center" style={{ color: "#E8A0AA" }}>
+          No bookings yet.{" "}
+          <a href="/treks" className="underline" style={{ color: "#B5525E" }}>
+            Browse treks
+          </a>
+        </div>
+      )}
       {upcoming.length > 0 && (
         <>
           <h3
@@ -466,7 +537,7 @@ function MyBookings() {
             Upcoming
           </h3>
           {upcoming.map((b) => (
-            <BookingCard key={b.id} b={b} />
+            <BookingCard key={b.id.toString()} b={b} />
           ))}
         </>
       )}
@@ -479,7 +550,7 @@ function MyBookings() {
             Past Treks
           </h3>
           {past.map((b) => (
-            <BookingCard key={b.id} b={b} />
+            <BookingCard key={b.id.toString()} b={b} />
           ))}
         </>
       )}
@@ -492,7 +563,7 @@ function MyBookings() {
             Cancelled
           </h3>
           {cancelled.map((b) => (
-            <BookingCard key={b.id} b={b} />
+            <BookingCard key={b.id.toString()} b={b} />
           ))}
         </>
       )}
@@ -503,7 +574,22 @@ function MyBookings() {
 function UpcomingTrek() {
   const [checkedItems, setCheckedItems] = useState<string[]>([]);
   const [todoChecked, setTodoChecked] = useState<string[]>([]);
-  const upcomingBooking = MOCK_BOOKINGS.find((b) => b.status === "confirmed");
+  const { data: bookingsData } = useBookings();
+  const bookings = bookingsData ?? [];
+  const upcomingBookingRaw = bookings.find(
+    (b) => getBookingStatus(b.paymentStatus) === "confirmed",
+  );
+  const upcomingBooking = upcomingBookingRaw
+    ? {
+        trekName: getTrekName(upcomingBookingRaw.trekSlug),
+        trekSlug: upcomingBookingRaw.trekSlug,
+        batchDate: "2026-01-15",
+        endDate: "2026-01-20",
+        guideName: "Deepak Negi",
+        daysUntil: daysUntil("2026-01-15"),
+        heroImage: getTrekHeroImage(upcomingBookingRaw.trekSlug),
+      }
+    : null;
   if (!upcomingBooking)
     return (
       <div className="py-12 text-center" style={{ color: "#E8A0AA" }}>

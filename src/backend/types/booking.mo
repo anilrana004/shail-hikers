@@ -25,7 +25,7 @@ module {
     addOns : [AddOn];
     totalAmount : Nat;
     var paymentStatus : Common.PaymentStatus;
-    var razorpayPaymentId : ?Text;
+    var stripeSessionId : ?Text;
     createdAt : Common.Timestamp;
   };
 
@@ -38,7 +38,7 @@ module {
     addOns : [AddOn];
     totalAmount : Nat;
     paymentStatus : Common.PaymentStatus;
-    razorpayPaymentId : ?Text;
+    stripeSessionId : ?Text;
     createdAt : Common.Timestamp;
   };
 };

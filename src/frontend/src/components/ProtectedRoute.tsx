@@ -16,6 +16,10 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
     const timer = setTimeout(() => {
       setChecked(true);
       if (!isAuthenticated) {
+        sessionStorage.setItem(
+          "redirectAfterLogin",
+          window.location.pathname + window.location.search,
+        );
         navigate({ to: "/auth/login" });
       }
     }, 500);

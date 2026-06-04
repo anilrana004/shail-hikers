@@ -1,4 +1,6 @@
+import type { AddOn, MealPreference } from "@/backend";
 import { TREKS } from "@/data/treks";
+import { useBatchesByTrek, useCreateBooking } from "@/hooks/useBookings";
 import type { Batch, Trek } from "@/types";
 import { useParams } from "@tanstack/react-router";
 import {
@@ -23,7 +25,7 @@ import {
 import { AnimatePresence, motion } from "motion/react";
 import { useCallback, useMemo, useState } from "react";
 
-const MOCK_BATCHES: Batch[] = [
+const FALLBACK_BATCHES: Batch[] = [
   {
     id: "b1",
     trekSlug: "",
@@ -85,6 +87,21 @@ const MOCK_BATCHES: Batch[] = [
     status: "filling_fast",
   },
 ];
+
+function mapBatchStatus(status: string): Batch["status"] {
+  switch (status) {
+    case "Open":
+      return "open";
+    case "Full":
+      return "full";
+    case "Cancelled":
+      return "cancelled";
+    case "Completed":
+      return "completed";
+    default:
+      return "filling_fast";
+  }
+}
 
 const ADD_ONS = [
   {
@@ -1202,6 +1219,10 @@ function Step4ReviewPay({
   const [gcal, setGcal] = useState(false);
   const [paid, setPaid] = useState(false);
   const [confetti, setConfetti] = useState(false);
+  const [payError, setPayError] = useState<string | null>(null);
+  const [termsAccepted, setTermsAccepted] = useState(false);
+
+  const createBooking = useCreateBooking();
 
   const perPersonIds = ["porter", "meal_upgrade", "private_tent", "insurance"];
   const baseTotal = trek.basePrice * trekkerCount;
@@ -1230,34 +1251,63 @@ function Step4ReviewPay({
     [totalFull, trekkerCount, totalNormal],
   );
 
-  const handlePay = useCallback(() => {
-    const w = window as Window &
-      typeof globalThis & {
-        Razorpay?: new (opts: Record<string, unknown>) => { open: () => void };
-      };
-    if (w.Razorpay) {
-      const rp = new w.Razorpay({
-        key: "rzp_test_placeholder",
-        amount: payAmounts[payMode] * 100,
-        currency: "INR",
-        name: "Shail Hikers",
-        description: `${trek.name} — ${formatDate(batch.startDate)}`,
-        prefill: {
-          contact: travelers[0]?.emergencyContact ?? "",
-          name: travelers[0]?.name ?? "",
-        },
-        theme: { color: "#B5525E" },
-        handler: () => {
-          setPaid(true);
-          setConfetti(true);
-        },
+  const handlePay = useCallback(async () => {
+    setPayError(null);
+    try {
+      const backendAddOns: AddOn[] = ADD_ONS.filter((a) =>
+        selectedAddOns.includes(a.id),
+      ).map((a) => ({
+        name: a.name,
+        pricePerPerson: BigInt(a.perDay ? a.price * batchDays : a.price),
+      }));
+
+      const backendTravelers = travelers.map((t) => ({
+        name: t.name || "Unnamed",
+        age: BigInt(Number(t.age) || 18),
+        gender: t.gender,
+        emergencyContact: t.emergencyContact,
+        medicalConditions: t.medicalConditions,
+        tshirtSize: t.tshirtSize,
+        mealPreference: (t.mealPreference === "veg"
+          ? "Veg"
+          : "NonVeg") as MealPreference,
+      }));
+
+      const totalAmount = BigInt(Math.round(totalFull));
+      const result = await createBooking.mutateAsync({
+        trekSlug: trek.slug,
+        batchId: BigInt(batch.id),
+        travelers: backendTravelers,
+        addOns: backendAddOns,
+        totalAmount,
       });
-      rp.open();
-    } else {
-      setPaid(true);
-      setConfetti(true);
+
+      if (
+        result &&
+        "checkoutUrl" in result &&
+        typeof result.checkoutUrl === "string"
+      ) {
+        window.location.href = result.checkoutUrl;
+      } else {
+        setPaid(true);
+        setConfetti(true);
+      }
+    } catch (err) {
+      setPayError(
+        err instanceof Error
+          ? err.message
+          : "Payment failed. Please try again.",
+      );
     }
-  }, [payMode, payAmounts, trek, batch, travelers]);
+  }, [
+    createBooking,
+    batch,
+    batchDays,
+    travelers,
+    selectedAddOns,
+    totalFull,
+    trek.slug,
+  ]);
 
   if (paid)
     return <SuccessScreen trek={trek} batch={batch} confetti={confetti} />;
@@ -1489,6 +1539,17 @@ function Step4ReviewPay({
         <label className="flex items-center gap-3 cursor-pointer">
           <input
             type="checkbox"
+            checked={termsAccepted}
+            onChange={(e) => setTermsAccepted(e.target.checked)}
+            className="w-4 h-4 accent-[#B5525E]"
+          />
+          <span className="text-sm" style={{ color: "#E8A0AA" }}>
+            I agree to the Terms & Conditions and Cancellation Policy
+          </span>
+        </label>
+        <label className="flex items-center gap-3 cursor-pointer">
+          <input
+            type="checkbox"
             checked={whatsapp}
             onChange={(e) => setWhatsapp(e.target.checked)}
             className="w-4 h-4 accent-[#B5525E]"
@@ -1509,6 +1570,18 @@ function Step4ReviewPay({
           </span>
         </label>
       </div>
+      {payError && (
+        <div
+          className="mb-4 p-3 rounded-lg text-sm"
+          style={{
+            background: "rgba(181,82,94,0.15)",
+            color: "#B5525E",
+            border: "1px solid rgba(181,82,94,0.3)",
+          }}
+        >
+          {payError}
+        </div>
+      )}
       <div className="flex justify-between">
         <button
           type="button"
@@ -1527,16 +1600,29 @@ function Step4ReviewPay({
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
           onClick={handlePay}
+          disabled={!termsAccepted || createBooking.isPending}
           data-ocid="book.pay_button"
           className="px-10 py-3 rounded-xl font-semibold text-base flex items-center gap-2"
           style={{
-            background: "#B5525E",
+            background:
+              termsAccepted && !createBooking.isPending
+                ? "#B5525E"
+                : "rgba(181,82,94,0.3)",
             color: "#FAD4D8",
-            boxShadow: "0 4px 20px rgba(181,82,94,0.4)",
+            boxShadow:
+              termsAccepted && !createBooking.isPending
+                ? "0 4px 20px rgba(181,82,94,0.4)"
+                : "none",
+            cursor:
+              termsAccepted && !createBooking.isPending
+                ? "pointer"
+                : "not-allowed",
           }}
         >
-          <CreditCard size={18} /> Pay ₹
-          {payAmounts[payMode].toLocaleString("en-IN")}
+          <CreditCard size={18} />
+          {createBooking.isPending
+            ? "Redirecting to Stripe..."
+            : `Pay ₹${payAmounts[payMode].toLocaleString("en-IN")}`}
         </motion.button>
       </div>
     </div>
@@ -1546,11 +1632,28 @@ function Step4ReviewPay({
 export default function BookPage() {
   const { slug } = useParams({ from: "/book/$slug" });
   const trek = TREKS.find((t) => t.slug === slug) ?? TREKS[0];
-  const batches = MOCK_BATCHES.map((b) => ({
-    ...b,
-    trekSlug: slug,
-    price: trek.basePrice,
-  }));
+  const { data: remoteBatches } = useBatchesByTrek(slug || "");
+
+  const batches: Batch[] =
+    remoteBatches && remoteBatches.length > 0
+      ? remoteBatches.map((b) => ({
+          id: String(b.id),
+          trekSlug: b.trekSlug,
+          startDate: b.startDate,
+          endDate: b.endDate,
+          seatsTotal: Number(b.totalSeats),
+          seatsBooked: Number(b.bookedSeats),
+          price: Number(b.pricePerPerson),
+          guideName: "Guide",
+          guideId: b.guideId,
+          status: mapBatchStatus(b.status),
+        }))
+      : FALLBACK_BATCHES.map((b) => ({
+          ...b,
+          trekSlug: slug || "",
+          price: trek.basePrice,
+        }));
+
   const batchDays = trek.durationDays;
 
   const [step, setStep] = useState<1 | 2 | 3 | 4>(1);

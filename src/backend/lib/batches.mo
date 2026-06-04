@@ -96,6 +96,33 @@ module {
     };
   };
 
+  // Returns a full availability report for a batch.
+  public type AvailabilityReport = {
+    total : Nat;
+    available : Nat;
+    reserved : Nat;
+    percentFilled : Nat;
+    soldOut : Bool;
+  };
+
+  public func getAvailability(batches : List.List<Batch>, batchId : Nat) : ?AvailabilityReport {
+    switch (batches.find(func(b) { b.id == batchId })) {
+      case null { null };
+      case (?b) {
+        let reserved = b.bookedSeats;
+        let available = if (reserved >= b.totalSeats) { 0 } else { b.totalSeats - reserved };
+        let percentFilled = if (b.totalSeats == 0) { 100 } else { (reserved * 100) / b.totalSeats };
+        ?{
+          total = b.totalSeats;
+          available;
+          reserved;
+          percentFilled;
+          soldOut = available == 0;
+        };
+      };
+    };
+  };
+
   // Builds initial seed batches (3–4 per trek)
   public func seedData() : List.List<Batch> {
     let data = List.empty<Batch>();

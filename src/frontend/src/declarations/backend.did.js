@@ -35,7 +35,6 @@ export const TravelerInfo = IDL.Record({
 export const Slug = IDL.Text;
 export const BookingPublic = IDL.Record({
   'id' : IDL.Nat,
-  'razorpayPaymentId' : IDL.Opt(IDL.Text),
   'paymentStatus' : PaymentStatus,
   'userId' : UserId,
   'createdAt' : Timestamp,
@@ -44,6 +43,7 @@ export const BookingPublic = IDL.Record({
   'addOns' : IDL.Vec(AddOn),
   'trekSlug' : Slug,
   'batchId' : IDL.Nat,
+  'stripeSessionId' : IDL.Opt(IDL.Text),
 });
 export const LoyaltyTier = IDL.Variant({
   'SummitMaster' : IDL.Null,
@@ -186,19 +186,32 @@ export const NewsletterPreference = IDL.Variant({
 export const idlService = IDL.Service({
   'addToWishlist' : IDL.Func([IDL.Text], [IDL.Bool], []),
   'calculateGroupPrice' : IDL.Func(
-      [IDL.Text, IDL.Nat, IDL.Vec(AddOn)],
+      [IDL.Text, IDL.Nat, IDL.Vec(AddOn), IDL.Nat],
       [IDL.Nat],
       ['query'],
     ),
-  'cancelBooking' : IDL.Func([IDL.Nat], [IDL.Bool], []),
+  'cancelBooking' : IDL.Func(
+      [IDL.Nat],
+      [IDL.Variant({ 'ok' : IDL.Text, 'err' : IDL.Text })],
+      [],
+    ),
   'confirmBookingPayment' : IDL.Func(
       [IDL.Nat, IDL.Text],
       [IDL.Variant({ 'ok' : BookingPublic, 'err' : IDL.Text })],
       [],
     ),
   'createBooking' : IDL.Func(
-      [IDL.Text, IDL.Nat, IDL.Vec(TravelerInfo), IDL.Vec(AddOn), IDL.Nat],
-      [BookingPublic],
+      [IDL.Nat, IDL.Nat, IDL.Vec(AddOn), IDL.Vec(TravelerInfo), IDL.Bool],
+      [
+        IDL.Variant({
+          'ok' : IDL.Record({
+            'bookingId' : IDL.Nat,
+            'checkoutUrl' : IDL.Text,
+            'sessionId' : IDL.Text,
+          }),
+          'err' : IDL.Text,
+        }),
+      ],
       [],
     ),
   'createOrUpdateProfile' : IDL.Func(
@@ -208,6 +221,19 @@ export const idlService = IDL.Service({
     ),
   'getAllTreks' : IDL.Func([], [IDL.Vec(Trek)], ['query']),
   'getAllYatras' : IDL.Func([], [IDL.Vec(Yatra)], ['query']),
+  'getAvailability' : IDL.Func(
+      [IDL.Nat],
+      [
+        IDL.Record({
+          'total' : IDL.Nat,
+          'reserved' : IDL.Nat,
+          'available' : IDL.Nat,
+          'soldOut' : IDL.Bool,
+          'percentFilled' : IDL.Nat,
+        }),
+      ],
+      ['query'],
+    ),
   'getAvailableBatches' : IDL.Func([], [IDL.Vec(BatchPublic)], ['query']),
   'getAverageRating' : IDL.Func([IDL.Text], [IDL.Nat], ['query']),
   'getBatchAvailability' : IDL.Func(
@@ -230,6 +256,7 @@ export const idlService = IDL.Service({
   'getFaqVotes' : IDL.Func([IDL.Text, IDL.Nat], [FaqVotesPublic], ['query']),
   'getFeaturedTreks' : IDL.Func([], [IDL.Vec(Trek)], ['query']),
   'getReviewsByTrek' : IDL.Func([IDL.Text], [IDL.Vec(ReviewPublic)], ['query']),
+  'getStripePublicKey' : IDL.Func([], [IDL.Text], ['query']),
   'getSubscriberCount' : IDL.Func([], [IDL.Nat], ['query']),
   'getTrekBySlug' : IDL.Func([IDL.Text], [IDL.Opt(Trek)], ['query']),
   'getTreksByDifficulty' : IDL.Func([Difficulty], [IDL.Vec(Trek)], ['query']),
@@ -237,6 +264,7 @@ export const idlService = IDL.Service({
   'getYatraBySlug' : IDL.Func([IDL.Text], [IDL.Opt(Yatra)], ['query']),
   'incrementBlogViews' : IDL.Func([IDL.Text], [IDL.Bool], []),
   'removeFromWishlist' : IDL.Func([IDL.Text], [IDL.Bool], []),
+  'setStripeSecretKey' : IDL.Func([IDL.Text, IDL.Text], [], []),
   'submitCorporateLead' : IDL.Func(
       [
         IDL.Text,
@@ -300,7 +328,6 @@ export const idlFactory = ({ IDL }) => {
   const Slug = IDL.Text;
   const BookingPublic = IDL.Record({
     'id' : IDL.Nat,
-    'razorpayPaymentId' : IDL.Opt(IDL.Text),
     'paymentStatus' : PaymentStatus,
     'userId' : UserId,
     'createdAt' : Timestamp,
@@ -309,6 +336,7 @@ export const idlFactory = ({ IDL }) => {
     'addOns' : IDL.Vec(AddOn),
     'trekSlug' : Slug,
     'batchId' : IDL.Nat,
+    'stripeSessionId' : IDL.Opt(IDL.Text),
   });
   const LoyaltyTier = IDL.Variant({
     'SummitMaster' : IDL.Null,
@@ -451,19 +479,32 @@ export const idlFactory = ({ IDL }) => {
   return IDL.Service({
     'addToWishlist' : IDL.Func([IDL.Text], [IDL.Bool], []),
     'calculateGroupPrice' : IDL.Func(
-        [IDL.Text, IDL.Nat, IDL.Vec(AddOn)],
+        [IDL.Text, IDL.Nat, IDL.Vec(AddOn), IDL.Nat],
         [IDL.Nat],
         ['query'],
       ),
-    'cancelBooking' : IDL.Func([IDL.Nat], [IDL.Bool], []),
+    'cancelBooking' : IDL.Func(
+        [IDL.Nat],
+        [IDL.Variant({ 'ok' : IDL.Text, 'err' : IDL.Text })],
+        [],
+      ),
     'confirmBookingPayment' : IDL.Func(
         [IDL.Nat, IDL.Text],
         [IDL.Variant({ 'ok' : BookingPublic, 'err' : IDL.Text })],
         [],
       ),
     'createBooking' : IDL.Func(
-        [IDL.Text, IDL.Nat, IDL.Vec(TravelerInfo), IDL.Vec(AddOn), IDL.Nat],
-        [BookingPublic],
+        [IDL.Nat, IDL.Nat, IDL.Vec(AddOn), IDL.Vec(TravelerInfo), IDL.Bool],
+        [
+          IDL.Variant({
+            'ok' : IDL.Record({
+              'bookingId' : IDL.Nat,
+              'checkoutUrl' : IDL.Text,
+              'sessionId' : IDL.Text,
+            }),
+            'err' : IDL.Text,
+          }),
+        ],
         [],
       ),
     'createOrUpdateProfile' : IDL.Func(
@@ -473,6 +514,19 @@ export const idlFactory = ({ IDL }) => {
       ),
     'getAllTreks' : IDL.Func([], [IDL.Vec(Trek)], ['query']),
     'getAllYatras' : IDL.Func([], [IDL.Vec(Yatra)], ['query']),
+    'getAvailability' : IDL.Func(
+        [IDL.Nat],
+        [
+          IDL.Record({
+            'total' : IDL.Nat,
+            'reserved' : IDL.Nat,
+            'available' : IDL.Nat,
+            'soldOut' : IDL.Bool,
+            'percentFilled' : IDL.Nat,
+          }),
+        ],
+        ['query'],
+      ),
     'getAvailableBatches' : IDL.Func([], [IDL.Vec(BatchPublic)], ['query']),
     'getAverageRating' : IDL.Func([IDL.Text], [IDL.Nat], ['query']),
     'getBatchAvailability' : IDL.Func(
@@ -507,6 +561,7 @@ export const idlFactory = ({ IDL }) => {
         [IDL.Vec(ReviewPublic)],
         ['query'],
       ),
+    'getStripePublicKey' : IDL.Func([], [IDL.Text], ['query']),
     'getSubscriberCount' : IDL.Func([], [IDL.Nat], ['query']),
     'getTrekBySlug' : IDL.Func([IDL.Text], [IDL.Opt(Trek)], ['query']),
     'getTreksByDifficulty' : IDL.Func([Difficulty], [IDL.Vec(Trek)], ['query']),
@@ -514,6 +569,7 @@ export const idlFactory = ({ IDL }) => {
     'getYatraBySlug' : IDL.Func([IDL.Text], [IDL.Opt(Yatra)], ['query']),
     'incrementBlogViews' : IDL.Func([IDL.Text], [IDL.Bool], []),
     'removeFromWishlist' : IDL.Func([IDL.Text], [IDL.Bool], []),
+    'setStripeSecretKey' : IDL.Func([IDL.Text, IDL.Text], [], []),
     'submitCorporateLead' : IDL.Func(
         [
           IDL.Text,

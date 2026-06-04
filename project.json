@@ -1,21 +1,22 @@
 {
-  "overview": "World-class Himalayan trekking website for Shail Hikers with full booking system, Internet Identity login, and Razorpay payments.",
+  "overview": "World-class Himalayan trekking website for Shail Hikers with real-time bookings, secure login, and online payments.",
   "features": [
-    "Internet Identity login with user profile creation",
-    "Real-time booking backend with seat availability tracking",
-    "Razorpay payment integration with test/production credentials",
-    "Protected dashboard showing booking history and status",
-    "Trek and yatra detail pages with 12-tab layout",
-    "Trek Finder quiz and comparison tool"
+    "Internet Identity login with session persistence",
+    "Real-time seat availability tracking on all trek batches",
+    "Live booking system that reserves seats and confirms via payment",
+    "Stripe payment checkout with test mode and retry logic",
+    "Booking cancellation with immediate Stripe refund",
+    "Dashboard showing upcoming, past, and cancelled bookings with status badges",
+    "Payment success and failure pages with clear user messaging"
   ],
   "category": "travel",
   "tags": [
     "trekking",
-    "travel",
     "himalaya",
     "booking",
-    "payments",
+    "travel",
+    "india",
     "uttarakhand"
   ],
-  "last_updated": "2026-06-03T18:59:54.556Z"
+  "last_updated": "2026-06-03T19:51:11.228Z"
 }

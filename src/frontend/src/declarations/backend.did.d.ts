@@ -53,7 +53,6 @@ export interface BlogPostPublic {
 }
 export interface BookingPublic {
   'id' : bigint,
-  'razorpayPaymentId' : [] | [string],
   'paymentStatus' : PaymentStatus,
   'userId' : UserId,
   'createdAt' : Timestamp,
@@ -62,6 +61,7 @@ export interface BookingPublic {
   'addOns' : Array<AddOn>,
   'trekSlug' : Slug,
   'batchId' : bigint,
+  'stripeSessionId' : [] | [string],
 }
 export interface CorporateLead {
   'id' : bigint,
@@ -166,16 +166,30 @@ export interface Yatra {
 }
 export interface _SERVICE {
   'addToWishlist' : ActorMethod<[string], boolean>,
-  'calculateGroupPrice' : ActorMethod<[string, bigint, Array<AddOn>], bigint>,
-  'cancelBooking' : ActorMethod<[bigint], boolean>,
+  'calculateGroupPrice' : ActorMethod<
+    [string, bigint, Array<AddOn>, bigint],
+    bigint
+  >,
+  'cancelBooking' : ActorMethod<
+    [bigint],
+    { 'ok' : string } |
+      { 'err' : string }
+  >,
   'confirmBookingPayment' : ActorMethod<
     [bigint, string],
     { 'ok' : BookingPublic } |
       { 'err' : string }
   >,
   'createBooking' : ActorMethod<
-    [string, bigint, Array<TravelerInfo>, Array<AddOn>, bigint],
-    BookingPublic
+    [bigint, bigint, Array<AddOn>, Array<TravelerInfo>, boolean],
+    {
+        'ok' : {
+          'bookingId' : bigint,
+          'checkoutUrl' : string,
+          'sessionId' : string,
+        }
+      } |
+      { 'err' : string }
   >,
   'createOrUpdateProfile' : ActorMethod<
     [string, string, string, string],
@@ -183,6 +197,16 @@ export interface _SERVICE {
   >,
   'getAllTreks' : ActorMethod<[], Array<Trek>>,
   'getAllYatras' : ActorMethod<[], Array<Yatra>>,
+  'getAvailability' : ActorMethod<
+    [bigint],
+    {
+      'total' : bigint,
+      'reserved' : bigint,
+      'available' : bigint,
+      'soldOut' : boolean,
+      'percentFilled' : bigint,
+    }
+  >,
   'getAvailableBatches' : ActorMethod<[], Array<BatchPublic>>,
   'getAverageRating' : ActorMethod<[string], bigint>,
   'getBatchAvailability' : ActorMethod<[bigint], [] | [BatchAvailability]>,
@@ -197,6 +221,7 @@ export interface _SERVICE {
   'getFaqVotes' : ActorMethod<[string, bigint], FaqVotesPublic>,
   'getFeaturedTreks' : ActorMethod<[], Array<Trek>>,
   'getReviewsByTrek' : ActorMethod<[string], Array<ReviewPublic>>,
+  'getStripePublicKey' : ActorMethod<[], string>,
   'getSubscriberCount' : ActorMethod<[], bigint>,
   'getTrekBySlug' : ActorMethod<[string], [] | [Trek]>,
   'getTreksByDifficulty' : ActorMethod<[Difficulty], Array<Trek>>,
@@ -204,6 +229,7 @@ export interface _SERVICE {
   'getYatraBySlug' : ActorMethod<[string], [] | [Yatra]>,
   'incrementBlogViews' : ActorMethod<[string], boolean>,
   'removeFromWishlist' : ActorMethod<[string], boolean>,
+  'setStripeSecretKey' : ActorMethod<[string, string], undefined>,
   'submitCorporateLead' : ActorMethod<
     [string, string, string, string, bigint, string, string, string],
     CorporateLead

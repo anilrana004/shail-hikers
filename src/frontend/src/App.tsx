@@ -37,6 +37,8 @@ const TermsPage = lazy(() => import("@/pages/TermsPage"));
 const PrivacyPage = lazy(() => import("@/pages/PrivacyPage"));
 const SitemapPage = lazy(() => import("@/pages/SitemapPage"));
 const NotFoundPage = lazy(() => import("@/pages/NotFoundPage"));
+const PaymentSuccessPage = lazy(() => import("@/pages/PaymentSuccessPage"));
+const PaymentFailurePage = lazy(() => import("@/pages/PaymentFailurePage"));
 
 function PageFallback() {
   return (
@@ -276,6 +278,24 @@ const sitemapRoute = createRoute({
     </Suspense>
   ),
 });
+const paymentSuccessRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/payment-success",
+  component: () => (
+    <Suspense fallback={<PageFallback />}>
+      <PaymentSuccessPage />
+    </Suspense>
+  ),
+});
+const paymentFailureRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/payment-failure",
+  component: () => (
+    <Suspense fallback={<PageFallback />}>
+      <PaymentFailurePage />
+    </Suspense>
+  ),
+});
 const notFoundRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "*",
@@ -310,6 +330,8 @@ const routeTree = rootRoute.addChildren([
   termsRoute,
   privacyRoute,
   sitemapRoute,
+  paymentSuccessRoute,
+  paymentFailureRoute,
   notFoundRoute,
 ]);
 

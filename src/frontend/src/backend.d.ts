@@ -53,7 +53,6 @@ export interface Trek {
 }
 export interface BookingPublic {
     id: bigint;
-    razorpayPaymentId?: string;
     paymentStatus: PaymentStatus;
     userId: UserId;
     createdAt: Timestamp;
@@ -62,6 +61,7 @@ export interface BookingPublic {
     addOns: Array<AddOn>;
     trekSlug: Slug;
     batchId: bigint;
+    stripeSessionId?: string;
 }
 export interface BatchAvailability {
     isSoldOut: boolean;
@@ -183,19 +183,42 @@ export enum PaymentStatus {
 }
 export interface backendInterface {
     addToWishlist(slug: string): Promise<boolean>;
-    calculateGroupPrice(trekSlug: string, groupSize: bigint, addOns: Array<AddOn>): Promise<bigint>;
-    cancelBooking(id: bigint): Promise<boolean>;
-    confirmBookingPayment(bookingId: bigint, razorpayPaymentId: string): Promise<{
+    calculateGroupPrice(trekSlug: string, groupSize: bigint, addOns: Array<AddOn>, batchId: bigint): Promise<bigint>;
+    cancelBooking(id: bigint): Promise<{
+        __kind__: "ok";
+        ok: string;
+    } | {
+        __kind__: "err";
+        err: string;
+    }>;
+    confirmBookingPayment(bookingId: bigint, stripeSessionId: string): Promise<{
         __kind__: "ok";
         ok: BookingPublic;
     } | {
         __kind__: "err";
         err: string;
     }>;
-    createBooking(trekSlug: string, batchId: bigint, travelers: Array<TravelerInfo>, addOns: Array<AddOn>, totalAmount: bigint): Promise<BookingPublic>;
+    createBooking(batchId: bigint, groupSize: bigint, addOns: Array<AddOn>, travelers: Array<TravelerInfo>, applyEarlyBird: boolean): Promise<{
+        __kind__: "ok";
+        ok: {
+            bookingId: bigint;
+            checkoutUrl: string;
+            sessionId: string;
+        };
+    } | {
+        __kind__: "err";
+        err: string;
+    }>;
     createOrUpdateProfile(name: string, email: string, phone: string, city: string): Promise<UserProfilePublic>;
     getAllTreks(): Promise<Array<Trek>>;
     getAllYatras(): Promise<Array<Yatra>>;
+    getAvailability(batchId: bigint): Promise<{
+        total: bigint;
+        reserved: bigint;
+        available: bigint;
+        soldOut: boolean;
+        percentFilled: bigint;
+    }>;
     getAvailableBatches(): Promise<Array<BatchPublic>>;
     getAverageRating(trekSlug: string): Promise<bigint>;
     getBatchAvailability(batchId: bigint): Promise<BatchAvailability | null>;
@@ -210,6 +233,7 @@ export interface backendInterface {
     getFaqVotes(trekSlug: string, faqIndex: bigint): Promise<FaqVotesPublic>;
     getFeaturedTreks(): Promise<Array<Trek>>;
     getReviewsByTrek(trekSlug: string): Promise<Array<ReviewPublic>>;
+    getStripePublicKey(): Promise<string>;
     getSubscriberCount(): Promise<bigint>;
     getTrekBySlug(slug: string): Promise<Trek | null>;
     getTreksByDifficulty(difficulty: Difficulty): Promise<Array<Trek>>;
@@ -217,6 +241,7 @@ export interface backendInterface {
     getYatraBySlug(slug: string): Promise<Yatra | null>;
     incrementBlogViews(slug: string): Promise<boolean>;
     removeFromWishlist(slug: string): Promise<boolean>;
+    setStripeSecretKey(secretKey: string, publicKey: string): Promise<void>;
     submitCorporateLead(companyName: string, contactName: string, email: string, phone: string, headcount: bigint, preferredDates: string, preferredTrek: string, message: string): Promise<CorporateLead>;
     submitReview(trekSlug: string, userName: string, userCity: string, rating: bigint, guideRating: bigint, foodRating: bigint, safetyRating: bigint, reviewText: string): Promise<ReviewPublic>;
     subscribe(email: string, preferences: Array<NewsletterPreference>): Promise<boolean>;

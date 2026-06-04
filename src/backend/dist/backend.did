@@ -131,7 +131,7 @@ type BookingPublic =
    createdAt: Timestamp;
    id: nat;
    paymentStatus: PaymentStatus;
-   razorpayPaymentId: opt text;
+   stripeSessionId: opt text;
    totalAmount: nat;
    travelers: vec TravelerInfo;
    trekSlug: Slug;
@@ -193,20 +193,39 @@ type AddOn =
  };
 service : {
   addToWishlist: (slug: text) -> (bool);
-  calculateGroupPrice: (trekSlug: text, groupSize: nat, addOns: vec AddOn) ->
-   (nat) query;
-  cancelBooking: (id: nat) -> (bool);
-  confirmBookingPayment: (bookingId: nat, razorpayPaymentId: text) ->
+  calculateGroupPrice: (trekSlug: text, groupSize: nat, addOns: vec AddOn,
+   batchId: nat) -> (nat) query;
+  cancelBooking: (id: nat) -> (variant {
+                                 err: text;
+                                 ok: text;
+                               });
+  confirmBookingPayment: (bookingId: nat, stripeSessionId: text) ->
    (variant {
       err: text;
       ok: BookingPublic;
     });
-  createBooking: (trekSlug: text, batchId: nat, travelers: vec TravelerInfo,
-   addOns: vec AddOn, totalAmount: nat) -> (BookingPublic);
+  createBooking: (batchId: nat, groupSize: nat, addOns: vec AddOn, travelers:
+   vec TravelerInfo, applyEarlyBird: bool) ->
+   (variant {
+      err: text;
+      ok: record {
+            bookingId: nat;
+            checkoutUrl: text;
+            sessionId: text;
+          };
+    });
   createOrUpdateProfile: (name: text, email: text, phone: text, city:
    text) -> (UserProfilePublic);
   getAllTreks: () -> (vec Trek) query;
   getAllYatras: () -> (vec Yatra) query;
+  getAvailability: (batchId: nat) ->
+   (record {
+      available: nat;
+      percentFilled: nat;
+      "reserved": nat;
+      soldOut: bool;
+      total: nat;
+    }) query;
   getAvailableBatches: () -> (vec BatchPublic) query;
   getAverageRating: (trekSlug: text) -> (nat) query;
   getBatchAvailability: (batchId: nat) -> (opt BatchAvailability) query;
@@ -221,6 +240,7 @@ service : {
   getFaqVotes: (trekSlug: text, faqIndex: nat) -> (FaqVotesPublic) query;
   getFeaturedTreks: () -> (vec Trek) query;
   getReviewsByTrek: (trekSlug: text) -> (vec ReviewPublic) query;
+  getStripePublicKey: () -> (text) query;
   getSubscriberCount: () -> (nat) query;
   getTrekBySlug: (slug: text) -> (opt Trek) query;
   getTreksByDifficulty: (difficulty: Difficulty) -> (vec Trek) query;
@@ -228,6 +248,7 @@ service : {
   getYatraBySlug: (slug: text) -> (opt Yatra) query;
   incrementBlogViews: (slug: text) -> (bool);
   removeFromWishlist: (slug: text) -> (bool);
+  setStripeSecretKey: (secretKey: text, publicKey: text) -> ();
   submitCorporateLead: (companyName: text, contactName: text, email: 
    text, phone: text, headcount: nat, preferredDates: text, preferredTrek:
    text, message: text) -> (CorporateLead);

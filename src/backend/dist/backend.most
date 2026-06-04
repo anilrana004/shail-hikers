@@ -38,7 +38,7 @@ type Booking__628731632 =
     createdAt : Timestamp__301639476;
     id : Nat;
     var paymentStatus : PaymentStatus__1050999476;
-    var razorpayPaymentId : ?Text;
+    var stripeSessionId : ?Text;
     totalAmount : Nat;
     travelers : [TravelerInfo__317559569];
     trekSlug : Slug__239290498;
@@ -174,6 +174,130 @@ type NewActor__1026915867 =
                         userName : Text;
                         var verified : Bool
                       }>;
+    treks :
+      List__560604548<{
+                        basePrice : Nat;
+                        bestTime : Text;
+                        difficulty : {#Difficult; #Easy; #Extreme; #Moderate};
+                        durationDays : Nat;
+                        durationNights : Nat;
+                        heroImage : Text;
+                        id : Nat;
+                        isFeatured : Bool;
+                        maxAltitude : Nat;
+                        name : Text;
+                        nearestAirport : Text;
+                        nearestRailhead : Text;
+                        region : Text;
+                        shortDescription : Text;
+                        slug : Text;
+                        startingPoint : Text;
+                        tagline : Text;
+                        trekDistance : Nat
+                      }>;
+    users :
+      Map__222667396<Principal,
+                      {
+                        var city : Text;
+                        createdAt : Int;
+                        var email : Text;
+                        var loyaltyTier :
+                          {#Explorer; #SummitMaster; #Trailblazer};
+                        var name : Text;
+                        var phone : Text;
+                        principal : Principal;
+                        referralCode : Text;
+                        var referralCredits : Nat;
+                        var totalTreksCompleted : Nat;
+                        var wishlist : [Text]
+                      }>;
+    yatras :
+      List__560604548<{
+                        basePrice : Nat;
+                        category : Text;
+                        durationDays : Nat;
+                        heroImage : Text;
+                        id : Nat;
+                        name : Text;
+                        nextDeparture : Text;
+                        shortDescription : Text;
+                        slug : Text;
+                        tagline : Text
+                      }>
+  };
+type NewActor__263626949 =
+  {
+    batches :
+      List__560604548<{
+                        var bookedSeats : Nat;
+                        endDate : Text;
+                        guideId : Text;
+                        id : Nat;
+                        pricePerPerson : Nat;
+                        startDate : Text;
+                        var status : {#Cancelled; #Completed; #Full; #Open};
+                        totalSeats : Nat;
+                        trekSlug : Text
+                      }>;
+    bookingState : {var nextBookingId : Nat};
+    bookings : List__560604548<NewBooking__323573108>;
+    faqVotes :
+      Map__222667396<Text, {var helpful : Nat; var notHelpful : Nat}>;
+    leadState : {var nextLeadId : Nat};
+    leads :
+      List__560604548<{
+                        companyName : Text;
+                        contactName : Text;
+                        createdAt : Int;
+                        email : Text;
+                        headcount : Nat;
+                        id : Nat;
+                        message : Text;
+                        phone : Text;
+                        preferredDates : Text;
+                        preferredTrek : Text
+                      }>;
+    newsletterSubs :
+      Map__222667396<Text,
+                      {
+                        email : Text;
+                        preferences :
+                          [{#BlogPosts; #NewBatches; #Offers; #WeatherAlerts}];
+                        subscribedAt : Int
+                      }>;
+    posts :
+      List__560604548<{
+                        author : Text;
+                        category : {#Gear; #Stories; #TrekTips; #YatraGuides};
+                        content : Text;
+                        excerpt : Text;
+                        heroImage : Text;
+                        id : Nat;
+                        publishedAt : Int;
+                        readTime : Nat;
+                        slug : Text;
+                        tags : [Text];
+                        title : Text;
+                        var views : Nat
+                      }>;
+    reviewState : {var nextReviewId : Nat};
+    reviews :
+      List__560604548<{
+                        createdAt : Int;
+                        foodRating : Nat;
+                        guideRating : Nat;
+                        var helpfulVotes : Nat;
+                        id : Nat;
+                        rating : Nat;
+                        reviewText : Text;
+                        safetyRating : Nat;
+                        trekSlug : Text;
+                        userCity : Text;
+                        userId : Principal;
+                        userName : Text;
+                        var verified : Bool
+                      }>;
+    stripeState : {var stripePublicKey : Text; var stripeSecretKey : Text};
     treks :
       List__560604548<{
                         basePrice : Nat;
@@ -370,6 +494,28 @@ type NewBooking__212574971 =
     trekSlug : Text;
     userId : Principal
   };
+type NewBooking__323573108 =
+  {
+    addOns : [{name : Text; pricePerPerson : Nat}];
+    batchId : Nat;
+    createdAt : Int;
+    id : Nat;
+    var paymentStatus : {#Cancelled; #Paid; #Pending};
+    var stripeSessionId : ?Text;
+    totalAmount : Nat;
+    travelers :
+      [{
+         age : Nat;
+         emergencyContact : Text;
+         gender : Text;
+         mealPreference : {#NonVeg; #Veg};
+         medicalConditions : Text;
+         name : Text;
+         tshirtSize : Text
+       }];
+    trekSlug : Text;
+    userId : Principal
+  };
 type NewsletterPreference__77334486 =
   {#BlogPosts; #NewBatches; #Offers; #WeatherAlerts};
 type NewsletterSub__438219224 = NewsletterSub__970524505;
@@ -505,6 +651,129 @@ type OldActor__364516025 =
                         tagline : Text
                       }>
   };
+type OldActor__906324184 =
+  {
+    batches :
+      List__560604548<{
+                        var bookedSeats : Nat;
+                        endDate : Text;
+                        guideId : Text;
+                        id : Nat;
+                        pricePerPerson : Nat;
+                        startDate : Text;
+                        var status : {#Cancelled; #Completed; #Full; #Open};
+                        totalSeats : Nat;
+                        trekSlug : Text
+                      }>;
+    bookingState : {var nextBookingId : Nat};
+    bookings : List__560604548<OldBooking__590895869>;
+    faqVotes :
+      Map__222667396<Text, {var helpful : Nat; var notHelpful : Nat}>;
+    leadState : {var nextLeadId : Nat};
+    leads :
+      List__560604548<{
+                        companyName : Text;
+                        contactName : Text;
+                        createdAt : Int;
+                        email : Text;
+                        headcount : Nat;
+                        id : Nat;
+                        message : Text;
+                        phone : Text;
+                        preferredDates : Text;
+                        preferredTrek : Text
+                      }>;
+    newsletterSubs :
+      Map__222667396<Text,
+                      {
+                        email : Text;
+                        preferences :
+                          [{#BlogPosts; #NewBatches; #Offers; #WeatherAlerts}];
+                        subscribedAt : Int
+                      }>;
+    posts :
+      List__560604548<{
+                        author : Text;
+                        category : {#Gear; #Stories; #TrekTips; #YatraGuides};
+                        content : Text;
+                        excerpt : Text;
+                        heroImage : Text;
+                        id : Nat;
+                        publishedAt : Int;
+                        readTime : Nat;
+                        slug : Text;
+                        tags : [Text];
+                        title : Text;
+                        var views : Nat
+                      }>;
+    reviewState : {var nextReviewId : Nat};
+    reviews :
+      List__560604548<{
+                        createdAt : Int;
+                        foodRating : Nat;
+                        guideRating : Nat;
+                        var helpfulVotes : Nat;
+                        id : Nat;
+                        rating : Nat;
+                        reviewText : Text;
+                        safetyRating : Nat;
+                        trekSlug : Text;
+                        userCity : Text;
+                        userId : Principal;
+                        userName : Text;
+                        var verified : Bool
+                      }>;
+    treks :
+      List__560604548<{
+                        basePrice : Nat;
+                        bestTime : Text;
+                        difficulty : {#Difficult; #Easy; #Extreme; #Moderate};
+                        durationDays : Nat;
+                        durationNights : Nat;
+                        heroImage : Text;
+                        id : Nat;
+                        isFeatured : Bool;
+                        maxAltitude : Nat;
+                        name : Text;
+                        nearestAirport : Text;
+                        nearestRailhead : Text;
+                        region : Text;
+                        shortDescription : Text;
+                        slug : Text;
+                        startingPoint : Text;
+                        tagline : Text;
+                        trekDistance : Nat
+                      }>;
+    users :
+      Map__222667396<Principal,
+                      {
+                        var city : Text;
+                        createdAt : Int;
+                        var email : Text;
+                        var loyaltyTier :
+                          {#Explorer; #SummitMaster; #Trailblazer};
+                        var name : Text;
+                        var phone : Text;
+                        principal : Principal;
+                        referralCode : Text;
+                        var referralCredits : Nat;
+                        var totalTreksCompleted : Nat;
+                        var wishlist : [Text]
+                      }>;
+    yatras :
+      List__560604548<{
+                        basePrice : Nat;
+                        category : Text;
+                        durationDays : Nat;
+                        heroImage : Text;
+                        id : Nat;
+                        name : Text;
+                        nextDeparture : Text;
+                        shortDescription : Text;
+                        slug : Text;
+                        tagline : Text
+                      }>
+  };
 type OldBooking__1071990317 =
   {
     addOns : [{name : Text; pricePerPerson : Nat}];
@@ -512,6 +781,28 @@ type OldBooking__1071990317 =
     createdAt : Int;
     id : Nat;
     var paymentStatus : {#Cancelled; #Paid; #Pending};
+    totalAmount : Nat;
+    travelers :
+      [{
+         age : Nat;
+         emergencyContact : Text;
+         gender : Text;
+         mealPreference : {#NonVeg; #Veg};
+         medicalConditions : Text;
+         name : Text;
+         tshirtSize : Text
+       }];
+    trekSlug : Text;
+    userId : Principal
+  };
+type OldBooking__590895869 =
+  {
+    addOns : [{name : Text; pricePerPerson : Nat}];
+    batchId : Nat;
+    createdAt : Int;
+    id : Nat;
+    var paymentStatus : {#Cancelled; #Paid; #Pending};
+    var razorpayPaymentId : ?Text;
     totalAmount : Nat;
     travelers :
       [{
@@ -611,7 +902,9 @@ type Yatra__956057481 = Yatra__593115818;
 {
   "20260603_000000_Init" : OldActor__307000526 -> NewActor__1026915867;
   "20260603_200000_AddRazorpayPaymentId" :
-    (old : OldActor__364516025) -> NewActor__779298058
+    (old : OldActor__364516025) -> NewActor__779298058;
+  "20260603_210000_AddStripeSession" :
+    (old : OldActor__906324184) -> NewActor__263626949
 }
 actor  {
   stable batches :
@@ -657,6 +950,8 @@ actor  {
       var blocks : [var [var ?Review__818063886]];
       var elementIndex : Nat__1040412405
     };
+  stable stripeState :
+    {var stripePublicKey : Text; var stripeSecretKey : Text};
   stable treks :
     {
       var blockIndex : Nat__1040412405;

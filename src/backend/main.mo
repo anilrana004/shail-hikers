@@ -5,6 +5,7 @@ import TrekLib "lib/treks";
 import YatraLib "lib/yatras";
 import BatchLib "lib/batches";
 import BookingLib "lib/bookings";
+
 import UserLib "lib/users";
 import ReviewLib "lib/reviews";
 import BlogLib "lib/blog";
@@ -39,46 +40,20 @@ actor {
   let bookingState   : { var nextBookingId : Nat };
   let reviewState    : { var nextReviewId  : Nat };
   let leadState      : { var nextLeadId    : Nat };
+  let stripeState    : { var stripeSecretKey : Text; var stripePublicKey : Text };
 
   // ── Mixin composition (all public API lives here) ─────────────────────────────
   include TreksApi(treks);
   include YatrasApi(yatras);
   include BatchesApi(batches);
-  include BookingsApi(bookings, bookingState, batches);
+  include BookingsApi(bookings, bookingState, batches, treks, stripeState);
   include UsersApi(users);
   include ReviewsApi(reviews, reviewState);
   include BlogApi(posts);
   include CorporateApi(leads, leadState);
   include NewsletterApi(newsletterSubs);
 
-  // Group pricing query: groupSize discounts + add-on totals
-  // 1 person = +15%, 2-4 = base, 5-8 = -5%, 9-15 = -10%, 16+ = -15%
-  public query func calculateGroupPrice(
-    trekSlug : Text,
-    groupSize : Nat,
-    addOns : [BookingLib.AddOn],
-  ) : async Nat {
-    let basePricePerPerson = switch (TrekLib.getBySlug(treks, trekSlug)) {
-      case (?t) { t.basePrice };
-      case null { 0 };
-    };
-    let discountedPrice = if (groupSize == 1) {
-      (basePricePerPerson * 115) / 100;
-    } else if (groupSize <= 4) {
-      basePricePerPerson;
-    } else if (groupSize <= 8) {
-      (basePricePerPerson * 95) / 100;
-    } else if (groupSize <= 15) {
-      (basePricePerPerson * 90) / 100;
-    } else {
-      (basePricePerPerson * 85) / 100;
-    };
-    var addOnTotal : Nat = 0;
-    for (addOn in addOns.vals()) {
-      addOnTotal += addOn.pricePerPerson * groupSize;
-    };
-    (discountedPrice * groupSize) + addOnTotal;
-  };
+  // calculateGroupPrice is now in BookingsApi mixin — removed from main.mo
   include FaqsApi(faqVotes);
 };
 
