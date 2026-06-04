@@ -3,17 +3,17 @@ export default function NotFoundPage() {
   return (
     <div
       style={{
-        color: "#FAD4D8",
+        color: "#1A1A1A",
         padding: "6rem 2rem",
         textAlign: "center",
-        background: "#1A0E10",
+        background: "#E6D8C4",
       }}
     >
       <p
         style={{
           fontFamily: "var(--font-display)",
           fontSize: "6rem",
-          color: "#B5525E",
+          color: "#F88379",
           lineHeight: 1,
         }}
       >
@@ -28,7 +28,7 @@ export default function NotFoundPage() {
       >
         Page not found
       </p>
-      <p style={{ color: "#E8A0AA", marginTop: "0.5rem", fontSize: "0.9rem" }}>
+      <p style={{ color: "#4A4A4A", marginTop: "0.5rem", fontSize: "0.9rem" }}>
         The trail you're looking for doesn't exist.
       </p>
       <Link
@@ -37,8 +37,8 @@ export default function NotFoundPage() {
           display: "inline-block",
           marginTop: "2rem",
           padding: "0.75rem 2rem",
-          background: "#B5525E",
-          color: "#FAD4D8",
+          background: "#F88379",
+          color: "#1A1A1A",
           borderRadius: "0.5rem",
           fontWeight: 600,
         }}

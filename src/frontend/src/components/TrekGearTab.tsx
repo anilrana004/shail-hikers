@@ -20,7 +20,7 @@ export default function TrekGearTab({ trek }: Props) {
     <div className="py-8 space-y-10">
       {/* Mandatory Gear */}
       <section>
-        <h2 className="font-display text-2xl mb-5" style={{ color: "#FAD4D8" }}>
+        <h2 className="font-display text-2xl mb-5" style={{ color: "#1A1A1A" }}>
           Mandatory Gear
         </h2>
         <div className="grid md:grid-cols-2 gap-3">
@@ -29,19 +29,19 @@ export default function TrekGearTab({ trek }: Props) {
               key={item.name}
               className="flex items-center justify-between rounded-xl px-4 py-3 border"
               style={{
-                background: "rgba(181,82,94,0.1)",
-                borderColor: "#B5525E44",
+                background: "rgba(248,131,121,0.1)",
+                borderColor: "#F8837944",
               }}
             >
               <div>
                 <div
                   className="text-sm font-medium"
-                  style={{ color: "#FAD4D8" }}
+                  style={{ color: "#1A1A1A" }}
                 >
                   {item.name}
                 </div>
                 {item.weightNote && (
-                  <div className="text-xs" style={{ color: "#E8A0AA" }}>
+                  <div className="text-xs" style={{ color: "#4A4A4A" }}>
                     {item.weightNote}
                   </div>
                 )}
@@ -49,8 +49,10 @@ export default function TrekGearTab({ trek }: Props) {
               <span
                 className="text-xs px-2 py-0.5 rounded-full ml-3 flex-shrink-0"
                 style={{
-                  background: item.essential ? "#B5525E" : "rgba(45,27,30,0.8)",
-                  color: item.essential ? "#FAD4D8" : "#E8A0AA",
+                  background: item.essential
+                    ? "#F88379"
+                    : "rgba(255,255,255,0.9)",
+                  color: item.essential ? "#1A1A1A" : "#4A4A4A",
                 }}
               >
                 {item.essential ? "Essential" : "Optional"}
@@ -62,7 +64,7 @@ export default function TrekGearTab({ trek }: Props) {
 
       {/* Recommended Gear */}
       <section>
-        <h2 className="font-display text-2xl mb-5" style={{ color: "#FAD4D8" }}>
+        <h2 className="font-display text-2xl mb-5" style={{ color: "#1A1A1A" }}>
           Recommended Gear
         </h2>
         <div className="grid md:grid-cols-2 gap-3">
@@ -72,11 +74,11 @@ export default function TrekGearTab({ trek }: Props) {
               className="flex items-center gap-3 rounded-xl px-4 py-3 border"
               style={{
                 background: "rgba(45,27,30,0.6)",
-                borderColor: "#E8A0AA22",
+                borderColor: "#4A4A4A22",
               }}
             >
-              <span style={{ color: "#C9A84C" }}>&#8226;</span>
-              <div className="text-sm" style={{ color: "#FAD4D8" }}>
+              <span style={{ color: "#D4A843" }}>&#8226;</span>
+              <div className="text-sm" style={{ color: "#1A1A1A" }}>
                 {item.name}
               </div>
             </div>
@@ -86,25 +88,25 @@ export default function TrekGearTab({ trek }: Props) {
 
       {/* Gear Rental */}
       <section>
-        <h2 className="font-display text-2xl mb-5" style={{ color: "#FAD4D8" }}>
+        <h2 className="font-display text-2xl mb-5" style={{ color: "#1A1A1A" }}>
           Gear Rental at Base Camp
         </h2>
         <div
           className="rounded-2xl overflow-hidden border"
-          style={{ borderColor: "#E8A0AA33" }}
+          style={{ borderColor: "#4A4A4A33" }}
         >
           <table className="w-full text-sm">
             <thead>
-              <tr style={{ background: "rgba(181,82,94,0.2)" }}>
+              <tr style={{ background: "rgba(248,131,121,0.2)" }}>
                 <th
                   className="px-5 py-3 text-left"
-                  style={{ color: "#FAD4D8" }}
+                  style={{ color: "#1A1A1A" }}
                 >
                   Item
                 </th>
                 <th
                   className="px-5 py-3 text-right"
-                  style={{ color: "#FAD4D8" }}
+                  style={{ color: "#1A1A1A" }}
                 >
                   Rate/Day
                 </th>
@@ -118,16 +120,16 @@ export default function TrekGearTab({ trek }: Props) {
                     background:
                       item.name === trek.gearList.rental[0]?.name ||
                       trek.gearList.rental.indexOf(item) % 2 === 0
-                        ? "rgba(45,27,30,0.8)"
-                        : "rgba(26,14,16,0.8)",
+                        ? "rgba(255,255,255,0.9)"
+                        : "rgba(255,255,255,0.9)",
                   }}
                 >
-                  <td className="px-5 py-3" style={{ color: "#FAD4D8" }}>
+                  <td className="px-5 py-3" style={{ color: "#1A1A1A" }}>
                     {item.name}
                   </td>
                   <td
                     className="px-5 py-3 text-right font-semibold"
-                    style={{ color: "#C9A84C" }}
+                    style={{ color: "#D4A843" }}
                   >
                     Rs.{item.pricePerDay}/day
                   </td>
@@ -141,9 +143,9 @@ export default function TrekGearTab({ trek }: Props) {
             href={`/book/${trek.slug}`}
             className="inline-block px-6 py-3 rounded-xl text-sm font-semibold"
             style={{
-              background: "rgba(181,82,94,0.2)",
-              color: "#B5525E",
-              border: "1px solid #B5525E66",
+              background: "rgba(248,131,121,0.2)",
+              color: "#F88379",
+              border: "1px solid #F8837966",
             }}
           >
             Add Gear Rental to Booking
@@ -153,20 +155,23 @@ export default function TrekGearTab({ trek }: Props) {
 
       {/* Weight Guide */}
       <section>
-        <h2 className="font-display text-2xl mb-5" style={{ color: "#FAD4D8" }}>
+        <h2 className="font-display text-2xl mb-5" style={{ color: "#1A1A1A" }}>
           Gear Weight Guide
         </h2>
         <div
           className="rounded-2xl p-6 border"
-          style={{ background: "rgba(45,27,30,0.8)", borderColor: "#E8A0AA33" }}
+          style={{
+            background: "rgba(255,255,255,0.9)",
+            borderColor: "#4A4A4A33",
+          }}
         >
           <div
             className="text-lg font-semibold mb-2"
-            style={{ color: "#FAD4D8" }}
+            style={{ color: "#1A1A1A" }}
           >
             Target Backpack Weight: 8-12 kg
           </div>
-          <div className="text-sm mb-6" style={{ color: "#E8A0AA" }}>
+          <div className="text-sm mb-6" style={{ color: "#4A4A4A" }}>
             Excluding water. Your physical comfort depends on keeping weight in
             this range.
           </div>
@@ -174,7 +179,7 @@ export default function TrekGearTab({ trek }: Props) {
             <div>
               <div
                 className="font-semibold text-sm mb-3"
-                style={{ color: "#FAD4D8" }}
+                style={{ color: "#1A1A1A" }}
               >
                 Shail Hikers Carries
               </div>
@@ -187,7 +192,7 @@ export default function TrekGearTab({ trek }: Props) {
                 <div
                   key={item}
                   className="text-sm mb-2"
-                  style={{ color: "#E8A0AA" }}
+                  style={{ color: "#4A4A4A" }}
                 >
                   &#8226; {item}
                 </div>
@@ -196,7 +201,7 @@ export default function TrekGearTab({ trek }: Props) {
             <div>
               <div
                 className="font-semibold text-sm mb-3"
-                style={{ color: "#FAD4D8" }}
+                style={{ color: "#1A1A1A" }}
               >
                 You Carry
               </div>
@@ -210,7 +215,7 @@ export default function TrekGearTab({ trek }: Props) {
                 <div
                   key={item}
                   className="text-sm mb-2"
-                  style={{ color: "#E8A0AA" }}
+                  style={{ color: "#4A4A4A" }}
                 >
                   &#8226; {item}
                 </div>
@@ -220,9 +225,9 @@ export default function TrekGearTab({ trek }: Props) {
           <div
             className="mt-4 text-xs px-4 py-3 rounded-xl"
             style={{
-              background: "rgba(181,82,94,0.1)",
-              color: "#FAD4D8",
-              borderLeft: "3px solid #B5525E",
+              background: "rgba(248,131,121,0.1)",
+              color: "#1A1A1A",
+              borderLeft: "3px solid #F88379",
             }}
           >
             Weight Savings Tip: Choose merino wool over cotton. It weighs less,

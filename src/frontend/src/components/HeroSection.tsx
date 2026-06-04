@@ -10,7 +10,7 @@ const PETALS = Array.from({ length: 28 }, (_, i) => ({
   delay: `${(i * 0.7) % 12}s`,
   duration: `${12 + (i % 6) * 2}s`,
   size: 6 + (i % 4) * 3,
-  color: i % 3 === 0 ? "#FAD4D8" : i % 3 === 1 ? "#E8A0AA" : "#B5525E",
+  color: i % 3 === 0 ? "#1A1A1A" : i % 3 === 1 ? "#4A4A4A" : "#F88379",
   type: i % 2 === 0 ? "float-petal" : "float-petal-2",
 }));
 
@@ -53,7 +53,7 @@ export function HeroSection() {
       ref={ref}
       data-ocid="hero.section"
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
-      style={{ background: "#1A0E10" }}
+      style={{ background: "#E6D8C4" }}
     >
       {/* Parallax Background */}
       <motion.div style={{ y }} className="absolute inset-0 scale-110">
@@ -70,14 +70,14 @@ export function HeroSection() {
         className="absolute inset-0"
         style={{
           background:
-            "linear-gradient(180deg, rgba(26,14,16,0.3) 0%, rgba(26,14,16,0.1) 40%, rgba(26,14,16,0.7) 80%, rgba(26,14,16,1) 100%)",
+            "linear-gradient(180deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.15) 40%, rgba(255,255,255,0.85) 80%, rgba(26,14,16,1) 100%)",
         }}
       />
       <div
         className="absolute inset-0"
         style={{
           background:
-            "radial-gradient(ellipse at 30% 50%, rgba(181,82,94,0.12) 0%, transparent 60%)",
+            "radial-gradient(ellipse at 30% 50%, rgba(248,131,121,0.12) 0%, transparent 60%)",
         }}
       />
 
@@ -135,14 +135,14 @@ export function HeroSection() {
           transition={{ delay: 0.1, duration: 0.6 }}
           className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-8 text-xs font-semibold tracking-widest uppercase"
           style={{
-            background: "rgba(181,82,94,0.2)",
-            border: "1px solid rgba(181,82,94,0.4)",
-            color: "#E8A0AA",
+            background: "rgba(248,131,121,0.2)",
+            border: "1px solid rgba(248,131,121,0.4)",
+            color: "#4A4A4A",
           }}
         >
           <span
             className="w-1.5 h-1.5 rounded-full animate-pulse-dot"
-            style={{ background: "#B5525E" }}
+            style={{ background: "#F88379" }}
           />
           Uttarakhand's Finest Himalayan Experiences
         </motion.div>
@@ -157,7 +157,7 @@ export function HeroSection() {
             className="block text-6xl md:text-8xl lg:text-9xl tracking-widest mb-2"
             style={{
               fontFamily: "Italiana, serif",
-              color: "#FAD4D8",
+              color: "#1A1A1A",
               letterSpacing: "0.15em",
             }}
           >
@@ -171,7 +171,7 @@ export function HeroSection() {
             className="block text-7xl md:text-9xl lg:text-[10rem] italic leading-none"
             style={{
               fontFamily: "var(--font-display)",
-              color: "#B5525E",
+              color: "#F88379",
               fontWeight: 600,
             }}
           >
@@ -185,7 +185,7 @@ export function HeroSection() {
             className="block text-5xl md:text-7xl lg:text-8xl tracking-widest mt-2"
             style={{
               fontFamily: "Italiana, serif",
-              color: "#FAD4D8",
+              color: "#1A1A1A",
               letterSpacing: "0.12em",
             }}
           >
@@ -200,7 +200,7 @@ export function HeroSection() {
           initial="hidden"
           animate="visible"
           className="text-base md:text-xl tracking-wider mb-10"
-          style={{ color: "#E8A0AA", fontFamily: "var(--font-body)" }}
+          style={{ color: "#4A4A4A", fontFamily: "var(--font-body)" }}
         >
           14 Legendary Treks · 4 Sacred Yatras · Uttarakhand's Finest
         </motion.p>
@@ -218,9 +218,9 @@ export function HeroSection() {
             data-ocid="hero.primary_button"
             className="group flex items-center gap-2 px-8 py-4 rounded-xl font-semibold tracking-wider uppercase text-sm transition-all hover:opacity-90 hover:scale-[1.02]"
             style={{
-              background: "#B5525E",
-              color: "#FAD4D8",
-              boxShadow: "0 8px 32px rgba(181,82,94,0.4)",
+              background: "#F88379",
+              color: "#1A1A1A",
+              boxShadow: "0 8px 32px rgba(248,131,121,0.4)",
             }}
           >
             Explore Treks
@@ -237,18 +237,18 @@ export function HeroSection() {
             style={{
               background: "rgba(250,212,216,0.08)",
               border: "1px solid rgba(250,212,216,0.25)",
-              color: "#FAD4D8",
+              color: "#1A1A1A",
               backdropFilter: "blur(8px)",
             }}
           >
             <span
               className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0"
-              style={{ background: "rgba(181,82,94,0.4)" }}
+              style={{ background: "rgba(248,131,121,0.4)" }}
             >
               <Play
                 size={12}
-                fill="#FAD4D8"
-                style={{ color: "#FAD4D8" }}
+                fill="#1A1A1A"
+                style={{ color: "#1A1A1A" }}
                 className="ml-0.5"
               />
             </span>
@@ -268,7 +268,7 @@ export function HeroSection() {
             className="flex items-center gap-3 px-5 py-3 rounded-xl"
             style={{
               background: "rgba(26,14,16,0.75)",
-              border: "1px solid rgba(181,82,94,0.3)",
+              border: "1px solid rgba(248,131,121,0.3)",
               backdropFilter: "blur(12px)",
             }}
           >
@@ -276,12 +276,12 @@ export function HeroSection() {
               className="w-2 h-2 rounded-full flex-shrink-0"
               style={{
                 background: HERO_BADGES[activeBadge].urgent
-                  ? "#B5525E"
-                  : "#2D5016",
+                  ? "#F88379"
+                  : "#2D6A4F",
                 animation: "pulse 1.5s ease-in-out infinite",
               }}
             />
-            <span className="text-sm" style={{ color: "#E8A0AA" }}>
+            <span className="text-sm" style={{ color: "#4A4A4A" }}>
               {HERO_BADGES[activeBadge].text}
             </span>
           </div>
@@ -294,7 +294,7 @@ export function HeroSection() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 2, duration: 0.8 }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-        style={{ color: "#E8A0AA80" }}
+        style={{ color: "#4A4A4A80" }}
       >
         <span className="text-[10px] uppercase tracking-[0.3em] font-medium">
           Scroll
@@ -306,7 +306,7 @@ export function HeroSection() {
           <motion.div
             className="absolute inset-x-0 top-0 h-4"
             style={{
-              background: "linear-gradient(to bottom, #E8A0AA, transparent)",
+              background: "linear-gradient(to bottom, #4A4A4A, transparent)",
             }}
             animate={{ y: [0, 40] }}
             transition={{
@@ -334,7 +334,7 @@ export function HeroSection() {
         >
           <div
             className="w-full max-w-4xl aspect-video rounded-2xl overflow-hidden"
-            style={{ border: "1px solid rgba(181,82,94,0.4)" }}
+            style={{ border: "1px solid rgba(248,131,121,0.4)" }}
             onClick={(e) => e.stopPropagation()}
             onKeyDown={(e) => e.stopPropagation()}
           >
@@ -348,7 +348,7 @@ export function HeroSection() {
           <button
             type="button"
             className="absolute top-6 right-6 w-10 h-10 rounded-full flex items-center justify-center"
-            style={{ background: "rgba(181,82,94,0.3)", color: "#FAD4D8" }}
+            style={{ background: "rgba(248,131,121,0.3)", color: "#1A1A1A" }}
             onClick={() => setVideoOpen(false)}
             aria-label="Close video"
           >

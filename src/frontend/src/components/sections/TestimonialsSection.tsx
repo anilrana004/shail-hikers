@@ -58,7 +58,7 @@ export function TestimonialsSection() {
   return (
     <section
       data-ocid="testimonials.section"
-      style={{ background: "#2D1B1E" }}
+      style={{ background: "#FFFFFF" }}
       className="py-20 relative overflow-hidden"
     >
       {/* Cherry blossom pattern */}
@@ -72,7 +72,7 @@ export function TestimonialsSection() {
               left: `${(i * 13 + 5) % 90}%`,
               top: `${(i * 17 + 8) % 80}%`,
               opacity: 0.03,
-              color: "#FAD4D8",
+              color: "#1A1A1A",
               fontFamily: "serif",
               transform: `rotate(${i * 45}deg)`,
             }}
@@ -89,7 +89,7 @@ export function TestimonialsSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="text-xs uppercase tracking-[0.4em] mb-3"
-            style={{ color: "#B5525E" }}
+            style={{ color: "#F88379" }}
           >
             Real Trekkers, Real Stories
           </motion.p>
@@ -99,7 +99,7 @@ export function TestimonialsSection() {
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
             className="text-4xl md:text-6xl font-semibold"
-            style={{ fontFamily: "var(--font-display)", color: "#FAD4D8" }}
+            style={{ fontFamily: "var(--font-display)", color: "#1A1A1A" }}
           >
             VOICES FROM THE MOUNTAINS
           </motion.h2>
@@ -127,32 +127,32 @@ export function TestimonialsSection() {
                 className="absolute inset-0"
                 style={{
                   background:
-                    "linear-gradient(180deg, transparent 40%, rgba(26,14,16,0.9) 100%)",
+                    "linear-gradient(180deg, transparent 40%, rgba(255,255,255,0.95) 100%)",
                 }}
               />
               <div className="absolute inset-0 flex items-center justify-center">
                 <div
                   className="w-12 h-12 rounded-full flex items-center justify-center transition-transform group-hover:scale-110"
                   style={{
-                    background: "rgba(181,82,94,0.8)",
+                    background: "rgba(248,131,121,0.8)",
                     border: "2px solid rgba(250,212,216,0.4)",
                   }}
                 >
                   <Play
                     size={18}
-                    fill="#FAD4D8"
-                    style={{ color: "#FAD4D8", marginLeft: "2px" }}
+                    fill="#1A1A1A"
+                    style={{ color: "#1A1A1A", marginLeft: "2px" }}
                   />
                 </div>
               </div>
               <div className="absolute bottom-3 left-3">
                 <p
                   className="text-xs font-semibold"
-                  style={{ color: "#FAD4D8" }}
+                  style={{ color: "#1A1A1A" }}
                 >
                   {v.name} — {v.trek}
                 </p>
-                <p className="text-[10px]" style={{ color: "#E8A0AA" }}>
+                <p className="text-[10px]" style={{ color: "#4A4A4A" }}>
                   {v.duration} · {v.views.toLocaleString()} views
                 </p>
               </div>
@@ -164,7 +164,7 @@ export function TestimonialsSection() {
         <div className="flex flex-wrap gap-2 mb-8 justify-center">
           <Filter
             size={13}
-            style={{ color: "#E8A0AA60" }}
+            style={{ color: "#4A4A4A60" }}
             className="self-center"
           />
           {TREK_FILTERS.map((f) => (
@@ -176,9 +176,9 @@ export function TestimonialsSection() {
               className="px-3 py-1.5 rounded-full text-xs font-medium transition-all"
               style={{
                 background:
-                  activeFilter === f ? "#B5525E" : "rgba(26,14,16,0.6)",
-                border: `1px solid ${activeFilter === f ? "#B5525E" : "rgba(181,82,94,0.3)"}`,
-                color: activeFilter === f ? "#FAD4D8" : "#E8A0AA",
+                  activeFilter === f ? "#F88379" : "rgba(255,255,255,0.8)",
+                border: `1px solid ${activeFilter === f ? "#F88379" : "rgba(248,131,121,0.3)"}`,
+                color: activeFilter === f ? "#1A1A1A" : "#4A4A4A",
               }}
             >
               {f}
@@ -198,8 +198,8 @@ export function TestimonialsSection() {
               data-ocid={`testimonials.card.${i + 1}`}
               className="p-5 rounded-2xl"
               style={{
-                background: "rgba(26,14,16,0.6)",
-                border: "1px solid rgba(181,82,94,0.2)",
+                background: "rgba(255,255,255,0.8)",
+                border: "1px solid rgba(248,131,121,0.2)",
               }}
             >
               {/* Stars */}
@@ -209,15 +209,15 @@ export function TestimonialsSection() {
                     // biome-ignore lint/suspicious/noArrayIndexKey: star icons are positional
                     key={j}
                     size={13}
-                    fill="#C9A84C"
-                    style={{ color: "#C9A84C" }}
+                    fill="#D4A843"
+                    style={{ color: "#D4A843" }}
                   />
                 ))}
               </div>
 
               <p
                 className="text-sm leading-relaxed mb-4"
-                style={{ color: "#E8A0AA" }}
+                style={{ color: "#4A4A4A" }}
               >
                 “{t.text}”
               </p>
@@ -232,11 +232,11 @@ export function TestimonialsSection() {
                 <div>
                   <p
                     className="text-sm font-semibold"
-                    style={{ color: "#FAD4D8" }}
+                    style={{ color: "#1A1A1A" }}
                   >
                     {t.name}
                   </p>
-                  <p className="text-xs" style={{ color: "#E8A0AA70" }}>
+                  <p className="text-xs" style={{ color: "#4A4A4A70" }}>
                     {t.city} · {t.trek} · {t.date}
                   </p>
                 </div>
@@ -246,7 +246,7 @@ export function TestimonialsSection() {
           {filtered.length === 0 && (
             <p
               className="col-span-full text-center text-sm"
-              style={{ color: "#E8A0AA60" }}
+              style={{ color: "#4A4A4A60" }}
             >
               No reviews for this trek yet.
             </p>

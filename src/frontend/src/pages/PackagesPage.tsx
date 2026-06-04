@@ -16,7 +16,7 @@ const PACKAGES = [
     groupSize: "2–8",
     treks: ["Kedarkantha", "Nag Tibba"],
     badge: "Best for Beginners",
-    badgeColor: "#2D5016",
+    badgeColor: "#2D6A4F",
     description:
       "The perfect entry point into the Himalayas. Combine two iconic beginner-friendly treks — the snow-draped summit of Kedarkantha and the panoramic Nag Tibba weekend escape — in one seamless, guided adventure. Pickup from Dehradun, all meals, premium gear, and certified guides included.",
     includes: [
@@ -50,7 +50,7 @@ const PACKAGES = [
     groupSize: "4–12",
     treks: ["Rupin Pass", "Buran Ghati"],
     badge: "Most Popular",
-    badgeColor: "#B5525E",
+    badgeColor: "#F88379",
     description:
       "Two of Uttarakhand's most dramatic high-altitude crossings back to back — Rupin Pass with its legendary waterfalls and snow bridges, followed by Buran Ghati's heart-stopping 200m rappel descent. This is not a trek; this is a transformation. Designed for experienced trekkers who demand the extraordinary.",
     includes: [
@@ -86,7 +86,7 @@ const PACKAGES = [
     groupSize: "4–10",
     treks: ["Valley of Flowers", "Har Ki Dun", "Chopta Chandrashila"],
     badge: "Premium",
-    badgeColor: "#C9A84C",
+    badgeColor: "#D4A843",
     description:
       "Three of Uttarakhand's most iconic and diverse trails woven into a single, immersive Himalayan odyssey. From the UNESCO wildflower paradise of Valley of Flowers to the mythology-laden Har Ki Dun Valley and the divine summit of Chandrashila above the world's highest Shiva temple — this expedition covers everything the Himalayas have to offer. Exclusively for those who want to experience it all.",
     includes: [
@@ -185,17 +185,17 @@ export default function PackagesPage() {
         />
       </head>
 
-      <div className="min-h-screen" style={{ background: "#1A0E10" }}>
+      <div className="min-h-screen" style={{ background: "#E6D8C4" }}>
         {/* Header */}
         <div
           className="py-16 px-6 text-center"
           style={{
-            background: "linear-gradient(180deg, #2D1B1E 0%, #1A0E10 100%)",
+            background: "linear-gradient(180deg, #FFFFFF 0%, #E6D8C4 100%)",
           }}
         >
           <p
             className="text-xs tracking-widest uppercase mb-3"
-            style={{ color: "#E8A0AA" }}
+            style={{ color: "#4A4A4A" }}
           >
             Best Value
           </p>
@@ -203,13 +203,13 @@ export default function PackagesPage() {
             className="text-5xl md:text-7xl mb-4"
             style={{
               fontFamily: "var(--font-display)",
-              color: "#FAD4D8",
+              color: "#1A1A1A",
               letterSpacing: "-0.02em",
             }}
           >
             EXCLUSIVE PACKAGES
           </h1>
-          <p className="text-base" style={{ color: "#E8A0AA" }}>
+          <p className="text-base" style={{ color: "#4A4A4A" }}>
             Handcrafted multi-trek bundles · Save up to 25% · Expert guides
             throughout
           </p>
@@ -225,7 +225,7 @@ export default function PackagesPage() {
                 data-ocid={`packages.item.${i + 1}`}
                 className="rounded-2xl overflow-hidden flex flex-col"
                 style={{
-                  background: "#2D1B1E",
+                  background: "#FFFFFF",
                   border: "1px solid rgba(232,160,170,0.15)",
                 }}
               >
@@ -240,21 +240,21 @@ export default function PackagesPage() {
                     className="absolute inset-0"
                     style={{
                       background:
-                        "linear-gradient(0deg, rgba(45,27,30,0.8) 0%, transparent 60%)",
+                        "linear-gradient(0deg, rgba(255,255,255,0.9) 0%, transparent 60%)",
                     }}
                   />
                   <span
                     className="absolute top-3 left-3 text-xs font-semibold px-2 py-0.5 rounded-full"
                     style={{
                       background: pkg.badgeColor,
-                      color: pkg.id === "grand" ? "#1A0E10" : "#FAD4D8",
+                      color: pkg.id === "grand" ? "#E6D8C4" : "#1A1A1A",
                     }}
                   >
                     {pkg.badge}
                   </span>
                   <span
                     className="absolute top-3 right-3 text-xs font-bold px-2 py-0.5 rounded-full"
-                    style={{ background: "#C9A84C", color: "#1A0E10" }}
+                    style={{ background: "#D4A843", color: "#E6D8C4" }}
                   >
                     Save ₹{savings.toLocaleString()}
                   </span>
@@ -266,7 +266,7 @@ export default function PackagesPage() {
                       className="text-2xl mb-0.5"
                       style={{
                         fontFamily: "var(--font-display)",
-                        color: "#FAD4D8",
+                        color: "#1A1A1A",
                       }}
                     >
                       {pkg.name}
@@ -276,7 +276,7 @@ export default function PackagesPage() {
                       style={{
                         fontFamily: "var(--font-display)",
                         fontStyle: "italic",
-                        color: "#E8A0AA",
+                        color: "#4A4A4A",
                       }}
                     >
                       {pkg.tagline}
@@ -285,7 +285,7 @@ export default function PackagesPage() {
 
                   <p
                     className="text-xs leading-relaxed"
-                    style={{ color: "#E8A0AA" }}
+                    style={{ color: "#4A4A4A" }}
                   >
                     {pkg.description}
                   </p>
@@ -294,28 +294,28 @@ export default function PackagesPage() {
                   <div className="grid grid-cols-2 gap-2 text-xs">
                     <div
                       className="rounded-lg p-2"
-                      style={{ background: "rgba(26,14,16,0.6)" }}
+                      style={{ background: "rgba(255,255,255,0.8)" }}
                     >
-                      <p style={{ color: "#E8A0AA" }}>Duration</p>
-                      <p className="font-semibold" style={{ color: "#FAD4D8" }}>
+                      <p style={{ color: "#4A4A4A" }}>Duration</p>
+                      <p className="font-semibold" style={{ color: "#1A1A1A" }}>
                         {pkg.duration}
                       </p>
                     </div>
                     <div
                       className="rounded-lg p-2"
-                      style={{ background: "rgba(26,14,16,0.6)" }}
+                      style={{ background: "rgba(255,255,255,0.8)" }}
                     >
-                      <p style={{ color: "#E8A0AA" }}>Group Size</p>
-                      <p className="font-semibold" style={{ color: "#FAD4D8" }}>
+                      <p style={{ color: "#4A4A4A" }}>Group Size</p>
+                      <p className="font-semibold" style={{ color: "#1A1A1A" }}>
                         {pkg.groupSize} persons
                       </p>
                     </div>
                     <div
                       className="col-span-2 rounded-lg p-2"
-                      style={{ background: "rgba(26,14,16,0.6)" }}
+                      style={{ background: "rgba(255,255,255,0.8)" }}
                     >
-                      <p style={{ color: "#E8A0AA" }}>Treks Included</p>
-                      <p className="font-semibold" style={{ color: "#FAD4D8" }}>
+                      <p style={{ color: "#4A4A4A" }}>Treks Included</p>
+                      <p className="font-semibold" style={{ color: "#1A1A1A" }}>
                         {pkg.treks.join(" + ")}
                       </p>
                     </div>
@@ -328,9 +328,9 @@ export default function PackagesPage() {
                         <Check
                           size={12}
                           className="mt-0.5 shrink-0"
-                          style={{ color: "#B5525E" }}
+                          style={{ color: "#F88379" }}
                         />
-                        <span style={{ color: "#FAD4D8" }}>{h}</span>
+                        <span style={{ color: "#1A1A1A" }}>{h}</span>
                       </li>
                     ))}
                   </ul>
@@ -339,7 +339,7 @@ export default function PackagesPage() {
                   <details className="group">
                     <summary
                       className="text-xs font-medium cursor-pointer list-none flex items-center gap-1"
-                      style={{ color: "#C9A84C" }}
+                      style={{ color: "#D4A843" }}
                     >
                       <span>What's included ({pkg.includes.length} items)</span>
                       <span className="ml-auto group-open:rotate-180 transition-transform">
@@ -355,9 +355,9 @@ export default function PackagesPage() {
                           <Check
                             size={11}
                             className="mt-0.5 shrink-0"
-                            style={{ color: "#2D5016" }}
+                            style={{ color: "#2D6A4F" }}
                           />
-                          <span style={{ color: "#E8A0AA" }}>{inc}</span>
+                          <span style={{ color: "#4A4A4A" }}>{inc}</span>
                         </li>
                       ))}
                     </ul>
@@ -372,7 +372,7 @@ export default function PackagesPage() {
                       <span
                         className="text-2xl font-bold"
                         style={{
-                          color: "#C9A84C",
+                          color: "#D4A843",
                           fontFamily: "var(--font-display)",
                         }}
                       >
@@ -384,7 +384,7 @@ export default function PackagesPage() {
                       >
                         ₹{pkg.originalPrice.toLocaleString()}
                       </span>
-                      <span className="text-xs" style={{ color: "#E8A0AA" }}>
+                      <span className="text-xs" style={{ color: "#4A4A4A" }}>
                         per person
                       </span>
                     </div>
@@ -398,8 +398,8 @@ export default function PackagesPage() {
                         className="w-full"
                         data-ocid={`packages.book_button.${i + 1}`}
                         style={{
-                          background: "#B5525E",
-                          color: "#FAD4D8",
+                          background: "#F88379",
+                          color: "#1A1A1A",
                           border: "none",
                         }}
                       >
@@ -417,7 +417,7 @@ export default function PackagesPage() {
         <div className="max-w-6xl mx-auto px-4 md:px-6 py-12">
           <h2
             className="text-4xl text-center mb-10"
-            style={{ fontFamily: "var(--font-display)", color: "#FAD4D8" }}
+            style={{ fontFamily: "var(--font-display)", color: "#1A1A1A" }}
           >
             Compare Packages
           </h2>
@@ -430,13 +430,13 @@ export default function PackagesPage() {
                 <thead>
                   <tr
                     style={{
-                      background: "#2D1B1E",
+                      background: "#FFFFFF",
                       borderBottom: "1px solid rgba(232,160,170,0.15)",
                     }}
                   >
                     <th
                       className="text-left px-5 py-4"
-                      style={{ color: "#E8A0AA", width: "35%" }}
+                      style={{ color: "#4A4A4A", width: "35%" }}
                     >
                       Feature
                     </th>
@@ -445,7 +445,7 @@ export default function PackagesPage() {
                         key={pkg.id}
                         className="px-4 py-4 text-center"
                         style={{
-                          color: "#FAD4D8",
+                          color: "#1A1A1A",
                           fontFamily: "var(--font-display)",
                           fontSize: "1rem",
                         }}
@@ -461,11 +461,11 @@ export default function PackagesPage() {
                       key={feat.label}
                       style={{
                         background:
-                          i % 2 === 0 ? "#1A0E10" : "rgba(45,27,30,0.5)",
+                          i % 2 === 0 ? "#E6D8C4" : "rgba(255,255,255,0.7)",
                         borderBottom: "1px solid rgba(232,160,170,0.07)",
                       }}
                     >
-                      <td className="px-5 py-3" style={{ color: "#E8A0AA" }}>
+                      <td className="px-5 py-3" style={{ color: "#4A4A4A" }}>
                         {feat.label}
                       </td>
                       {feat.keys
@@ -473,7 +473,7 @@ export default function PackagesPage() {
                             <td
                               key={k}
                               className="px-4 py-3 text-center text-xs font-medium"
-                              style={{ color: "#FAD4D8" }}
+                              style={{ color: "#1A1A1A" }}
                             >
                               {k}
                             </td>
@@ -488,7 +488,7 @@ export default function PackagesPage() {
                                 <Check
                                   size={16}
                                   className="mx-auto"
-                                  style={{ color: "#2D5016" }}
+                                  style={{ color: "#2D6A4F" }}
                                 />
                               ) : (
                                 <X
@@ -501,10 +501,10 @@ export default function PackagesPage() {
                           ))}
                     </tr>
                   ))}
-                  <tr style={{ background: "#2D1B1E" }}>
+                  <tr style={{ background: "#FFFFFF" }}>
                     <td
                       className="px-5 py-4"
-                      style={{ color: "#FAD4D8", fontWeight: 600 }}
+                      style={{ color: "#1A1A1A", fontWeight: 600 }}
                     >
                       Price per Person
                     </td>
@@ -513,7 +513,7 @@ export default function PackagesPage() {
                         <span
                           className="text-lg font-bold"
                           style={{
-                            color: "#C9A84C",
+                            color: "#D4A843",
                             fontFamily: "var(--font-display)",
                           }}
                         >
@@ -533,22 +533,22 @@ export default function PackagesPage() {
           <div
             className="rounded-2xl p-8 text-center"
             style={{
-              background: "#2D1B1E",
+              background: "#FFFFFF",
               border: "1px solid rgba(201,168,76,0.3)",
             }}
           >
             <Users
               size={32}
               className="mx-auto mb-4"
-              style={{ color: "#C9A84C" }}
+              style={{ color: "#D4A843" }}
             />
             <h2
               className="text-3xl mb-2"
-              style={{ fontFamily: "var(--font-display)", color: "#FAD4D8" }}
+              style={{ fontFamily: "var(--font-display)", color: "#1A1A1A" }}
             >
               Group Discount Calculator
             </h2>
-            <p className="text-sm mb-8" style={{ color: "#E8A0AA" }}>
+            <p className="text-sm mb-8" style={{ color: "#4A4A4A" }}>
               The bigger your group, the more you save.
             </p>
 
@@ -556,7 +556,7 @@ export default function PackagesPage() {
               <label
                 htmlFor="packages-group-size"
                 className="text-sm"
-                style={{ color: "#E8A0AA" }}
+                style={{ color: "#4A4A4A" }}
               >
                 Group Size:
               </label>
@@ -572,7 +572,7 @@ export default function PackagesPage() {
               />
               <span
                 className="text-2xl font-bold w-10 text-center"
-                style={{ color: "#FAD4D8", fontFamily: "var(--font-display)" }}
+                style={{ color: "#1A1A1A", fontFamily: "var(--font-display)" }}
               >
                 {groupSize}
               </span>
@@ -583,13 +583,13 @@ export default function PackagesPage() {
                 <p
                   className="text-5xl font-bold"
                   style={{
-                    color: "#C9A84C",
+                    color: "#D4A843",
                     fontFamily: "var(--font-display)",
                   }}
                 >
                   {discount}% OFF
                 </p>
-                <p className="text-sm" style={{ color: "#FAD4D8" }}>
+                <p className="text-sm" style={{ color: "#1A1A1A" }}>
                   Group of {groupSize} qualifies for a{" "}
                   <strong>{discount}% group discount</strong> on any package.
                 </p>
@@ -599,10 +599,10 @@ export default function PackagesPage() {
                     <div
                       key={pkg.id}
                       className="flex items-center justify-between rounded-lg px-4 py-2 text-sm"
-                      style={{ background: "rgba(26,14,16,0.6)" }}
+                      style={{ background: "rgba(255,255,255,0.8)" }}
                     >
-                      <span style={{ color: "#E8A0AA" }}>{pkg.name}</span>
-                      <span style={{ color: "#C9A84C" }}>
+                      <span style={{ color: "#4A4A4A" }}>{pkg.name}</span>
+                      <span style={{ color: "#D4A843" }}>
                         ₹{(pkg.price - disc).toLocaleString()}
                         <span style={{ color: "rgba(232,160,170,0.5)" }}>
                           {" "}
@@ -612,15 +612,15 @@ export default function PackagesPage() {
                     </div>
                   );
                 })}
-                <p className="text-xs pt-2" style={{ color: "#E8A0AA" }}>
+                <p className="text-xs pt-2" style={{ color: "#4A4A4A" }}>
                   Contact us for groups of 16+ for custom pricing.
                 </p>
               </div>
             ) : (
               <div>
-                <p className="text-sm" style={{ color: "#E8A0AA" }}>
+                <p className="text-sm" style={{ color: "#4A4A4A" }}>
                   Travelling with{" "}
-                  <strong style={{ color: "#FAD4D8" }}>5 or more?</strong>{" "}
+                  <strong style={{ color: "#1A1A1A" }}>5 or more?</strong>{" "}
                   Unlock group discounts. Currently no discount for {groupSize}{" "}
                   {groupSize === 1 ? "person" : "people"}.
                 </p>
@@ -634,17 +634,17 @@ export default function PackagesPage() {
                       key={label}
                       className="rounded-lg p-3"
                       style={{
-                        background: "rgba(26,14,16,0.6)",
+                        background: "rgba(255,255,255,0.8)",
                         border: "1px solid rgba(201,168,76,0.2)",
                       }}
                     >
                       <p
                         className="font-bold text-base"
-                        style={{ color: "#C9A84C" }}
+                        style={{ color: "#D4A843" }}
                       >
                         {pct}
                       </p>
-                      <p style={{ color: "#E8A0AA" }}>{label}</p>
+                      <p style={{ color: "#4A4A4A" }}>{label}</p>
                     </div>
                   ))}
                 </div>
@@ -656,8 +656,8 @@ export default function PackagesPage() {
                 className="mt-6"
                 data-ocid="packages.get_quote_button"
                 style={{
-                  background: "#B5525E",
-                  color: "#FAD4D8",
+                  background: "#F88379",
+                  color: "#1A1A1A",
                   border: "none",
                 }}
               >
@@ -671,7 +671,7 @@ export default function PackagesPage() {
         <div className="max-w-3xl mx-auto px-4 md:px-6 py-12">
           <h2
             className="text-4xl text-center mb-8"
-            style={{ fontFamily: "var(--font-display)", color: "#FAD4D8" }}
+            style={{ fontFamily: "var(--font-display)", color: "#1A1A1A" }}
           >
             Package FAQs
           </h2>
@@ -687,8 +687,8 @@ export default function PackagesPage() {
                   type="button"
                   className="w-full flex items-center justify-between text-left px-5 py-4 text-sm font-medium"
                   style={{
-                    background: openFaq === i ? "#2D1B1E" : "#1A0E10",
-                    color: "#FAD4D8",
+                    background: openFaq === i ? "#FFFFFF" : "#E6D8C4",
+                    color: "#1A1A1A",
                   }}
                   onClick={() => setOpenFaq(openFaq === i ? null : i)}
                   data-ocid={`packages.faq.toggle.${i + 1}`}
@@ -708,8 +708,8 @@ export default function PackagesPage() {
                   <div
                     className="px-5 py-4 text-sm"
                     style={{
-                      background: "#2D1B1E",
-                      color: "#E8A0AA",
+                      background: "#FFFFFF",
+                      color: "#4A4A4A",
                       borderTop: "1px solid rgba(232,160,170,0.1)",
                     }}
                   >
@@ -725,17 +725,17 @@ export default function PackagesPage() {
         <div
           className="py-16 px-6 text-center"
           style={{
-            background: "#2D1B1E",
+            background: "#FFFFFF",
             borderTop: "1px solid rgba(232,160,170,0.1)",
           }}
         >
           <h3
             className="text-3xl mb-3"
-            style={{ fontFamily: "var(--font-display)", color: "#FAD4D8" }}
+            style={{ fontFamily: "var(--font-display)", color: "#1A1A1A" }}
           >
             Not sure which package fits you?
           </h3>
-          <p className="text-sm mb-6" style={{ color: "#E8A0AA" }}>
+          <p className="text-sm mb-6" style={{ color: "#4A4A4A" }}>
             Take our 2-minute Trek Finder quiz and we'll recommend the perfect
             package for you.
           </p>
@@ -745,8 +745,8 @@ export default function PackagesPage() {
                 data-ocid="packages.trek_finder_button"
                 variant="outline"
                 style={{
-                  borderColor: "#B5525E",
-                  color: "#FAD4D8",
+                  borderColor: "#F88379",
+                  color: "#1A1A1A",
                   background: "transparent",
                 }}
               >
@@ -757,8 +757,8 @@ export default function PackagesPage() {
               <Button
                 data-ocid="packages.contact_button"
                 style={{
-                  background: "#B5525E",
-                  color: "#FAD4D8",
+                  background: "#F88379",
+                  color: "#1A1A1A",
                   border: "none",
                 }}
               >

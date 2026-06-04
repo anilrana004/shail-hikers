@@ -51,10 +51,10 @@ export default function YatraHelicopterTab({ yatra }: Props) {
         }}
       >
         <div className="text-5xl mb-4">🚁</div>
-        <h3 className="text-xl font-bold mb-2" style={{ color: "#FAD4D8" }}>
+        <h3 className="text-xl font-bold mb-2" style={{ color: "#1A1A1A" }}>
           Helicopter Not Required
         </h3>
-        <p style={{ color: "#E8A0AA" }}>
+        <p style={{ color: "#4A4A4A" }}>
           This yatra is fully accessible by road or trekking path. No helicopter
           service is available or needed for {yatra.name}.
         </p>
@@ -74,10 +74,10 @@ export default function YatraHelicopterTab({ yatra }: Props) {
       >
         <span className="text-4xl">🚁</span>
         <div>
-          <h3 className="font-bold text-lg mb-1" style={{ color: "#C9A84C" }}>
+          <h3 className="font-bold text-lg mb-1" style={{ color: "#D4A843" }}>
             Helicopter to Kedarnath — Save 5+ Hours of Trekking
           </h3>
-          <p style={{ color: "#E8A0AA", lineHeight: 1.7 }}>
+          <p style={{ color: "#4A4A4A", lineHeight: 1.7 }}>
             Skip the grueling 16 km Kedarnath trek and fly directly to the
             temple helipad in under 12 minutes. Perfect for elderly pilgrims,
             those with health constraints, or anyone wanting to maximize darshan
@@ -89,7 +89,7 @@ export default function YatraHelicopterTab({ yatra }: Props) {
 
       {/* Helipad Comparison Table */}
       <div>
-        <h3 className="text-lg font-bold mb-4" style={{ color: "#FAD4D8" }}>
+        <h3 className="text-lg font-bold mb-4" style={{ color: "#1A1A1A" }}>
           Helipad Options & Pricing
         </h3>
         <div
@@ -98,7 +98,7 @@ export default function YatraHelicopterTab({ yatra }: Props) {
         >
           <table className="w-full">
             <thead>
-              <tr style={{ background: "rgba(181,82,94,0.2)" }}>
+              <tr style={{ background: "rgba(248,131,121,0.2)" }}>
                 {[
                   "Helipad",
                   "Distance from Kedarnath",
@@ -109,7 +109,7 @@ export default function YatraHelicopterTab({ yatra }: Props) {
                   <th
                     key={h}
                     className="p-4 text-left text-sm font-bold"
-                    style={{ color: "#FAD4D8" }}
+                    style={{ color: "#1A1A1A" }}
                   >
                     {h}
                   </th>
@@ -126,19 +126,19 @@ export default function YatraHelicopterTab({ yatra }: Props) {
                     borderTop: "1px solid rgba(232,160,170,0.1)",
                   }}
                 >
-                  <td className="p-4 font-bold" style={{ color: "#E8A0AA" }}>
+                  <td className="p-4 font-bold" style={{ color: "#4A4A4A" }}>
                     {pad.name}
                   </td>
-                  <td className="p-4" style={{ color: "#E8A0AA" }}>
+                  <td className="p-4" style={{ color: "#4A4A4A" }}>
                     {pad.distance}
                   </td>
-                  <td className="p-4" style={{ color: "#E8A0AA" }}>
+                  <td className="p-4" style={{ color: "#4A4A4A" }}>
                     {pad.flightTime}
                   </td>
-                  <td className="p-4 font-bold" style={{ color: "#C9A84C" }}>
+                  <td className="p-4 font-bold" style={{ color: "#D4A843" }}>
                     ₹{pad.oneWay.toLocaleString("en-IN")}
                   </td>
-                  <td className="p-4 font-bold" style={{ color: "#C9A84C" }}>
+                  <td className="p-4 font-bold" style={{ color: "#D4A843" }}>
                     ₹{pad.returnTrip.toLocaleString("en-IN")}
                   </td>
                 </tr>
@@ -150,20 +150,20 @@ export default function YatraHelicopterTab({ yatra }: Props) {
 
       {/* Heli vs Road Comparison */}
       <div>
-        <h3 className="text-lg font-bold mb-4" style={{ color: "#FAD4D8" }}>
+        <h3 className="text-lg font-bold mb-4" style={{ color: "#1A1A1A" }}>
           Helicopter vs Road — Full Comparison
         </h3>
         <div className="grid md:grid-cols-2 gap-4">
           <div
             className="p-5 rounded-xl"
             style={{
-              background: "rgba(181,82,94,0.08)",
-              border: "1px solid rgba(181,82,94,0.3)",
+              background: "rgba(248,131,121,0.08)",
+              border: "1px solid rgba(248,131,121,0.3)",
             }}
           >
             <h4
               className="font-bold mb-3 flex items-center gap-2"
-              style={{ color: "#B5525E" }}
+              style={{ color: "#F88379" }}
             >
               🚁 By Helicopter
             </h4>
@@ -180,9 +180,9 @@ export default function YatraHelicopterTab({ yatra }: Props) {
                 <li
                   key={item}
                   className="flex items-start gap-2"
-                  style={{ color: "#E8A0AA", fontSize: "0.875rem" }}
+                  style={{ color: "#4A4A4A", fontSize: "0.875rem" }}
                 >
-                  <span style={{ color: "#C9A84C" }}>✓</span> {item}
+                  <span style={{ color: "#D4A843" }}>✓</span> {item}
                 </li>
               ))}
             </ul>
@@ -196,7 +196,7 @@ export default function YatraHelicopterTab({ yatra }: Props) {
           >
             <h4
               className="font-bold mb-3 flex items-center gap-2"
-              style={{ color: "#A8C5DA" }}
+              style={{ color: "#82C8E5" }}
             >
               🥾 By Trekking (Road to Gaurikund)
             </h4>
@@ -213,9 +213,9 @@ export default function YatraHelicopterTab({ yatra }: Props) {
                 <li
                   key={item}
                   className="flex items-start gap-2"
-                  style={{ color: "#E8A0AA", fontSize: "0.875rem" }}
+                  style={{ color: "#4A4A4A", fontSize: "0.875rem" }}
                 >
-                  <span style={{ color: "#A8C5DA" }}>✓</span> {item}
+                  <span style={{ color: "#82C8E5" }}>✓</span> {item}
                 </li>
               ))}
             </ul>
@@ -225,7 +225,7 @@ export default function YatraHelicopterTab({ yatra }: Props) {
 
       {/* Booking Process */}
       <div>
-        <h3 className="text-lg font-bold mb-4" style={{ color: "#FAD4D8" }}>
+        <h3 className="text-lg font-bold mb-4" style={{ color: "#1A1A1A" }}>
           How to Book Helicopter
         </h3>
         <div className="space-y-3">
@@ -240,11 +240,11 @@ export default function YatraHelicopterTab({ yatra }: Props) {
             >
               <span
                 className="w-7 h-7 rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0"
-                style={{ background: "#B5525E", color: "#FAD4D8" }}
+                style={{ background: "#F88379", color: "#1A1A1A" }}
               >
                 {i + 1}
               </span>
-              <p style={{ color: "#E8A0AA", lineHeight: 1.6 }}>{step}</p>
+              <p style={{ color: "#4A4A4A", lineHeight: 1.6 }}>{step}</p>
             </div>
           ))}
         </div>
@@ -260,11 +260,11 @@ export default function YatraHelicopterTab({ yatra }: Props) {
       >
         <span className="text-2xl">⚠️</span>
         <div>
-          <p className="font-bold mb-1" style={{ color: "#C9A84C" }}>
+          <p className="font-bold mb-1" style={{ color: "#D4A843" }}>
             Weather Dependency Notice
           </p>
           <p
-            style={{ color: "#E8A0AA", fontSize: "0.875rem", lineHeight: 1.6 }}
+            style={{ color: "#4A4A4A", fontSize: "0.875rem", lineHeight: 1.6 }}
           >
             Helicopter operations are entirely subject to weather clearance.
             Kedarnath receives sudden weather changes — morning fog, cloud
@@ -282,11 +282,11 @@ export default function YatraHelicopterTab({ yatra }: Props) {
           href="tel:+918279888470"
           data-ocid="helicopter.book_button"
           className="inline-flex items-center gap-2 px-8 py-4 rounded-full font-bold text-lg"
-          style={{ background: "#B5525E", color: "#FAD4D8" }}
+          style={{ background: "#F88379", color: "#1A1A1A" }}
         >
           🚁 Book Helicopter Add-On — Call Us
         </a>
-        <p className="mt-2 text-sm" style={{ color: "#E8A0AA" }}>
+        <p className="mt-2 text-sm" style={{ color: "#4A4A4A" }}>
           +91-8279888470 · Available 7 AM–10 PM, Mon–Sun
         </p>
       </div>

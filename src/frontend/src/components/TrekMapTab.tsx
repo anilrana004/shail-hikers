@@ -40,7 +40,7 @@ export default function TrekMapTab({ trek }: Props) {
     <div className="py-8 space-y-10">
       {/* Map placeholder */}
       <section>
-        <h2 className="font-display text-3xl mb-5" style={{ color: "#FAD4D8" }}>
+        <h2 className="font-display text-3xl mb-5" style={{ color: "#1A1A1A" }}>
           Trek Route Map
         </h2>
         <div
@@ -48,7 +48,7 @@ export default function TrekMapTab({ trek }: Props) {
           style={{
             height: "380px",
             background:
-              "linear-gradient(135deg, #1A2A1A 0%, #0D1A0D 50%, #1A0E10 100%)",
+              "linear-gradient(135deg, #1A2A1A 0%, #0D1A0D 50%, #E6D8C4 100%)",
           }}
         >
           <img
@@ -74,13 +74,13 @@ export default function TrekMapTab({ trek }: Props) {
                 refY="3.5"
                 orient="auto"
               >
-                <polygon points="0 0, 10 3.5, 0 7" fill="#B5525E" />
+                <polygon points="0 0, 10 3.5, 0 7" fill="#F88379" />
               </marker>
             </defs>
             <path
               d="M 80,300 C 150,280 200,250 260,200 S 380,130 440,120 S 560,100 620,90 S 700,95 740,100"
               fill="none"
-              stroke="#B5525E"
+              stroke="#F88379"
               strokeWidth="3"
               strokeDasharray="8,4"
               markerEnd="url(#arrowhead)"
@@ -95,16 +95,16 @@ export default function TrekMapTab({ trek }: Props) {
                     cx={x}
                     cy={ys[i]}
                     r="10"
-                    fill="#1A0E10"
-                    stroke="#B5525E"
+                    fill="#E6D8C4"
+                    stroke="#F88379"
                     strokeWidth="2"
                   />
-                  <circle cx={x} cy={ys[i]} r="4" fill="#FAD4D8" />
+                  <circle cx={x} cy={ys[i]} r="4" fill="#1A1A1A" />
                   <text
                     x={x}
                     y={ys[i] - 18}
                     textAnchor="middle"
-                    fill="#FAD4D8"
+                    fill="#1A1A1A"
                     fontSize="11"
                     fontFamily="var(--font-display)"
                   >
@@ -121,21 +121,21 @@ export default function TrekMapTab({ trek }: Props) {
           >
             <div
               className="flex items-center gap-2 text-xs"
-              style={{ color: "#FAD4D8" }}
+              style={{ color: "#1A1A1A" }}
             >
               <div
                 className="w-6 h-1 rounded"
-                style={{ background: "#B5525E" }}
+                style={{ background: "#F88379" }}
               />{" "}
               Trek Route
             </div>
             <div
               className="flex items-center gap-2 text-xs"
-              style={{ color: "#FAD4D8" }}
+              style={{ color: "#1A1A1A" }}
             >
               <div
                 className="w-3 h-3 rounded-full border-2"
-                style={{ borderColor: "#B5525E", background: "#1A0E10" }}
+                style={{ borderColor: "#F88379", background: "#E6D8C4" }}
               />{" "}
               Waypoints
             </div>
@@ -148,8 +148,8 @@ export default function TrekMapTab({ trek }: Props) {
                 className="text-xs px-3 py-1.5 rounded-lg"
                 style={{
                   background: "rgba(26,14,16,0.85)",
-                  color: "#E8A0AA",
-                  border: "1px solid #E8A0AA33",
+                  color: "#4A4A4A",
+                  border: "1px solid #4A4A4A33",
                 }}
               >
                 {layer}
@@ -161,12 +161,15 @@ export default function TrekMapTab({ trek }: Props) {
 
       {/* Elevation Profile */}
       <section>
-        <h2 className="font-display text-2xl mb-5" style={{ color: "#FAD4D8" }}>
+        <h2 className="font-display text-2xl mb-5" style={{ color: "#1A1A1A" }}>
           Elevation Profile
         </h2>
         <div
           className="rounded-2xl p-6 border"
-          style={{ background: "rgba(45,27,30,0.8)", borderColor: "#E8A0AA33" }}
+          style={{
+            background: "rgba(255,255,255,0.9)",
+            borderColor: "#4A4A4A33",
+          }}
         >
           <ResponsiveContainer width="100%" height={220}>
             <AreaChart
@@ -175,22 +178,22 @@ export default function TrekMapTab({ trek }: Props) {
             >
               <defs>
                 <linearGradient id="altGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#B5525E" stopOpacity={0.4} />
-                  <stop offset="95%" stopColor="#B5525E" stopOpacity={0.05} />
+                  <stop offset="5%" stopColor="#F88379" stopOpacity={0.4} />
+                  <stop offset="95%" stopColor="#F88379" stopOpacity={0.05} />
                 </linearGradient>
               </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke="#E8A0AA22" />
-              <XAxis dataKey="day" tick={{ fill: "#E8A0AA", fontSize: 11 }} />
+              <CartesianGrid strokeDasharray="3 3" stroke="#4A4A4A22" />
+              <XAxis dataKey="day" tick={{ fill: "#4A4A4A", fontSize: 11 }} />
               <YAxis
-                tick={{ fill: "#E8A0AA", fontSize: 11 }}
+                tick={{ fill: "#4A4A4A", fontSize: 11 }}
                 tickFormatter={(v) => `${v.toLocaleString()} ft`}
               />
               <Tooltip
                 contentStyle={{
-                  background: "#1A0E10",
-                  border: "1px solid #E8A0AA44",
+                  background: "#E6D8C4",
+                  border: "1px solid #4A4A4A44",
                   borderRadius: "8px",
-                  color: "#FAD4D8",
+                  color: "#1A1A1A",
                 }}
                 formatter={(value: number) => [
                   `${value.toLocaleString()} ft`,
@@ -200,7 +203,7 @@ export default function TrekMapTab({ trek }: Props) {
               <Area
                 type="monotone"
                 dataKey="altitude"
-                stroke="#B5525E"
+                stroke="#F88379"
                 strokeWidth={2}
                 fill="url(#altGradient)"
               />
@@ -211,7 +214,7 @@ export default function TrekMapTab({ trek }: Props) {
 
       {/* Route Stats */}
       <section>
-        <h2 className="font-display text-2xl mb-5" style={{ color: "#FAD4D8" }}>
+        <h2 className="font-display text-2xl mb-5" style={{ color: "#1A1A1A" }}>
           Route Statistics
         </h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -247,14 +250,14 @@ export default function TrekMapTab({ trek }: Props) {
               key={stat.label}
               className="rounded-xl p-4 text-center border"
               style={{
-                background: "rgba(45,27,30,0.8)",
-                borderColor: "#E8A0AA22",
+                background: "rgba(255,255,255,0.9)",
+                borderColor: "#4A4A4A22",
               }}
             >
-              <div className="text-xs mb-1" style={{ color: "#E8A0AA" }}>
+              <div className="text-xs mb-1" style={{ color: "#4A4A4A" }}>
                 {stat.label}
               </div>
-              <div className="font-bold" style={{ color: "#FAD4D8" }}>
+              <div className="font-bold" style={{ color: "#1A1A1A" }}>
                 {stat.value}
               </div>
             </div>
@@ -264,28 +267,28 @@ export default function TrekMapTab({ trek }: Props) {
 
       {/* GPS Download */}
       <section>
-        <h2 className="font-display text-2xl mb-5" style={{ color: "#FAD4D8" }}>
+        <h2 className="font-display text-2xl mb-5" style={{ color: "#1A1A1A" }}>
           GPS Track Download
         </h2>
         <div className="flex flex-wrap gap-4">
           <button
             type="button"
             className="px-6 py-3 rounded-xl text-sm font-semibold border"
-            style={{ borderColor: "#B5525E", color: "#B5525E" }}
+            style={{ borderColor: "#F88379", color: "#F88379" }}
           >
             Download .GPX File
           </button>
           <button
             type="button"
             className="px-6 py-3 rounded-xl text-sm font-semibold border"
-            style={{ borderColor: "#E8A0AA44", color: "#E8A0AA" }}
+            style={{ borderColor: "#4A4A4A44", color: "#4A4A4A" }}
           >
             Download .KML File
           </button>
           <button
             type="button"
             className="px-6 py-3 rounded-xl text-sm font-semibold border"
-            style={{ borderColor: "#E8A0AA44", color: "#E8A0AA" }}
+            style={{ borderColor: "#4A4A4A44", color: "#4A4A4A" }}
           >
             Garmin / Suunto Guide
           </button>
@@ -294,7 +297,7 @@ export default function TrekMapTab({ trek }: Props) {
 
       {/* Nearby Peaks */}
       <section>
-        <h2 className="font-display text-2xl mb-5" style={{ color: "#FAD4D8" }}>
+        <h2 className="font-display text-2xl mb-5" style={{ color: "#1A1A1A" }}>
           Nearby Peaks & Passes
         </h2>
         <div className="grid md:grid-cols-2 gap-3">
@@ -309,18 +312,18 @@ export default function TrekMapTab({ trek }: Props) {
               className="flex items-center gap-4 rounded-xl p-4 border"
               style={{
                 background: "rgba(45,27,30,0.6)",
-                borderColor: "#E8A0AA22",
+                borderColor: "#4A4A4A22",
               }}
             >
               <div className="text-2xl">&#9968;</div>
               <div className="flex-1">
                 <div
                   className="font-semibold text-sm"
-                  style={{ color: "#FAD4D8" }}
+                  style={{ color: "#1A1A1A" }}
                 >
                   {peak.name}
                 </div>
-                <div className="text-xs" style={{ color: "#E8A0AA" }}>
+                <div className="text-xs" style={{ color: "#4A4A4A" }}>
                   {peak.alt} / {peak.dist} away
                 </div>
               </div>

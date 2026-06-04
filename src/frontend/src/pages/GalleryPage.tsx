@@ -543,9 +543,9 @@ function Lightbox({
             aria-label="Download photo"
             className="w-10 h-10 rounded-full flex items-center justify-center transition-colors"
             style={{
-              background: "rgba(181,82,94,0.2)",
-              border: "1px solid #B5525E44",
-              color: "#FAD4D8",
+              background: "rgba(248,131,121,0.2)",
+              border: "1px solid #F8837944",
+              color: "#1A1A1A",
             }}
             onClick={() => window.open(photo.url, "_blank")}
           >
@@ -556,9 +556,9 @@ function Lightbox({
             aria-label="Share photo"
             className="w-10 h-10 rounded-full flex items-center justify-center transition-colors"
             style={{
-              background: "rgba(181,82,94,0.2)",
-              border: "1px solid #B5525E44",
-              color: "#FAD4D8",
+              background: "rgba(248,131,121,0.2)",
+              border: "1px solid #F8837944",
+              color: "#1A1A1A",
             }}
             onClick={() =>
               navigator.share?.({ title: photo.title, url: photo.url })
@@ -571,9 +571,9 @@ function Lightbox({
             aria-label="Close lightbox"
             className="w-10 h-10 rounded-full flex items-center justify-center transition-colors"
             style={{
-              background: "rgba(181,82,94,0.3)",
-              border: "1px solid #B5525E",
-              color: "#FAD4D8",
+              background: "rgba(248,131,121,0.3)",
+              border: "1px solid #F88379",
+              color: "#1A1A1A",
             }}
             onClick={onClose}
           >
@@ -587,9 +587,9 @@ function Lightbox({
           aria-label="Previous photo"
           className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full flex items-center justify-center z-10 transition-all hover:scale-110"
           style={{
-            background: "rgba(181,82,94,0.25)",
-            border: "1px solid #B5525E66",
-            color: "#FAD4D8",
+            background: "rgba(248,131,121,0.25)",
+            border: "1px solid #F8837966",
+            color: "#1A1A1A",
           }}
           onClick={(e) => {
             e.stopPropagation();
@@ -603,9 +603,9 @@ function Lightbox({
           aria-label="Next photo"
           className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full flex items-center justify-center z-10 transition-all hover:scale-110"
           style={{
-            background: "rgba(181,82,94,0.25)",
-            border: "1px solid #B5525E66",
-            color: "#FAD4D8",
+            background: "rgba(248,131,121,0.25)",
+            border: "1px solid #F8837966",
+            color: "#1A1A1A",
           }}
           onClick={(e) => {
             e.stopPropagation();
@@ -632,26 +632,26 @@ function Lightbox({
           {/* Metadata */}
           <div
             className="mt-4 flex flex-wrap gap-4 items-center justify-center text-sm"
-            style={{ color: "#E8A0AA" }}
+            style={{ color: "#4A4A4A" }}
           >
             <span className="flex items-center gap-1.5">
-              <MapPin size={13} style={{ color: "#B5525E" }} />
+              <MapPin size={13} style={{ color: "#F88379" }} />
               {photo.location}
             </span>
             <span className="flex items-center gap-1.5">
-              <Mountain size={13} style={{ color: "#C9A84C" }} />
+              <Mountain size={13} style={{ color: "#D4A843" }} />
               {photo.altitude}
             </span>
             <span className="flex items-center gap-1.5">
-              <User2 size={13} style={{ color: "#A8C5DA" }} />
+              <User2 size={13} style={{ color: "#82C8E5" }} />
               {photo.photographer}
             </span>
             <span
               className="text-xs px-2 py-0.5 rounded-full"
               style={{
-                background: "rgba(181,82,94,0.2)",
-                color: "#FAD4D8",
-                border: "1px solid #B5525E44",
+                background: "rgba(248,131,121,0.2)",
+                color: "#1A1A1A",
+                border: "1px solid #F8837944",
               }}
             >
               {photo.category}
@@ -659,13 +659,13 @@ function Lightbox({
           </div>
           <p
             className="text-center mt-2 font-display text-lg"
-            style={{ color: "#FAD4D8" }}
+            style={{ color: "#1A1A1A" }}
           >
             {photo.title}
           </p>
           <p
             className="text-center text-xs mt-1"
-            style={{ color: "#E8A0AA66" }}
+            style={{ color: "#4A4A4A66" }}
           >
             {index + 1} / {photos.length}
           </p>
@@ -706,12 +706,12 @@ export default function GalleryPage() {
 
   return (
     <Layout>
-      <div style={{ background: "#1A0E10", minHeight: "100vh" }}>
+      <div style={{ background: "#E6D8C4", minHeight: "100vh" }}>
         {/* Page Header */}
         <div
           className="relative py-20 text-center overflow-hidden"
           style={{
-            background: "linear-gradient(180deg, #2D1B1E 0%, #1A0E10 100%)",
+            background: "linear-gradient(180deg, #FFFFFF 0%, #E6D8C4 100%)",
           }}
         >
           <motion.div
@@ -721,19 +721,19 @@ export default function GalleryPage() {
           >
             <p
               className="text-sm font-medium tracking-[0.3em] uppercase mb-3"
-              style={{ color: "#B5525E" }}
+              style={{ color: "#F88379" }}
             >
               Shail Hikers
             </p>
             <h1
               className="font-display text-5xl md:text-7xl font-semibold mb-4"
-              style={{ color: "#FAD4D8" }}
+              style={{ color: "#1A1A1A" }}
             >
               OUR VISUAL JOURNEY
             </h1>
             <p
               className="text-lg max-w-xl mx-auto"
-              style={{ color: "#E8A0AA" }}
+              style={{ color: "#4A4A4A" }}
             >
               10,000+ trekkers. 14 legendary trails. Thousands of moments
               captured in the Himalayas.
@@ -752,18 +752,18 @@ export default function GalleryPage() {
             <div className="flex items-center gap-3 mb-4">
               <span
                 className="text-xs font-bold tracking-[0.2em] uppercase px-3 py-1 rounded-full"
-                style={{ background: "#B5525E", color: "#FAD4D8" }}
+                style={{ background: "#F88379", color: "#1A1A1A" }}
               >
                 📸 Photo of the Month
               </span>
-              <span className="text-sm" style={{ color: "#E8A0AA" }}>
+              <span className="text-sm" style={{ color: "#4A4A4A" }}>
                 January 2025
               </span>
             </div>
             <button
               type="button"
               className="relative rounded-2xl overflow-hidden cursor-pointer group"
-              style={{ border: "1px solid rgba(181,82,94,0.3)" }}
+              style={{ border: "1px solid rgba(248,131,121,0.3)" }}
               onClick={() => openLightbox(PHOTO_OF_MONTH.id)}
               data-ocid="gallery.photo_of_month"
             >
@@ -777,27 +777,27 @@ export default function GalleryPage() {
                 <div className="flex flex-wrap gap-3 mb-3">
                   <span
                     className="text-xs px-3 py-1 rounded-full font-medium"
-                    style={{ background: "#B5525E", color: "#FAD4D8" }}
+                    style={{ background: "#F88379", color: "#1A1A1A" }}
                   >
                     {PHOTO_OF_MONTH.category}
                   </span>
                 </div>
                 <h2
                   className="font-display text-3xl md:text-5xl font-semibold mb-2"
-                  style={{ color: "#FAD4D8" }}
+                  style={{ color: "#1A1A1A" }}
                 >
                   {PHOTO_OF_MONTH.title}
                 </h2>
                 <div
                   className="flex flex-wrap gap-4 text-sm"
-                  style={{ color: "#E8A0AA" }}
+                  style={{ color: "#4A4A4A" }}
                 >
                   <span className="flex items-center gap-1.5">
                     <MapPin size={13} />
                     {PHOTO_OF_MONTH.location}
                   </span>
                   <span className="flex items-center gap-1.5">
-                    <Mountain size={13} style={{ color: "#C9A84C" }} />
+                    <Mountain size={13} style={{ color: "#D4A843" }} />
                     {PHOTO_OF_MONTH.altitude}
                   </span>
                   <span className="flex items-center gap-1.5">
@@ -827,14 +827,14 @@ export default function GalleryPage() {
                   className="px-4 py-2 text-sm font-medium whitespace-nowrap rounded-lg transition-all"
                   style={{
                     color:
-                      activeTab === tab && !showVideo ? "#FAD4D8" : "#E8A0AA",
+                      activeTab === tab && !showVideo ? "#1A1A1A" : "#4A4A4A",
                     background:
                       activeTab === tab && !showVideo
-                        ? "rgba(181,82,94,0.2)"
+                        ? "rgba(248,131,121,0.2)"
                         : "transparent",
                     borderBottom:
                       activeTab === tab && !showVideo
-                        ? "2px solid #B5525E"
+                        ? "2px solid #F88379"
                         : "2px solid transparent",
                   }}
                 >
@@ -848,9 +848,9 @@ export default function GalleryPage() {
               data-ocid="gallery.video_toggle"
               className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all shrink-0"
               style={{
-                background: showVideo ? "#B5525E" : "rgba(181,82,94,0.15)",
-                color: "#FAD4D8",
-                border: "1px solid rgba(181,82,94,0.4)",
+                background: showVideo ? "#F88379" : "rgba(248,131,121,0.15)",
+                color: "#1A1A1A",
+                border: "1px solid rgba(248,131,121,0.4)",
               }}
             >
               <Play size={15} />
@@ -860,7 +860,7 @@ export default function GalleryPage() {
 
           {/* Results count */}
           {!showVideo && (
-            <p className="text-sm mb-6" style={{ color: "#E8A0AA99" }}>
+            <p className="text-sm mb-6" style={{ color: "#4A4A4A99" }}>
               Showing {filtered.length} photo{filtered.length !== 1 ? "s" : ""}
               {activeTab !== "All" ? ` in ${activeTab}` : ""}
             </p>
@@ -887,7 +887,7 @@ export default function GalleryPage() {
                   viewport={{ once: true }}
                   transition={{ delay: (i % 6) * 0.07 }}
                   className="break-inside-avoid mb-4 group relative rounded-xl overflow-hidden cursor-pointer"
-                  style={{ border: "1px solid rgba(181,82,94,0.15)" }}
+                  style={{ border: "1px solid rgba(248,131,121,0.15)" }}
                   onClick={() => openLightbox(photo.id)}
                   data-ocid={`gallery.photo.item.${i + 1}`}
                 >
@@ -908,13 +908,13 @@ export default function GalleryPage() {
                   >
                     <p
                       className="font-display text-sm font-semibold truncate"
-                      style={{ color: "#FAD4D8" }}
+                      style={{ color: "#1A1A1A" }}
                     >
                       {photo.title}
                     </p>
                     <div
                       className="flex items-center gap-2 mt-1"
-                      style={{ color: "#E8A0AA" }}
+                      style={{ color: "#4A4A4A" }}
                     >
                       <span className="flex items-center gap-1 text-xs">
                         <MapPin size={10} />
@@ -922,13 +922,13 @@ export default function GalleryPage() {
                       </span>
                       <span
                         className="flex items-center gap-1 text-xs"
-                        style={{ color: "#C9A84C" }}
+                        style={{ color: "#D4A843" }}
                       >
                         <Mountain size={10} />
                         {photo.altitude}
                       </span>
                     </div>
-                    <p className="text-xs mt-0.5" style={{ color: "#A8C5DA" }}>
+                    <p className="text-xs mt-0.5" style={{ color: "#82C8E5" }}>
                       📷 {photo.photographer}
                     </p>
                   </div>
@@ -952,7 +952,7 @@ export default function GalleryPage() {
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.08 }}
                   className="group relative rounded-xl overflow-hidden cursor-pointer"
-                  style={{ border: "1px solid rgba(181,82,94,0.2)" }}
+                  style={{ border: "1px solid rgba(248,131,121,0.2)" }}
                   data-ocid={`gallery.video.item.${i + 1}`}
                   onClick={() =>
                     window.open(
@@ -970,14 +970,14 @@ export default function GalleryPage() {
                     <div
                       className="w-14 h-14 rounded-full flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
                       style={{
-                        background: "rgba(181,82,94,0.9)",
-                        boxShadow: "0 0 30px rgba(181,82,94,0.5)",
+                        background: "rgba(248,131,121,0.9)",
+                        boxShadow: "0 0 30px rgba(248,131,121,0.5)",
                       }}
                     >
                       <Play
                         size={22}
-                        style={{ color: "#FAD4D8", marginLeft: 3 }}
-                        fill="#FAD4D8"
+                        style={{ color: "#1A1A1A", marginLeft: 3 }}
+                        fill="#1A1A1A"
                       />
                     </div>
                   </div>
@@ -985,19 +985,19 @@ export default function GalleryPage() {
                     className="absolute top-3 right-3 text-xs px-2 py-0.5 rounded font-mono"
                     style={{
                       background: "rgba(26,14,16,0.85)",
-                      color: "#FAD4D8",
+                      color: "#1A1A1A",
                     }}
                   >
                     {video.duration}
                   </div>
-                  <div className="p-3" style={{ background: "#2D1B1E" }}>
+                  <div className="p-3" style={{ background: "#FFFFFF" }}>
                     <p
                       className="text-sm font-medium leading-snug line-clamp-2"
-                      style={{ color: "#FAD4D8" }}
+                      style={{ color: "#1A1A1A" }}
                     >
                       {video.title}
                     </p>
-                    <p className="text-xs mt-1" style={{ color: "#E8A0AA" }}>
+                    <p className="text-xs mt-1" style={{ color: "#4A4A4A" }}>
                       {video.views} views
                     </p>
                   </div>
@@ -1018,15 +1018,15 @@ export default function GalleryPage() {
               <div>
                 <h2
                   className="font-display text-3xl md:text-4xl font-semibold"
-                  style={{ color: "#FAD4D8" }}
+                  style={{ color: "#1A1A1A" }}
                 >
                   Trekker-Submitted Photos
                 </h2>
-                <p className="text-sm mt-1" style={{ color: "#E8A0AA" }}>
+                <p className="text-sm mt-1" style={{ color: "#4A4A4A" }}>
                   Moments captured by our community of Himalayan adventurers
                 </p>
               </div>
-              <Camera size={28} style={{ color: "#B5525E" }} />
+              <Camera size={28} style={{ color: "#F88379" }} />
             </div>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               {COMMUNITY_PHOTOS.map((photo, i) => (
@@ -1037,7 +1037,7 @@ export default function GalleryPage() {
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.08 }}
                   className="relative rounded-xl overflow-hidden group"
-                  style={{ border: "1px solid rgba(181,82,94,0.2)" }}
+                  style={{ border: "1px solid rgba(248,131,121,0.2)" }}
                   data-ocid={`gallery.community.item.${i + 1}`}
                 >
                   <img
@@ -1049,11 +1049,11 @@ export default function GalleryPage() {
                   <div className="absolute bottom-0 left-0 right-0 p-3">
                     <p
                       className="text-sm font-medium"
-                      style={{ color: "#FAD4D8" }}
+                      style={{ color: "#1A1A1A" }}
                     >
                       {photo.name}
                     </p>
-                    <p className="text-xs" style={{ color: "#E8A0AA" }}>
+                    <p className="text-xs" style={{ color: "#4A4A4A" }}>
                       {photo.trek}
                     </p>
                   </div>
@@ -1067,28 +1067,28 @@ export default function GalleryPage() {
                 transition={{ delay: COMMUNITY_PHOTOS.length * 0.08 }}
                 className="relative rounded-xl overflow-hidden flex flex-col items-center justify-center gap-3 h-48 cursor-pointer group transition-all"
                 style={{
-                  border: "2px dashed rgba(181,82,94,0.4)",
-                  background: "rgba(181,82,94,0.06)",
+                  border: "2px dashed rgba(248,131,121,0.4)",
+                  background: "rgba(248,131,121,0.06)",
                 }}
                 data-ocid="gallery.submit_photo_button"
               >
                 <div
                   className="w-12 h-12 rounded-full flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
                   style={{
-                    background: "rgba(181,82,94,0.2)",
-                    border: "1px solid #B5525E44",
+                    background: "rgba(248,131,121,0.2)",
+                    border: "1px solid #F8837944",
                   }}
                 >
-                  <Plus size={22} style={{ color: "#B5525E" }} />
+                  <Plus size={22} style={{ color: "#F88379" }} />
                 </div>
                 <div className="text-center">
                   <p
                     className="text-sm font-semibold"
-                    style={{ color: "#FAD4D8" }}
+                    style={{ color: "#1A1A1A" }}
                   >
                     Submit Your Photo
                   </p>
-                  <p className="text-xs mt-0.5" style={{ color: "#E8A0AA" }}>
+                  <p className="text-xs mt-0.5" style={{ color: "#4A4A4A" }}>
                     Share your Himalayan moments
                   </p>
                 </div>

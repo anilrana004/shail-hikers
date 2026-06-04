@@ -34,14 +34,14 @@ export function AwardsStripSection() {
   return (
     <section
       data-ocid="awards.section"
-      style={{ background: "#1A0E10" }}
+      style={{ background: "#E6D8C4" }}
       className="py-14"
     >
       <div className="max-w-7xl mx-auto px-4">
         <div className="text-center mb-8">
           <p
             className="text-xs uppercase tracking-[0.4em]"
-            style={{ color: "#E8A0AA50" }}
+            style={{ color: "#4A4A4A50" }}
           >
             Certifications & Recognition
           </p>
@@ -61,21 +61,21 @@ export function AwardsStripSection() {
                 data-ocid={`awards.badge.${i + 1}`}
                 className="flex-shrink-0 flex flex-col items-center gap-2 px-5 py-4 rounded-2xl"
                 style={{
-                  background: "rgba(45,27,30,0.5)",
-                  border: "1px solid rgba(181,82,94,0.2)",
+                  background: "rgba(255,255,255,0.7)",
+                  border: "1px solid rgba(248,131,121,0.2)",
                   minWidth: "120px",
                 }}
               >
                 <span className="text-2xl">{award.emoji}</span>
                 <p
                   className="text-xs font-bold text-center"
-                  style={{ color: "#FAD4D8" }}
+                  style={{ color: "#1A1A1A" }}
                 >
                   {award.name}
                 </p>
                 <p
                   className="text-[10px] text-center"
-                  style={{ color: "#E8A0AA80" }}
+                  style={{ color: "#4A4A4A80" }}
                 >
                   {award.detail}
                 </p>

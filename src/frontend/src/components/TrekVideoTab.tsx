@@ -58,7 +58,7 @@ const VIDEO_SECTIONS = [
 export default function TrekVideoTab({ trek }: Props) {
   return (
     <div className="py-8 space-y-8">
-      <h2 className="font-display text-3xl" style={{ color: "#FAD4D8" }}>
+      <h2 className="font-display text-3xl" style={{ color: "#1A1A1A" }}>
         Videos - {trek.name}
       </h2>
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -67,8 +67,8 @@ export default function TrekVideoTab({ trek }: Props) {
             key={video.title}
             className="rounded-2xl overflow-hidden border group cursor-pointer"
             style={{
-              background: "rgba(45,27,30,0.8)",
-              borderColor: "#E8A0AA22",
+              background: "rgba(255,255,255,0.9)",
+              borderColor: "#4A4A4A22",
             }}
           >
             <div className="relative">
@@ -79,20 +79,23 @@ export default function TrekVideoTab({ trek }: Props) {
               />
               <div
                 className="absolute inset-0 flex items-center justify-center"
-                style={{ background: "rgba(26,14,16,0.4)" }}
+                style={{ background: "rgba(255,255,255,0.5)" }}
               >
                 <div
                   className="w-14 h-14 rounded-full flex items-center justify-center transition-transform group-hover:scale-110"
-                  style={{ background: "rgba(181,82,94,0.9)" }}
+                  style={{ background: "rgba(248,131,121,0.9)" }}
                 >
-                  <span className="text-2xl ml-1" style={{ color: "#FAD4D8" }}>
+                  <span className="text-2xl ml-1" style={{ color: "#1A1A1A" }}>
                     &#9654;
                   </span>
                 </div>
               </div>
               <div
                 className="absolute bottom-2 right-2 text-xs px-2 py-0.5 rounded"
-                style={{ background: "rgba(26,14,16,0.8)", color: "#FAD4D8" }}
+                style={{
+                  background: "rgba(255,255,255,0.9)",
+                  color: "#1A1A1A",
+                }}
               >
                 {video.duration}
               </div>
@@ -100,14 +103,14 @@ export default function TrekVideoTab({ trek }: Props) {
             <div className="p-4">
               <div
                 className="font-semibold text-sm mb-1"
-                style={{ color: "#FAD4D8" }}
+                style={{ color: "#1A1A1A" }}
               >
                 {video.title}
               </div>
-              <div className="text-xs mb-2" style={{ color: "#E8A0AA" }}>
+              <div className="text-xs mb-2" style={{ color: "#4A4A4A" }}>
                 {video.desc}
               </div>
-              <div className="text-xs" style={{ color: "#E8A0AA88" }}>
+              <div className="text-xs" style={{ color: "#4A4A4A88" }}>
                 {video.views} views
               </div>
             </div>

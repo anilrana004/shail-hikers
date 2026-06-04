@@ -139,12 +139,12 @@ function CounterItem({
       transition={{ duration: 0.5 }}
       className="text-center p-6"
     >
-      <Icon className="w-8 h-8 mx-auto mb-3" style={{ color: "#B5525E" }} />
+      <Icon className="w-8 h-8 mx-auto mb-3" style={{ color: "#F88379" }} />
       <div
         style={{
           fontFamily: "var(--font-display)",
           fontSize: "2.25rem",
-          color: "#FAD4D8",
+          color: "#1A1A1A",
           fontWeight: 700,
         }}
       >
@@ -152,7 +152,7 @@ function CounterItem({
       </div>
       <div
         style={{
-          color: "#E8A0AA",
+          color: "#4A4A4A",
           fontFamily: "var(--font-body)",
           fontSize: "0.875rem",
         }}
@@ -182,7 +182,7 @@ export default function AboutPage() {
             style={{
               display: "inline-block",
               border: "1px solid rgba(232,160,170,0.4)",
-              color: "#E8A0AA",
+              color: "#4A4A4A",
               padding: "4px 16px",
               borderRadius: 999,
               fontFamily: "var(--font-body)",
@@ -201,7 +201,7 @@ export default function AboutPage() {
             style={{
               fontFamily: "var(--font-display)",
               fontSize: "clamp(3rem, 8vw, 5.5rem)",
-              color: "#FAD4D8",
+              color: "#1A1A1A",
               fontWeight: 700,
               lineHeight: 1.0,
             }}
@@ -213,7 +213,7 @@ export default function AboutPage() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5, duration: 0.6 }}
             style={{
-              color: "#E8A0AA",
+              color: "#4A4A4A",
               fontFamily: "var(--font-body)",
               fontSize: "1.125rem",
               marginTop: "1rem",
@@ -228,7 +228,7 @@ export default function AboutPage() {
       </section>
 
       {/* Section 2 Story */}
-      <section style={{ background: "#2D1B1E" }} className="py-20 px-4">
+      <section style={{ background: "#FFFFFF" }} className="py-20 px-4">
         <div className="max-w-3xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -240,7 +240,7 @@ export default function AboutPage() {
               style={{
                 fontFamily: "var(--font-display)",
                 fontSize: "2.5rem",
-                color: "#FAD4D8",
+                color: "#1A1A1A",
                 marginBottom: "2rem",
                 fontWeight: 700,
               }}
@@ -259,7 +259,7 @@ export default function AboutPage() {
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.15, duration: 0.55 }}
                 style={{
-                  color: "#E8A0AA",
+                  color: "#4A4A4A",
                   fontFamily: "var(--font-body)",
                   lineHeight: 1.85,
                   fontSize: "1.05rem",
@@ -274,7 +274,7 @@ export default function AboutPage() {
       </section>
 
       {/* Section 3 Mission/Vision/Values */}
-      <section style={{ background: "#1A0E10" }} className="py-20 px-4">
+      <section style={{ background: "#E6D8C4" }} className="py-20 px-4">
         <div className="max-w-5xl mx-auto">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -283,7 +283,7 @@ export default function AboutPage() {
             style={{
               fontFamily: "var(--font-display)",
               fontSize: "2.5rem",
-              color: "#FAD4D8",
+              color: "#1A1A1A",
               textAlign: "center",
               marginBottom: "3rem",
               fontWeight: 700,
@@ -295,21 +295,21 @@ export default function AboutPage() {
             {[
               {
                 icon: Mountain,
-                color: "#B5525E",
+                color: "#F88379",
                 label: "Mission",
                 title: "Make the Himalayas Accessible",
                 desc: "We believe every Indian deserves the chance to stand on a Himalayan summit. We make it safe, affordable, and unforgettable.",
               },
               {
                 icon: Eye,
-                color: "#E8A0AA",
+                color: "#4A4A4A",
                 label: "Vision",
                 title: "India's Most Trusted Trek Company",
                 desc: "To be the benchmark for safety, authenticity, and environmental responsibility in Himalayan adventure tourism.",
               },
               {
                 icon: Heart,
-                color: "#C9A84C",
+                color: "#D4A843",
                 label: "Values",
                 title: "Safety · Sustainability · Community",
                 desc: "Every decision we make is filtered through three lenses: Is it safe? Is it sustainable? Does it benefit the local community?",
@@ -323,7 +323,7 @@ export default function AboutPage() {
                 transition={{ delay: i * 0.15, duration: 0.55 }}
                 className="p-7 rounded-2xl"
                 style={{
-                  background: "#2D1B1E",
+                  background: "#FFFFFF",
                   border: "1px solid rgba(232,160,170,0.12)",
                 }}
               >
@@ -348,7 +348,7 @@ export default function AboutPage() {
                   style={{
                     fontFamily: "var(--font-display)",
                     fontSize: "1.375rem",
-                    color: "#FAD4D8",
+                    color: "#1A1A1A",
                     marginBottom: "0.75rem",
                     fontWeight: 700,
                   }}
@@ -357,7 +357,7 @@ export default function AboutPage() {
                 </h3>
                 <p
                   style={{
-                    color: "#E8A0AA",
+                    color: "#4A4A4A",
                     fontFamily: "var(--font-body)",
                     lineHeight: 1.7,
                     fontSize: "0.9rem",
@@ -372,7 +372,7 @@ export default function AboutPage() {
       </section>
 
       {/* Section 4 Timeline */}
-      <section style={{ background: "#2D1B1E" }} className="py-20 px-4">
+      <section style={{ background: "#FFFFFF" }} className="py-20 px-4">
         <div className="max-w-3xl mx-auto">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -381,7 +381,7 @@ export default function AboutPage() {
             style={{
               fontFamily: "var(--font-display)",
               fontSize: "2.5rem",
-              color: "#FAD4D8",
+              color: "#1A1A1A",
               textAlign: "center",
               marginBottom: "4rem",
               fontWeight: 700,
@@ -399,7 +399,7 @@ export default function AboutPage() {
                 bottom: 0,
                 width: 2,
                 background:
-                  "linear-gradient(to bottom, #B5525E, rgba(181,82,94,0.1))",
+                  "linear-gradient(to bottom, #F88379, rgba(248,131,121,0.1))",
                 transform: "translateX(-50%)",
               }}
             />
@@ -421,7 +421,7 @@ export default function AboutPage() {
                     style={{
                       fontFamily: "var(--font-display)",
                       fontSize: "1.25rem",
-                      color: "#B5525E",
+                      color: "#F88379",
                       fontWeight: 700,
                     }}
                   >
@@ -431,7 +431,7 @@ export default function AboutPage() {
                     style={{
                       fontFamily: "var(--font-display)",
                       fontSize: "1.1rem",
-                      color: "#FAD4D8",
+                      color: "#1A1A1A",
                       fontWeight: 600,
                       marginBottom: "0.4rem",
                     }}
@@ -440,7 +440,7 @@ export default function AboutPage() {
                   </div>
                   <div
                     style={{
-                      color: "#E8A0AA",
+                      color: "#4A4A4A",
                       fontFamily: "var(--font-body)",
                       fontSize: "0.875rem",
                       lineHeight: 1.65,
@@ -459,8 +459,8 @@ export default function AboutPage() {
                     width: 14,
                     height: 14,
                     borderRadius: "50%",
-                    background: "#B5525E",
-                    border: "3px solid #2D1B1E",
+                    background: "#F88379",
+                    border: "3px solid #FFFFFF",
                     zIndex: 2,
                   }}
                 />
@@ -472,7 +472,7 @@ export default function AboutPage() {
       </section>
 
       {/* Section 5 Impact */}
-      <section style={{ background: "#1A0E10" }} className="py-20 px-4">
+      <section style={{ background: "#E6D8C4" }} className="py-20 px-4">
         <div className="max-w-5xl mx-auto">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -481,7 +481,7 @@ export default function AboutPage() {
             style={{
               fontFamily: "var(--font-display)",
               fontSize: "2.5rem",
-              color: "#FAD4D8",
+              color: "#1A1A1A",
               textAlign: "center",
               marginBottom: "3rem",
               fontWeight: 700,
@@ -503,7 +503,7 @@ export default function AboutPage() {
       </section>
 
       {/* Section 6 Environmental Commitments */}
-      <section style={{ background: "#2D1B1E" }} className="py-20 px-4">
+      <section style={{ background: "#FFFFFF" }} className="py-20 px-4">
         <div className="max-w-5xl mx-auto">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -512,7 +512,7 @@ export default function AboutPage() {
             style={{
               fontFamily: "var(--font-display)",
               fontSize: "2.5rem",
-              color: "#FAD4D8",
+              color: "#1A1A1A",
               textAlign: "center",
               marginBottom: "3rem",
               fontWeight: 700,
@@ -530,19 +530,19 @@ export default function AboutPage() {
                 transition={{ delay: i * 0.12, duration: 0.5 }}
                 className="flex gap-4 p-6 rounded-xl"
                 style={{
-                  background: "#1A0E10",
+                  background: "#E6D8C4",
                   border: "1px solid rgba(45,80,22,0.4)",
                 }}
               >
                 <div style={{ flexShrink: 0 }}>
-                  <c.icon className="w-7 h-7" style={{ color: "#2D5016" }} />
+                  <c.icon className="w-7 h-7" style={{ color: "#2D6A4F" }} />
                 </div>
                 <div>
                   <h3
                     style={{
                       fontFamily: "var(--font-display)",
                       fontSize: "1.2rem",
-                      color: "#FAD4D8",
+                      color: "#1A1A1A",
                       fontWeight: 700,
                       marginBottom: "0.4rem",
                     }}
@@ -551,7 +551,7 @@ export default function AboutPage() {
                   </h3>
                   <p
                     style={{
-                      color: "#E8A0AA",
+                      color: "#4A4A4A",
                       fontFamily: "var(--font-body)",
                       fontSize: "0.9rem",
                       lineHeight: 1.65,
@@ -567,7 +567,7 @@ export default function AboutPage() {
       </section>
 
       {/* Section 7 Certifications */}
-      <section style={{ background: "#1A0E10" }} className="py-16 px-4">
+      <section style={{ background: "#E6D8C4" }} className="py-16 px-4">
         <div className="max-w-5xl mx-auto">
           <motion.h2
             initial={{ opacity: 0 }}
@@ -576,7 +576,7 @@ export default function AboutPage() {
             style={{
               fontFamily: "var(--font-display)",
               fontSize: "2rem",
-              color: "#FAD4D8",
+              color: "#1A1A1A",
               textAlign: "center",
               marginBottom: "2.5rem",
               fontWeight: 700,
@@ -593,9 +593,9 @@ export default function AboutPage() {
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.08, duration: 0.4 }}
                 style={{
-                  background: "#2D1B1E",
-                  border: "1px solid rgba(181,82,94,0.3)",
-                  color: "#FAD4D8",
+                  background: "#FFFFFF",
+                  border: "1px solid rgba(248,131,121,0.3)",
+                  color: "#1A1A1A",
                   padding: "0.6rem 1.25rem",
                   borderRadius: 999,
                   fontFamily: "var(--font-body)",
@@ -610,7 +610,7 @@ export default function AboutPage() {
       </section>
 
       {/* Section 8 Awards */}
-      <section style={{ background: "#2D1B1E" }} className="py-20 px-4">
+      <section style={{ background: "#FFFFFF" }} className="py-20 px-4">
         <div className="max-w-5xl mx-auto">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -619,7 +619,7 @@ export default function AboutPage() {
             style={{
               fontFamily: "var(--font-display)",
               fontSize: "2.5rem",
-              color: "#FAD4D8",
+              color: "#1A1A1A",
               textAlign: "center",
               marginBottom: "3rem",
               fontWeight: 700,
@@ -637,7 +637,7 @@ export default function AboutPage() {
                 transition={{ delay: i * 0.12, duration: 0.5 }}
                 className="p-7 rounded-2xl text-center"
                 style={{
-                  background: "#1A0E10",
+                  background: "#E6D8C4",
                   border: "1px solid rgba(201,168,76,0.25)",
                 }}
               >
@@ -648,7 +648,7 @@ export default function AboutPage() {
                   style={{
                     fontFamily: "var(--font-display)",
                     fontSize: "1.25rem",
-                    color: "#C9A84C",
+                    color: "#D4A843",
                     fontWeight: 700,
                     marginBottom: "0.5rem",
                   }}
@@ -657,7 +657,7 @@ export default function AboutPage() {
                 </div>
                 <p
                   style={{
-                    color: "#E8A0AA",
+                    color: "#4A4A4A",
                     fontFamily: "var(--font-body)",
                     fontSize: "0.9rem",
                     lineHeight: 1.6,

@@ -7,7 +7,30 @@ export interface None {
     __kind__: "None";
 }
 export type Option<T> = Some<T> | None;
+export type WaitlistResult = {
+    __kind__: "ok";
+    ok: {
+        waitlistId: string;
+        position: bigint;
+    };
+} | {
+    __kind__: "err";
+    err: string;
+};
 export type Timestamp = bigint;
+export interface CorporateLead {
+    id: bigint;
+    contactName: string;
+    createdAt: Timestamp;
+    headcount: bigint;
+    email: string;
+    preferredDates: string;
+    message: string;
+    preferredTrek: string;
+    companyName: string;
+    phone: string;
+}
+export type Slug = string;
 export interface BlogPostPublic {
     id: bigint;
     title: string;
@@ -22,14 +45,17 @@ export interface BlogPostPublic {
     excerpt: string;
     category: BlogCategory;
 }
-export interface AddOn {
+export interface WaitlistEntryPublic {
+    id: string;
+    status: WaitlistStatus;
     name: string;
-    pricePerPerson: bigint;
-}
-export type Slug = string;
-export interface FaqVotesPublic {
-    notHelpful: bigint;
-    helpful: bigint;
+    createdAt: bigint;
+    email: string;
+    notifiedAt?: bigint;
+    batchId: string;
+    phone: string;
+    position: bigint;
+    numPeople: bigint;
 }
 export interface Trek {
     id: bigint;
@@ -51,6 +77,10 @@ export interface Trek {
     basePrice: bigint;
     nearestRailhead: string;
 }
+export interface FaqVotesPublic {
+    notHelpful: bigint;
+    helpful: bigint;
+}
 export interface BookingPublic {
     id: bigint;
     paymentStatus: PaymentStatus;
@@ -62,11 +92,6 @@ export interface BookingPublic {
     trekSlug: Slug;
     batchId: bigint;
     stripeSessionId?: string;
-}
-export interface BatchAvailability {
-    isSoldOut: boolean;
-    batchId: bigint;
-    seatsAvailable: bigint;
 }
 export interface ReviewPublic {
     id: bigint;
@@ -95,6 +120,15 @@ export interface UserProfilePublic {
     referralCredits: bigint;
     loyaltyTier: LoyaltyTier;
     totalTreksCompleted: bigint;
+}
+export interface BatchAvailability {
+    isSoldOut: boolean;
+    batchId: bigint;
+    seatsAvailable: bigint;
+}
+export interface AddOn {
+    name: string;
+    pricePerPerson: bigint;
 }
 export type UserId = Principal;
 export interface TravelerInfo {
@@ -131,17 +165,19 @@ export interface BatchPublic {
     seatsAvailable: bigint;
     startDate: string;
 }
-export interface CorporateLead {
-    id: bigint;
-    contactName: string;
-    createdAt: Timestamp;
-    headcount: bigint;
-    email: string;
-    preferredDates: string;
-    message: string;
-    preferredTrek: string;
-    companyName: string;
-    phone: string;
+export interface GuidePublic {
+    id: string;
+    bio: string;
+    currentAssignment?: string;
+    yearsExperience: bigint;
+    name: string;
+    designation: string;
+    favoriteTrek: string;
+    availability: GuideAvailability;
+    rating: number;
+    photo: string;
+    certifications: Array<string>;
+    totalTreksLed: bigint;
 }
 export enum BatchStatus {
     Full = "Full",
@@ -160,6 +196,11 @@ export enum Difficulty {
     Extreme = "Extreme",
     Difficult = "Difficult",
     Moderate = "Moderate"
+}
+export enum GuideAvailability {
+    Available = "Available",
+    OnTrek = "OnTrek",
+    OnLeave = "OnLeave"
 }
 export enum LoyaltyTier {
     SummitMaster = "SummitMaster",
@@ -181,8 +222,21 @@ export enum PaymentStatus {
     Cancelled = "Cancelled",
     Pending = "Pending"
 }
+export enum WaitlistStatus {
+    Notified = "Notified",
+    Booked = "Booked",
+    Waiting = "Waiting",
+    Expired = "Expired"
+}
 export interface backendInterface {
     addToWishlist(slug: string): Promise<boolean>;
+    assignGuideToBatch(batchId: string, guideId: string): Promise<{
+        __kind__: "ok";
+        ok: null;
+    } | {
+        __kind__: "err";
+        err: string;
+    }>;
     calculateGroupPrice(trekSlug: string, groupSize: bigint, addOns: Array<AddOn>, batchId: bigint): Promise<bigint>;
     cancelBooking(id: bigint): Promise<{
         __kind__: "ok";
@@ -210,6 +264,8 @@ export interface backendInterface {
         err: string;
     }>;
     createOrUpdateProfile(name: string, email: string, phone: string, city: string): Promise<UserProfilePublic>;
+    getAdminPrincipal(): Promise<Principal | null>;
+    getAllGuides(): Promise<Array<GuidePublic>>;
     getAllTreks(): Promise<Array<Trek>>;
     getAllYatras(): Promise<Array<Yatra>>;
     getAvailability(batchId: bigint): Promise<{
@@ -232,21 +288,55 @@ export interface backendInterface {
     getCorporateLeads(): Promise<Array<CorporateLead>>;
     getFaqVotes(trekSlug: string, faqIndex: bigint): Promise<FaqVotesPublic>;
     getFeaturedTreks(): Promise<Array<Trek>>;
+    getGuideById(id: string): Promise<GuidePublic | null>;
     getReviewsByTrek(trekSlug: string): Promise<Array<ReviewPublic>>;
     getStripePublicKey(): Promise<string>;
     getSubscriberCount(): Promise<bigint>;
     getTrekBySlug(slug: string): Promise<Trek | null>;
     getTreksByDifficulty(difficulty: Difficulty): Promise<Array<Trek>>;
     getUserProfile(): Promise<UserProfilePublic | null>;
+    getWaitlistByBatch(batchId: string): Promise<Array<WaitlistEntryPublic>>;
+    getWaitlistPosition(batchId: string, email: string): Promise<bigint | null>;
     getYatraBySlug(slug: string): Promise<Yatra | null>;
     incrementBlogViews(slug: string): Promise<boolean>;
+    initAdmin(): Promise<{
+        __kind__: "ok";
+        ok: null;
+    } | {
+        __kind__: "err";
+        err: string;
+    }>;
+    joinWaitlist(batchId: string, name: string, email: string, phone: string, numPeople: bigint): Promise<WaitlistResult>;
+    notifyNextOnWaitlist(batchId: string): Promise<boolean>;
+    promoteFromWaitlist(batchId: string, waitlistId: string): Promise<{
+        __kind__: "ok";
+        ok: null;
+    } | {
+        __kind__: "err";
+        err: string;
+    }>;
     removeFromWishlist(slug: string): Promise<boolean>;
+    sendManualWaitlistNotification(batchId: string, waitlistId: string, message: string): Promise<boolean>;
     setStripeSecretKey(secretKey: string, publicKey: string): Promise<void>;
     submitCorporateLead(companyName: string, contactName: string, email: string, phone: string, headcount: bigint, preferredDates: string, preferredTrek: string, message: string): Promise<CorporateLead>;
     submitReview(trekSlug: string, userName: string, userCity: string, rating: bigint, guideRating: bigint, foodRating: bigint, safetyRating: bigint, reviewText: string): Promise<ReviewPublic>;
     subscribe(email: string, preferences: Array<NewsletterPreference>): Promise<boolean>;
     unsubscribe(email: string): Promise<boolean>;
+    updateGuideAvailability(guideId: string, availability: GuideAvailability): Promise<{
+        __kind__: "ok";
+        ok: null;
+    } | {
+        __kind__: "err";
+        err: string;
+    }>;
     updatePaymentStatus(id: bigint, status: PaymentStatus): Promise<boolean>;
+    upsertGuide(guide: GuidePublic): Promise<{
+        __kind__: "ok";
+        ok: null;
+    } | {
+        __kind__: "err";
+        err: string;
+    }>;
     voteFaq(trekSlug: string, faqIndex: bigint, isHelpful: boolean): Promise<boolean>;
     voteHelpful(reviewId: bigint): Promise<boolean>;
 }

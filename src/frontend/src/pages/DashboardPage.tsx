@@ -150,20 +150,20 @@ const PAST_REVIEWS = [
 
 const tierConfig = {
   Explorer: {
-    color: "#A8C5DA",
+    color: "#82C8E5",
     bg: "rgba(168,197,218,0.15)",
     next: "Trailblazer (6 treks)",
     emoji: "🥾",
   },
   Trailblazer: {
-    color: "#C9A84C",
+    color: "#D4A843",
     bg: "rgba(201,168,76,0.15)",
     next: "Summit Master (10 treks)",
     emoji: "⛰️",
   },
   "Summit Master": {
-    color: "#B5525E",
-    bg: "rgba(181,82,94,0.2)",
+    color: "#F88379",
+    bg: "rgba(248,131,121,0.2)",
     next: "You've reached the peak!",
     emoji: "🏔️",
   },
@@ -183,11 +183,11 @@ const SECTIONS = [
 const statusBadge = (s: string) => {
   const map: Record<string, { color: string; bg: string }> = {
     confirmed: { color: "#4ade80", bg: "rgba(74,222,128,0.12)" },
-    completed: { color: "#A8C5DA", bg: "rgba(168,197,218,0.12)" },
-    cancelled: { color: "#B5525E", bg: "rgba(181,82,94,0.12)" },
-    pending: { color: "#C9A84C", bg: "rgba(201,168,76,0.12)" },
+    completed: { color: "#82C8E5", bg: "rgba(168,197,218,0.12)" },
+    cancelled: { color: "#F88379", bg: "rgba(248,131,121,0.12)" },
+    pending: { color: "#D4A843", bg: "rgba(201,168,76,0.12)" },
   };
-  return map[s] ?? { color: "#E8A0AA", bg: "rgba(232,160,170,0.1)" };
+  return map[s] ?? { color: "#4A4A4A", bg: "rgba(232,160,170,0.1)" };
 };
 
 function Overview({ onSection }: { onSection: (id: string) => void }) {
@@ -212,21 +212,21 @@ function Overview({ onSection }: { onSection: (id: string) => void }) {
       <div
         className="p-6 rounded-2xl mb-6 flex flex-col sm:flex-row items-start sm:items-center gap-4"
         style={{
-          background: "rgba(181,82,94,0.12)",
-          border: "1px solid rgba(181,82,94,0.3)",
+          background: "rgba(248,131,121,0.12)",
+          border: "1px solid rgba(248,131,121,0.3)",
         }}
       >
         <img
           src={MOCK_USER.profilePhoto}
           alt={MOCK_USER.name}
           className="w-16 h-16 rounded-full object-cover flex-shrink-0"
-          style={{ border: "3px solid #B5525E" }}
+          style={{ border: "3px solid #F88379" }}
         />
         <div className="flex-1">
-          <h2 className="font-display text-2xl" style={{ color: "#FAD4D8" }}>
+          <h2 className="font-display text-2xl" style={{ color: "#1A1A1A" }}>
             Welcome back, {MOCK_USER.name.split(" ")[0]}! 👋
           </h2>
-          <p className="text-sm mt-0.5" style={{ color: "#E8A0AA" }}>
+          <p className="text-sm mt-0.5" style={{ color: "#4A4A4A" }}>
             {MOCK_USER.treksCompleted} treks completed · {MOCK_USER.city}
           </p>
         </div>
@@ -242,7 +242,7 @@ function Overview({ onSection }: { onSection: (id: string) => void }) {
             >
               {MOCK_USER.loyaltyTier}
             </div>
-            <div className="text-xs" style={{ color: "#E8A0AA" }}>
+            <div className="text-xs" style={{ color: "#4A4A4A" }}>
               {tier.next}
             </div>
           </div>
@@ -253,13 +253,13 @@ function Overview({ onSection }: { onSection: (id: string) => void }) {
         <div
           className="p-5 rounded-2xl mb-6"
           style={{
-            background: "rgba(26,14,16,0.8)",
-            border: "1px solid rgba(181,82,94,0.25)",
+            background: "rgba(255,255,255,0.9)",
+            border: "1px solid rgba(248,131,121,0.25)",
           }}
         >
           <h3
             className="font-display text-lg mb-3"
-            style={{ color: "#FAD4D8" }}
+            style={{ color: "#1A1A1A" }}
           >
             Next Trek Countdown
           </h3>
@@ -270,21 +270,21 @@ function Overview({ onSection }: { onSection: (id: string) => void }) {
               className="w-20 h-16 rounded-lg object-cover flex-shrink-0"
             />
             <div className="flex-1">
-              <div className="font-semibold" style={{ color: "#FAD4D8" }}>
+              <div className="font-semibold" style={{ color: "#1A1A1A" }}>
                 {upcomingBooking.trekName}
               </div>
-              <div className="text-sm" style={{ color: "#E8A0AA" }}>
+              <div className="text-sm" style={{ color: "#4A4A4A" }}>
                 {upcomingBooking.batchDate}
               </div>
             </div>
             <div className="text-center">
               <div
                 className="font-display text-4xl"
-                style={{ color: "#B5525E" }}
+                style={{ color: "#F88379" }}
               >
                 {upcomingBooking.daysUntil}
               </div>
-              <div className="text-xs" style={{ color: "#E8A0AA" }}>
+              <div className="text-xs" style={{ color: "#4A4A4A" }}>
                 days to go
               </div>
             </div>
@@ -298,25 +298,25 @@ function Overview({ onSection }: { onSection: (id: string) => void }) {
             label: "Upload Documents",
             icon: Upload,
             id: "documents",
-            color: "#C9A84C",
+            color: "#D4A843",
           },
           {
             label: "Contact Guide",
             icon: Phone,
             id: "upcoming",
-            color: "#A8C5DA",
+            color: "#82C8E5",
           },
           {
             label: "Download Itinerary",
             icon: Download,
             id: "upcoming",
-            color: "#E8A0AA",
+            color: "#4A4A4A",
           },
           {
             label: "Check Weather",
             icon: Bell,
             id: "upcoming",
-            color: "#2D5016",
+            color: "#2D6A4F",
           },
         ].map((a) => (
           <button
@@ -325,12 +325,12 @@ function Overview({ onSection }: { onSection: (id: string) => void }) {
             onClick={() => onSection(a.id)}
             className="p-4 rounded-xl flex flex-col items-center gap-2 text-center transition-all duration-200 hover:opacity-90"
             style={{
-              background: "rgba(26,14,16,0.8)",
-              border: "1px solid rgba(181,82,94,0.2)",
+              background: "rgba(255,255,255,0.9)",
+              border: "1px solid rgba(248,131,121,0.2)",
             }}
           >
             <a.icon size={22} style={{ color: a.color }} />
-            <span className="text-xs" style={{ color: "#E8A0AA" }}>
+            <span className="text-xs" style={{ color: "#4A4A4A" }}>
               {a.label}
             </span>
           </button>
@@ -383,8 +383,8 @@ function MyBookings() {
       <div
         className="p-4 rounded-xl mb-3 flex gap-4"
         style={{
-          background: "rgba(26,14,16,0.8)",
-          border: "1px solid rgba(181,82,94,0.2)",
+          background: "rgba(255,255,255,0.9)",
+          border: "1px solid rgba(248,131,121,0.2)",
         }}
       >
         <img
@@ -396,7 +396,7 @@ function MyBookings() {
           <div className="flex items-center gap-2 mb-1">
             <span
               className="font-display text-base"
-              style={{ color: "#FAD4D8" }}
+              style={{ color: "#1A1A1A" }}
             >
               {trekName}
             </span>
@@ -407,7 +407,7 @@ function MyBookings() {
               {status.charAt(0).toUpperCase() + status.slice(1)}
             </span>
           </div>
-          <div className="text-xs mb-2" style={{ color: "#E8A0AA" }}>
+          <div className="text-xs mb-2" style={{ color: "#4A4A4A" }}>
             Batch ID: {b.batchId.toString()} · ₹{amount.toLocaleString("en-IN")}{" "}
             · {b.travelers.length} traveler{b.travelers.length > 1 ? "s" : ""}
           </div>
@@ -418,8 +418,8 @@ function MyBookings() {
                   href={`/book/${b.trekSlug}`}
                   className="text-xs px-3 py-1 rounded-lg"
                   style={{
-                    background: "rgba(181,82,94,0.2)",
-                    color: "#B5525E",
+                    background: "rgba(248,131,121,0.2)",
+                    color: "#F88379",
                   }}
                 >
                   View Details
@@ -428,7 +428,7 @@ function MyBookings() {
                   className="text-xs px-3 py-1 rounded-lg"
                   style={{
                     background: "rgba(201,168,76,0.15)",
-                    color: "#C9A84C",
+                    color: "#D4A843",
                   }}
                 >
                   {du} days until trek
@@ -441,9 +441,9 @@ function MyBookings() {
                   className="text-xs px-3 py-1 rounded-lg"
                   style={{
                     background: isCancelling
-                      ? "rgba(181,82,94,0.1)"
-                      : "rgba(181,82,94,0.15)",
-                    color: "#B5525E",
+                      ? "rgba(248,131,121,0.1)"
+                      : "rgba(248,131,121,0.15)",
+                    color: "#F88379",
                     cursor: isCancelling ? "not-allowed" : "pointer",
                   }}
                 >
@@ -458,7 +458,7 @@ function MyBookings() {
                   className="text-xs px-3 py-1 rounded-lg"
                   style={{
                     background: "rgba(168,197,218,0.15)",
-                    color: "#A8C5DA",
+                    color: "#82C8E5",
                   }}
                 >
                   Download Certificate
@@ -467,8 +467,8 @@ function MyBookings() {
                   href={`/treks/${b.trekSlug}`}
                   className="text-xs px-3 py-1 rounded-lg"
                   style={{
-                    background: "rgba(181,82,94,0.15)",
-                    color: "#B5525E",
+                    background: "rgba(248,131,121,0.15)",
+                    color: "#F88379",
                   }}
                 >
                   Write Review
@@ -485,7 +485,10 @@ function MyBookings() {
             {status === "cancelled" && (
               <span
                 className="text-xs px-3 py-1 rounded-lg"
-                style={{ background: "rgba(181,82,94,0.1)", color: "#E8A0AA" }}
+                style={{
+                  background: "rgba(248,131,121,0.1)",
+                  color: "#4A4A4A",
+                }}
               >
                 Refund: Processing
               </span>
@@ -499,7 +502,7 @@ function MyBookings() {
   if (bookingsLoading) {
     return (
       <div>
-        <h2 className="font-display text-2xl mb-5" style={{ color: "#FAD4D8" }}>
+        <h2 className="font-display text-2xl mb-5" style={{ color: "#1A1A1A" }}>
           My Bookings
         </h2>
         <div className="space-y-3">
@@ -507,7 +510,7 @@ function MyBookings() {
             <div
               key={i}
               className="h-24 rounded-xl animate-pulse"
-              style={{ background: "rgba(26,14,16,0.6)" }}
+              style={{ background: "rgba(255,255,255,0.8)" }}
             />
           ))}
         </div>
@@ -517,13 +520,13 @@ function MyBookings() {
 
   return (
     <div>
-      <h2 className="font-display text-2xl mb-5" style={{ color: "#FAD4D8" }}>
+      <h2 className="font-display text-2xl mb-5" style={{ color: "#1A1A1A" }}>
         My Bookings
       </h2>
       {upcoming.length === 0 && past.length === 0 && cancelled.length === 0 && (
-        <div className="py-12 text-center" style={{ color: "#E8A0AA" }}>
+        <div className="py-12 text-center" style={{ color: "#4A4A4A" }}>
           No bookings yet.{" "}
-          <a href="/treks" className="underline" style={{ color: "#B5525E" }}>
+          <a href="/treks" className="underline" style={{ color: "#F88379" }}>
             Browse treks
           </a>
         </div>
@@ -532,7 +535,7 @@ function MyBookings() {
         <>
           <h3
             className="text-sm font-semibold mb-3 uppercase tracking-wide"
-            style={{ color: "#B5525E" }}
+            style={{ color: "#F88379" }}
           >
             Upcoming
           </h3>
@@ -545,7 +548,7 @@ function MyBookings() {
         <>
           <h3
             className="text-sm font-semibold mt-5 mb-3 uppercase tracking-wide"
-            style={{ color: "#A8C5DA" }}
+            style={{ color: "#82C8E5" }}
           >
             Past Treks
           </h3>
@@ -558,7 +561,7 @@ function MyBookings() {
         <>
           <h3
             className="text-sm font-semibold mt-5 mb-3 uppercase tracking-wide"
-            style={{ color: "#E8A0AA" }}
+            style={{ color: "#4A4A4A" }}
           >
             Cancelled
           </h3>
@@ -592,9 +595,9 @@ function UpcomingTrek() {
     : null;
   if (!upcomingBooking)
     return (
-      <div className="py-12 text-center" style={{ color: "#E8A0AA" }}>
+      <div className="py-12 text-center" style={{ color: "#4A4A4A" }}>
         No upcoming treks booked yet.{" "}
-        <a href="/treks" className="underline" style={{ color: "#B5525E" }}>
+        <a href="/treks" className="underline" style={{ color: "#F88379" }}>
           Browse treks
         </a>
       </div>
@@ -610,14 +613,14 @@ function UpcomingTrek() {
 
   return (
     <div>
-      <h2 className="font-display text-2xl mb-5" style={{ color: "#FAD4D8" }}>
+      <h2 className="font-display text-2xl mb-5" style={{ color: "#1A1A1A" }}>
         Upcoming Trek: {upcomingBooking.trekName}
       </h2>
       <div
         className="p-4 rounded-xl mb-5 flex gap-4"
         style={{
-          background: "rgba(26,14,16,0.8)",
-          border: "1px solid rgba(181,82,94,0.25)",
+          background: "rgba(255,255,255,0.9)",
+          border: "1px solid rgba(248,131,121,0.25)",
         }}
       >
         <img
@@ -626,15 +629,15 @@ function UpcomingTrek() {
           className="w-24 h-18 rounded-lg object-cover flex-shrink-0"
         />
         <div>
-          <div className="font-display text-lg" style={{ color: "#FAD4D8" }}>
+          <div className="font-display text-lg" style={{ color: "#1A1A1A" }}>
             {upcomingBooking.trekName}
           </div>
-          <div className="text-sm mt-1" style={{ color: "#E8A0AA" }}>
+          <div className="text-sm mt-1" style={{ color: "#4A4A4A" }}>
             {upcomingBooking.batchDate} — {upcomingBooking.endDate}
           </div>
-          <div className="text-sm mt-1" style={{ color: "#E8A0AA" }}>
+          <div className="text-sm mt-1" style={{ color: "#4A4A4A" }}>
             Guide:{" "}
-            <strong style={{ color: "#FAD4D8" }}>
+            <strong style={{ color: "#1A1A1A" }}>
               {upcomingBooking.guideName}
             </strong>
           </div>
@@ -642,14 +645,14 @@ function UpcomingTrek() {
             <a
               href="tel:+918279888470"
               className="text-xs px-3 py-1 rounded-lg flex items-center gap-1"
-              style={{ background: "rgba(181,82,94,0.2)", color: "#B5525E" }}
+              style={{ background: "rgba(248,131,121,0.2)", color: "#F88379" }}
             >
               <Phone size={11} /> Call Guide
             </a>
             <button
               type="button"
               className="text-xs px-3 py-1 rounded-lg flex items-center gap-1"
-              style={{ background: "rgba(168,197,218,0.15)", color: "#A8C5DA" }}
+              style={{ background: "rgba(168,197,218,0.15)", color: "#82C8E5" }}
             >
               <Download size={11} /> Offline Map
             </button>
@@ -660,32 +663,32 @@ function UpcomingTrek() {
       <div
         className="mb-5 p-4 rounded-xl"
         style={{
-          background: "rgba(26,14,16,0.8)",
-          border: "1px solid rgba(181,82,94,0.25)",
+          background: "rgba(255,255,255,0.9)",
+          border: "1px solid rgba(248,131,121,0.25)",
         }}
       >
         <div className="flex items-center justify-between mb-3">
-          <h3 className="font-display text-lg" style={{ color: "#FAD4D8" }}>
+          <h3 className="font-display text-lg" style={{ color: "#1A1A1A" }}>
             Packing Checklist
           </h3>
-          <span className="text-sm" style={{ color: "#C9A84C" }}>
+          <span className="text-sm" style={{ color: "#D4A843" }}>
             {checkedItems.length}/{PACKING_ITEMS.length} packed
           </span>
         </div>
         <div
           className="h-2 rounded-full mb-4"
-          style={{ background: "rgba(181,82,94,0.2)" }}
+          style={{ background: "rgba(248,131,121,0.2)" }}
         >
           <div
             className="h-2 rounded-full transition-all duration-500"
-            style={{ width: `${progress}%`, background: "#B5525E" }}
+            style={{ width: `${progress}%`, background: "#F88379" }}
           />
         </div>
         {PACKING_ITEMS.map((item) => (
           <label
             key={item.id}
             className="flex items-center gap-3 py-2 cursor-pointer border-b last:border-0"
-            style={{ borderColor: "rgba(181,82,94,0.1)" }}
+            style={{ borderColor: "rgba(248,131,121,0.1)" }}
           >
             <input
               type="checkbox"
@@ -697,12 +700,12 @@ function UpcomingTrek() {
                     : [...prev, item.id],
                 )
               }
-              className="w-4 h-4 accent-[#B5525E]"
+              className="w-4 h-4 accent-[#F88379]"
             />
             <span
               className="text-sm flex-1"
               style={{
-                color: checkedItems.includes(item.id) ? "#E8A0AA" : "#FAD4D8",
+                color: checkedItems.includes(item.id) ? "#4A4A4A" : "#1A1A1A",
                 textDecoration: checkedItems.includes(item.id)
                   ? "line-through"
                   : "none",
@@ -713,7 +716,10 @@ function UpcomingTrek() {
             {item.essential && (
               <span
                 className="text-xs px-2 py-0.5 rounded-full"
-                style={{ background: "rgba(181,82,94,0.2)", color: "#B5525E" }}
+                style={{
+                  background: "rgba(248,131,121,0.2)",
+                  color: "#F88379",
+                }}
               >
                 Essential
               </span>
@@ -725,18 +731,18 @@ function UpcomingTrek() {
       <div
         className="p-4 rounded-xl"
         style={{
-          background: "rgba(26,14,16,0.8)",
-          border: "1px solid rgba(181,82,94,0.25)",
+          background: "rgba(255,255,255,0.9)",
+          border: "1px solid rgba(248,131,121,0.25)",
         }}
       >
-        <h3 className="font-display text-lg mb-3" style={{ color: "#FAD4D8" }}>
+        <h3 className="font-display text-lg mb-3" style={{ color: "#1A1A1A" }}>
           Things To Do Before Trek
         </h3>
         {todos.map((t, i) => (
           <label
             key={t}
             className="flex items-center gap-3 py-2 cursor-pointer border-b last:border-0"
-            style={{ borderColor: "rgba(181,82,94,0.1)" }}
+            style={{ borderColor: "rgba(248,131,121,0.1)" }}
           >
             <input
               type="checkbox"
@@ -748,12 +754,12 @@ function UpcomingTrek() {
                     : [...prev, String(i)],
                 )
               }
-              className="w-4 h-4 accent-[#B5525E]"
+              className="w-4 h-4 accent-[#F88379]"
             />
             <span
               className="text-sm"
               style={{
-                color: todoChecked.includes(String(i)) ? "#E8A0AA" : "#FAD4D8",
+                color: todoChecked.includes(String(i)) ? "#4A4A4A" : "#1A1A1A",
                 textDecoration: todoChecked.includes(String(i))
                   ? "line-through"
                   : "none",
@@ -776,23 +782,23 @@ function Documents() {
       label: "Uploaded ✔",
     },
     pending: {
-      color: "#C9A84C",
+      color: "#D4A843",
       bg: "rgba(201,168,76,0.12)",
       label: "Pending ⚠",
     },
     expired: {
-      color: "#B5525E",
-      bg: "rgba(181,82,94,0.12)",
+      color: "#F88379",
+      bg: "rgba(248,131,121,0.12)",
       label: "Expired ⚠",
     },
   };
 
   return (
     <div>
-      <h2 className="font-display text-2xl mb-2" style={{ color: "#FAD4D8" }}>
+      <h2 className="font-display text-2xl mb-2" style={{ color: "#1A1A1A" }}>
         Documents Vault
       </h2>
-      <p className="text-sm mb-6" style={{ color: "#E8A0AA" }}>
+      <p className="text-sm mb-6" style={{ color: "#4A4A4A" }}>
         Upload required documents for permit processing
       </p>
       <div className="grid gap-4">
@@ -803,30 +809,30 @@ function Documents() {
               key={doc.id}
               className="p-4 rounded-xl flex items-center gap-4"
               style={{
-                background: "rgba(26,14,16,0.8)",
-                border: "1px solid rgba(181,82,94,0.2)",
+                background: "rgba(255,255,255,0.9)",
+                border: "1px solid rgba(248,131,121,0.2)",
               }}
             >
               <div
                 className="w-12 h-12 rounded-xl flex items-center justify-center"
-                style={{ background: "rgba(181,82,94,0.15)" }}
+                style={{ background: "rgba(248,131,121,0.15)" }}
               >
-                <FileText size={20} style={{ color: "#B5525E" }} />
+                <FileText size={20} style={{ color: "#F88379" }} />
               </div>
               <div className="flex-1">
                 <div
                   className="font-semibold text-sm"
-                  style={{ color: "#FAD4D8" }}
+                  style={{ color: "#1A1A1A" }}
                 >
                   {doc.name}
                 </div>
                 {doc.expiry && (
-                  <div className="text-xs mt-0.5" style={{ color: "#E8A0AA" }}>
+                  <div className="text-xs mt-0.5" style={{ color: "#4A4A4A" }}>
                     Expiry: {doc.expiry}
                   </div>
                 )}
                 {doc.status === "expired" && (
-                  <div className="text-xs" style={{ color: "#B5525E" }}>
+                  <div className="text-xs" style={{ color: "#F88379" }}>
                     Document expired — please re-upload
                   </div>
                 )}
@@ -840,7 +846,10 @@ function Documents() {
               <button
                 type="button"
                 className="px-3 py-1.5 rounded-lg text-xs flex items-center gap-1.5"
-                style={{ background: "rgba(181,82,94,0.2)", color: "#B5525E" }}
+                style={{
+                  background: "rgba(248,131,121,0.2)",
+                  color: "#F88379",
+                }}
               >
                 <Upload size={12} /> Upload
               </button>
@@ -850,9 +859,9 @@ function Documents() {
       </div>
       <p
         className="text-xs mt-4 flex items-center gap-1.5"
-        style={{ color: "#E8A0AA" }}
+        style={{ color: "#4A4A4A" }}
       >
-        <Shield size={12} style={{ color: "#B5525E" }} /> Documents are
+        <Shield size={12} style={{ color: "#F88379" }} /> Documents are
         encrypted and shared only with forest/wildlife departments for permit
         processing.
       </p>
@@ -865,14 +874,14 @@ function Reviews() {
 
   return (
     <div>
-      <h2 className="font-display text-2xl mb-5" style={{ color: "#FAD4D8" }}>
+      <h2 className="font-display text-2xl mb-5" style={{ color: "#1A1A1A" }}>
         Reviews
       </h2>
       {PENDING_REVIEWS.length > 0 && (
         <div className="mb-6">
           <h3
             className="text-sm font-semibold mb-3 uppercase tracking-wide"
-            style={{ color: "#C9A84C" }}
+            style={{ color: "#D4A843" }}
           >
             Awaiting Your Review
           </h3>
@@ -893,18 +902,18 @@ function Reviews() {
               <div className="flex-1">
                 <div
                   className="font-display text-base"
-                  style={{ color: "#FAD4D8" }}
+                  style={{ color: "#1A1A1A" }}
                 >
                   {pr.trekName}
                 </div>
-                <div className="text-xs" style={{ color: "#E8A0AA" }}>
+                <div className="text-xs" style={{ color: "#4A4A4A" }}>
                   Completed {pr.date}
                 </div>
               </div>
               <a
                 href={`/treks/${pr.slug}`}
                 className="px-4 py-2 rounded-xl text-xs font-semibold"
-                style={{ background: "#B5525E", color: "#FAD4D8" }}
+                style={{ background: "#F88379", color: "#1A1A1A" }}
               >
                 Write Review
               </a>
@@ -914,7 +923,7 @@ function Reviews() {
       )}
       <h3
         className="text-sm font-semibold mb-3 uppercase tracking-wide"
-        style={{ color: "#A8C5DA" }}
+        style={{ color: "#82C8E5" }}
       >
         Your Past Reviews
       </h3>
@@ -923,14 +932,14 @@ function Reviews() {
           key={r.trekName}
           className="p-4 rounded-xl"
           style={{
-            background: "rgba(26,14,16,0.8)",
-            border: "1px solid rgba(181,82,94,0.2)",
+            background: "rgba(255,255,255,0.9)",
+            border: "1px solid rgba(248,131,121,0.2)",
           }}
         >
           <div className="flex items-center gap-2 mb-2">
             <span
               className="font-display text-base"
-              style={{ color: "#FAD4D8" }}
+              style={{ color: "#1A1A1A" }}
             >
               {r.trekName}
             </span>
@@ -940,14 +949,14 @@ function Reviews() {
                   key={`rs-${j + 1}`}
                   size={13}
                   style={{
-                    color: j < r.rating ? "#C9A84C" : "rgba(201,168,76,0.3)",
+                    color: j < r.rating ? "#D4A843" : "rgba(201,168,76,0.3)",
                   }}
-                  fill={j < r.rating ? "#C9A84C" : "none"}
+                  fill={j < r.rating ? "#D4A843" : "none"}
                 />
               ))}
             </div>
           </div>
-          <p className="text-sm" style={{ color: "#E8A0AA" }}>
+          <p className="text-sm" style={{ color: "#4A4A4A" }}>
             {r.snippet}
           </p>
           <p
@@ -961,11 +970,11 @@ function Reviews() {
       <div
         className="mt-4 p-4 rounded-xl"
         style={{
-          background: "rgba(26,14,16,0.6)",
-          border: "1px dashed rgba(181,82,94,0.3)",
+          background: "rgba(255,255,255,0.8)",
+          border: "1px dashed rgba(248,131,121,0.3)",
         }}
       >
-        <p className="text-sm" style={{ color: "#E8A0AA" }}>
+        <p className="text-sm" style={{ color: "#4A4A4A" }}>
           Quick Rating (demo)
         </p>
         <div className="flex gap-1 mt-2">
@@ -978,9 +987,9 @@ function Reviews() {
               <Star
                 size={24}
                 style={{
-                  color: j < rating ? "#C9A84C" : "rgba(201,168,76,0.3)",
+                  color: j < rating ? "#D4A843" : "rgba(201,168,76,0.3)",
                 }}
-                fill={j < rating ? "#C9A84C" : "none"}
+                fill={j < rating ? "#D4A843" : "none"}
               />
             </button>
           ))}
@@ -996,17 +1005,17 @@ function Wishlist() {
 
   return (
     <div>
-      <h2 className="font-display text-2xl mb-5" style={{ color: "#FAD4D8" }}>
+      <h2 className="font-display text-2xl mb-5" style={{ color: "#1A1A1A" }}>
         Wishlist
       </h2>
       {treks.length === 0 && (
         <div
           className="py-12 text-center"
           data-ocid="wishlist.empty_state"
-          style={{ color: "#E8A0AA" }}
+          style={{ color: "#4A4A4A" }}
         >
           Your wishlist is empty.{" "}
-          <a href="/treks" className="underline" style={{ color: "#B5525E" }}>
+          <a href="/treks" className="underline" style={{ color: "#F88379" }}>
             Browse treks
           </a>
         </div>
@@ -1017,8 +1026,8 @@ function Wishlist() {
             key={trek.slug}
             className="p-4 rounded-xl flex gap-4 items-center"
             style={{
-              background: "rgba(26,14,16,0.8)",
-              border: "1px solid rgba(181,82,94,0.2)",
+              background: "rgba(255,255,255,0.9)",
+              border: "1px solid rgba(248,131,121,0.2)",
             }}
           >
             <img
@@ -1029,15 +1038,15 @@ function Wishlist() {
             <div className="flex-1">
               <div
                 className="font-display text-base"
-                style={{ color: "#FAD4D8" }}
+                style={{ color: "#1A1A1A" }}
               >
                 {trek.name}
               </div>
-              <div className="text-xs mt-0.5" style={{ color: "#E8A0AA" }}>
+              <div className="text-xs mt-0.5" style={{ color: "#4A4A4A" }}>
                 {trek.durationDays} days · {trek.difficulty} · from ₹
                 {trek.basePrice.toLocaleString("en-IN")}
               </div>
-              <div className="text-xs mt-1" style={{ color: "#C9A84C" }}>
+              <div className="text-xs mt-1" style={{ color: "#D4A843" }}>
                 Next batch: Jan 15, 2026 · 4 seats left
               </div>
             </div>
@@ -1045,7 +1054,7 @@ function Wishlist() {
               <a
                 href={`/book/${trek.slug}`}
                 className="text-xs px-3 py-1.5 rounded-xl"
-                style={{ background: "#B5525E", color: "#FAD4D8" }}
+                style={{ background: "#F88379", color: "#1A1A1A" }}
               >
                 Book Now
               </a>
@@ -1055,7 +1064,10 @@ function Wishlist() {
                   setWishlist((prev) => prev.filter((s) => s !== trek.slug))
                 }
                 className="text-xs px-3 py-1.5 rounded-xl flex items-center justify-center gap-1"
-                style={{ background: "rgba(181,82,94,0.15)", color: "#E8A0AA" }}
+                style={{
+                  background: "rgba(248,131,121,0.15)",
+                  color: "#4A4A4A",
+                }}
               >
                 <Heart size={11} /> Remove
               </button>
@@ -1083,28 +1095,28 @@ function Referrals() {
 
   return (
     <div>
-      <h2 className="font-display text-2xl mb-5" style={{ color: "#FAD4D8" }}>
+      <h2 className="font-display text-2xl mb-5" style={{ color: "#1A1A1A" }}>
         Referrals
       </h2>
       <div
         className="p-5 rounded-2xl mb-6"
         style={{
-          background: "rgba(181,82,94,0.12)",
-          border: "1px solid rgba(181,82,94,0.3)",
+          background: "rgba(248,131,121,0.12)",
+          border: "1px solid rgba(248,131,121,0.3)",
         }}
       >
-        <h3 className="font-display text-lg mb-1" style={{ color: "#FAD4D8" }}>
+        <h3 className="font-display text-lg mb-1" style={{ color: "#1A1A1A" }}>
           Your Referral Code
         </h3>
-        <p className="text-xs mb-3" style={{ color: "#E8A0AA" }}>
+        <p className="text-xs mb-3" style={{ color: "#4A4A4A" }}>
           Share and earn ₹500 when your friend books a trek
         </p>
         <div className="flex gap-2">
           <div
             className="flex-1 px-4 py-2 rounded-xl font-mono text-lg font-bold tracking-widest"
             style={{
-              background: "rgba(26,14,16,0.8)",
-              color: "#C9A84C",
+              background: "rgba(255,255,255,0.9)",
+              color: "#D4A843",
               border: "1px solid rgba(201,168,76,0.3)",
             }}
           >
@@ -1115,25 +1127,25 @@ function Referrals() {
             onClick={copy}
             className="px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200"
             style={{
-              background: copied ? "rgba(74,222,128,0.2)" : "#B5525E",
-              color: copied ? "#4ade80" : "#FAD4D8",
+              background: copied ? "rgba(74,222,128,0.2)" : "#F88379",
+              color: copied ? "#4ade80" : "#1A1A1A",
             }}
           >
             {copied ? <Check size={16} /> : "Copy"}
           </button>
         </div>
         <div className="mt-3 flex items-center gap-2">
-          <span className="text-sm" style={{ color: "#E8A0AA" }}>
+          <span className="text-sm" style={{ color: "#4A4A4A" }}>
             Available credit:
           </span>
-          <span className="font-display text-xl" style={{ color: "#C9A84C" }}>
+          <span className="font-display text-xl" style={{ color: "#D4A843" }}>
             ₹{MOCK_USER.referralCredit.toLocaleString("en-IN")}
           </span>
         </div>
       </div>
       <h3
         className="text-sm font-semibold mb-3 uppercase tracking-wide"
-        style={{ color: "#E8A0AA" }}
+        style={{ color: "#4A4A4A" }}
       >
         Referral History
       </h3>
@@ -1143,24 +1155,24 @@ function Referrals() {
             key={r.name}
             className="p-3 rounded-xl flex items-center gap-3"
             style={{
-              background: "rgba(26,14,16,0.8)",
-              border: "1px solid rgba(181,82,94,0.2)",
+              background: "rgba(255,255,255,0.9)",
+              border: "1px solid rgba(248,131,121,0.2)",
             }}
           >
             <div
               className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0"
-              style={{ background: "rgba(181,82,94,0.2)" }}
+              style={{ background: "rgba(248,131,121,0.2)" }}
             >
-              <User size={16} style={{ color: "#B5525E" }} />
+              <User size={16} style={{ color: "#F88379" }} />
             </div>
             <div className="flex-1">
               <div
                 className="font-semibold text-sm"
-                style={{ color: "#FAD4D8" }}
+                style={{ color: "#1A1A1A" }}
               >
                 {r.name}
               </div>
-              <div className="text-xs" style={{ color: "#E8A0AA" }}>
+              <div className="text-xs" style={{ color: "#4A4A4A" }}>
                 {r.city} · {r.date}
               </div>
             </div>
@@ -1172,13 +1184,13 @@ function Referrals() {
                     r.status === "Booked"
                       ? "rgba(74,222,128,0.12)"
                       : "rgba(201,168,76,0.12)",
-                  color: r.status === "Booked" ? "#4ade80" : "#C9A84C",
+                  color: r.status === "Booked" ? "#4ade80" : "#D4A843",
                 }}
               >
                 {r.status}
               </span>
               {r.credit > 0 && (
-                <div className="text-xs mt-0.5" style={{ color: "#C9A84C" }}>
+                <div className="text-xs mt-0.5" style={{ color: "#D4A843" }}>
                   +₹{r.credit}
                 </div>
               )}
@@ -1204,9 +1216,9 @@ function SettingsPanel() {
   const inputClass =
     "w-full px-3 py-2 rounded-lg text-sm bg-transparent border outline-none";
   const inputStyle = {
-    borderColor: "rgba(181,82,94,0.4)",
-    color: "#FAD4D8",
-    background: "rgba(26,14,16,0.6)",
+    borderColor: "rgba(248,131,121,0.4)",
+    color: "#1A1A1A",
+    background: "rgba(255,255,255,0.8)",
   };
 
   const save = () => {
@@ -1216,33 +1228,33 @@ function SettingsPanel() {
 
   return (
     <div>
-      <h2 className="font-display text-2xl mb-5" style={{ color: "#FAD4D8" }}>
+      <h2 className="font-display text-2xl mb-5" style={{ color: "#1A1A1A" }}>
         Settings
       </h2>
       <div
         className="p-5 rounded-xl mb-5"
         style={{
-          background: "rgba(26,14,16,0.8)",
-          border: "1px solid rgba(181,82,94,0.25)",
+          background: "rgba(255,255,255,0.9)",
+          border: "1px solid rgba(248,131,121,0.25)",
         }}
       >
         <h3
           className="font-display text-lg mb-4 flex items-center gap-2"
-          style={{ color: "#FAD4D8" }}
+          style={{ color: "#1A1A1A" }}
         >
-          <Camera size={16} style={{ color: "#B5525E" }} /> Profile
+          <Camera size={16} style={{ color: "#F88379" }} /> Profile
         </h3>
         <div className="flex items-center gap-4 mb-4">
           <img
             src={MOCK_USER.profilePhoto}
             alt="Profile"
             className="w-16 h-16 rounded-full object-cover"
-            style={{ border: "3px solid #B5525E" }}
+            style={{ border: "3px solid #F88379" }}
           />
           <button
             type="button"
             className="text-sm px-4 py-2 rounded-lg"
-            style={{ background: "rgba(181,82,94,0.2)", color: "#B5525E" }}
+            style={{ background: "rgba(248,131,121,0.2)", color: "#F88379" }}
           >
             Change Photo
           </button>
@@ -1252,7 +1264,7 @@ function SettingsPanel() {
             <label
               htmlFor="dash-name"
               className="block text-xs mb-1"
-              style={{ color: "#E8A0AA" }}
+              style={{ color: "#4A4A4A" }}
             >
               Full Name
             </label>
@@ -1270,7 +1282,7 @@ function SettingsPanel() {
             <label
               htmlFor="dash-email"
               className="block text-xs mb-1"
-              style={{ color: "#E8A0AA" }}
+              style={{ color: "#4A4A4A" }}
             >
               Email
             </label>
@@ -1288,7 +1300,7 @@ function SettingsPanel() {
             <label
               htmlFor="dash-phone"
               className="block text-xs mb-1"
-              style={{ color: "#E8A0AA" }}
+              style={{ color: "#4A4A4A" }}
             >
               Phone
             </label>
@@ -1306,7 +1318,7 @@ function SettingsPanel() {
             <label
               htmlFor="dash-city"
               className="block text-xs mb-1"
-              style={{ color: "#E8A0AA" }}
+              style={{ color: "#4A4A4A" }}
             >
               City
             </label>
@@ -1324,7 +1336,7 @@ function SettingsPanel() {
             <label
               htmlFor="dash-dob"
               className="block text-xs mb-1"
-              style={{ color: "#E8A0AA" }}
+              style={{ color: "#4A4A4A" }}
             >
               Date of Birth
             </label>
@@ -1345,24 +1357,24 @@ function SettingsPanel() {
       <div
         className="p-5 rounded-xl mb-5"
         style={{
-          background: "rgba(26,14,16,0.8)",
-          border: "1px solid rgba(181,82,94,0.25)",
+          background: "rgba(255,255,255,0.9)",
+          border: "1px solid rgba(248,131,121,0.25)",
         }}
       >
         <h3
           className="font-display text-lg mb-4 flex items-center gap-2"
-          style={{ color: "#FAD4D8" }}
+          style={{ color: "#1A1A1A" }}
         >
-          <Bell size={16} style={{ color: "#B5525E" }} /> Notifications
+          <Bell size={16} style={{ color: "#F88379" }} /> Notifications
         </h3>
         {(Object.entries(notifs) as [keyof typeof notifs, boolean][]).map(
           ([key, val]) => (
             <label
               key={key}
               className="flex items-center justify-between py-2.5 border-b last:border-0 cursor-pointer"
-              style={{ borderColor: "rgba(181,82,94,0.1)" }}
+              style={{ borderColor: "rgba(248,131,121,0.1)" }}
             >
-              <span className="text-sm" style={{ color: "#E8A0AA" }}>
+              <span className="text-sm" style={{ color: "#4A4A4A" }}>
                 {key
                   .replace(/([A-Z])/g, " $1")
                   .replace(/^./, (s) => s.toUpperCase())}
@@ -1373,7 +1385,7 @@ function SettingsPanel() {
                 onChange={(e) =>
                   setNotifs((n) => ({ ...n, [key]: e.target.checked }))
                 }
-                className="w-4 h-4 accent-[#B5525E]"
+                className="w-4 h-4 accent-[#F88379]"
               />
             </label>
           ),
@@ -1383,20 +1395,20 @@ function SettingsPanel() {
       <div
         className="p-5 rounded-xl mb-5"
         style={{
-          background: "rgba(26,14,16,0.8)",
-          border: "1px solid rgba(181,82,94,0.25)",
+          background: "rgba(255,255,255,0.9)",
+          border: "1px solid rgba(248,131,121,0.25)",
         }}
       >
         <h3
           className="font-display text-lg mb-3 flex items-center gap-2"
-          style={{ color: "#FAD4D8" }}
+          style={{ color: "#1A1A1A" }}
         >
-          <Lock size={16} style={{ color: "#B5525E" }} /> Security
+          <Lock size={16} style={{ color: "#F88379" }} /> Security
         </h3>
         <button
           type="button"
           className="text-sm px-4 py-2 rounded-lg"
-          style={{ background: "rgba(181,82,94,0.2)", color: "#B5525E" }}
+          style={{ background: "rgba(248,131,121,0.2)", color: "#F88379" }}
         >
           Change Password
         </button>
@@ -1407,9 +1419,9 @@ function SettingsPanel() {
           type="button"
           className="flex items-center gap-2 text-sm px-4 py-2 rounded-lg"
           style={{
-            background: "rgba(181,82,94,0.1)",
-            color: "#B5525E",
-            border: "1px solid rgba(181,82,94,0.3)",
+            background: "rgba(248,131,121,0.1)",
+            color: "#F88379",
+            border: "1px solid rgba(248,131,121,0.3)",
           }}
         >
           <Trash2 size={14} /> Delete Account
@@ -1422,8 +1434,8 @@ function SettingsPanel() {
           data-ocid="settings.save_button"
           className="px-6 py-2 rounded-xl text-sm font-semibold flex items-center gap-2"
           style={{
-            background: saved ? "rgba(74,222,128,0.2)" : "#B5525E",
-            color: saved ? "#4ade80" : "#FAD4D8",
+            background: saved ? "rgba(74,222,128,0.2)" : "#F88379",
+            color: saved ? "#4ade80" : "#1A1A1A",
           }}
         >
           {saved ? (
@@ -1458,7 +1470,7 @@ export default function DashboardPage() {
     SECTIONS.find((s) => s.id === activeSection)?.label ?? "Dashboard";
 
   return (
-    <div className="min-h-screen" style={{ background: "#1A0E10" }}>
+    <div className="min-h-screen" style={{ background: "#E6D8C4" }}>
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
         <div className="flex gap-6">
           {/* Sidebar */}
@@ -1466,24 +1478,24 @@ export default function DashboardPage() {
             <div
               className="p-4 rounded-2xl sticky top-24"
               style={{
-                background: "rgba(45,27,30,0.9)",
-                border: "1px solid rgba(181,82,94,0.25)",
+                background: "rgba(255,255,255,0.95)",
+                border: "1px solid rgba(248,131,121,0.25)",
               }}
             >
               <div
                 className="flex items-center gap-3 mb-6 pb-4 border-b"
-                style={{ borderColor: "rgba(181,82,94,0.2)" }}
+                style={{ borderColor: "rgba(248,131,121,0.2)" }}
               >
                 <img
                   src={MOCK_USER.profilePhoto}
                   alt={MOCK_USER.name}
                   className="w-10 h-10 rounded-full object-cover"
-                  style={{ border: "2px solid #B5525E" }}
+                  style={{ border: "2px solid #F88379" }}
                 />
                 <div className="min-w-0">
                   <div
                     className="font-semibold text-sm truncate"
-                    style={{ color: "#FAD4D8" }}
+                    style={{ color: "#1A1A1A" }}
                   >
                     {MOCK_USER.name}
                   </div>
@@ -1507,15 +1519,15 @@ export default function DashboardPage() {
                     className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg mb-1 text-sm transition-all duration-200 text-left"
                     style={{
                       background: isActive
-                        ? "rgba(181,82,94,0.2)"
+                        ? "rgba(248,131,121,0.2)"
                         : "transparent",
-                      color: isActive ? "#FAD4D8" : "#E8A0AA",
+                      color: isActive ? "#1A1A1A" : "#4A4A4A",
                       fontWeight: isActive ? 600 : 400,
                     }}
                   >
                     <Icon
                       size={16}
-                      style={{ color: isActive ? "#B5525E" : "#E8A0AA" }}
+                      style={{ color: isActive ? "#F88379" : "#4A4A4A" }}
                     />
                     {sec.label}
                   </button>
@@ -1523,7 +1535,7 @@ export default function DashboardPage() {
               })}
               <div
                 className="mt-4 pt-4 border-t"
-                style={{ borderColor: "rgba(181,82,94,0.2)" }}
+                style={{ borderColor: "rgba(248,131,121,0.2)" }}
               >
                 <button
                   type="button"
@@ -1543,9 +1555,9 @@ export default function DashboardPage() {
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-semibold"
               style={{
-                background: "rgba(45,27,30,0.9)",
-                border: "1px solid rgba(181,82,94,0.3)",
-                color: "#FAD4D8",
+                background: "rgba(255,255,255,0.95)",
+                border: "1px solid rgba(248,131,121,0.3)",
+                color: "#1A1A1A",
               }}
             >
               <span>{activeLabel}</span>
@@ -1559,8 +1571,8 @@ export default function DashboardPage() {
               <div
                 className="mt-1 rounded-xl overflow-hidden"
                 style={{
-                  background: "rgba(45,27,30,0.95)",
-                  border: "1px solid rgba(181,82,94,0.25)",
+                  background: "rgba(255,255,255,0.95)",
+                  border: "1px solid rgba(248,131,121,0.25)",
                 }}
               >
                 {SECTIONS.map((sec) => {
@@ -1575,11 +1587,11 @@ export default function DashboardPage() {
                       }}
                       className="w-full flex items-center gap-3 px-4 py-3 text-sm text-left border-b last:border-0"
                       style={{
-                        borderColor: "rgba(181,82,94,0.1)",
-                        color: activeSection === sec.id ? "#FAD4D8" : "#E8A0AA",
+                        borderColor: "rgba(248,131,121,0.1)",
+                        color: activeSection === sec.id ? "#1A1A1A" : "#4A4A4A",
                         background:
                           activeSection === sec.id
-                            ? "rgba(181,82,94,0.15)"
+                            ? "rgba(248,131,121,0.15)"
                             : "transparent",
                       }}
                     >
@@ -1587,7 +1599,7 @@ export default function DashboardPage() {
                         size={15}
                         style={{
                           color:
-                            activeSection === sec.id ? "#B5525E" : "#E8A0AA",
+                            activeSection === sec.id ? "#F88379" : "#4A4A4A",
                         }}
                       />
                       {sec.label}

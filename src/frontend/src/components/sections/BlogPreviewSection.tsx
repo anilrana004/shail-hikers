@@ -4,17 +4,17 @@ import { Clock, Eye, TrendingUp } from "lucide-react";
 import { motion } from "motion/react";
 
 const CATEGORY_COLORS: Record<string, string> = {
-  "Trek Tips": "#B5525E",
-  "Yatra Guides": "#C9A84C",
-  Gear: "#A8C5DA",
-  Stories: "#2D5016",
+  "Trek Tips": "#F88379",
+  "Yatra Guides": "#D4A843",
+  Gear: "#82C8E5",
+  Stories: "#2D6A4F",
 };
 
 export function BlogPreviewSection() {
   return (
     <section
       data-ocid="blog.section"
-      style={{ background: "#2D1B1E" }}
+      style={{ background: "#FFFFFF" }}
       className="py-20"
     >
       <div className="max-w-7xl mx-auto px-4">
@@ -25,7 +25,7 @@ export function BlogPreviewSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               className="text-xs uppercase tracking-[0.4em] mb-3"
-              style={{ color: "#B5525E" }}
+              style={{ color: "#F88379" }}
             >
               From Our Experts
             </motion.p>
@@ -35,7 +35,7 @@ export function BlogPreviewSection() {
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
               className="text-4xl md:text-6xl font-semibold"
-              style={{ fontFamily: "var(--font-display)", color: "#FAD4D8" }}
+              style={{ fontFamily: "var(--font-display)", color: "#1A1A1A" }}
             >
               LATEST DISPATCHES
             </motion.h2>
@@ -44,7 +44,7 @@ export function BlogPreviewSection() {
             to="/blog"
             data-ocid="blog.view_all"
             className="hidden md:inline text-sm font-medium transition-colors hover:opacity-80"
-            style={{ color: "#E8A0AA" }}
+            style={{ color: "#4A4A4A" }}
           >
             All Articles →
           </Link>
@@ -52,7 +52,7 @@ export function BlogPreviewSection() {
 
         <div className="grid md:grid-cols-3 gap-6">
           {BLOG_POSTS.map((post, i) => {
-            const catColor = CATEGORY_COLORS[post.category] ?? "#B5525E";
+            const catColor = CATEGORY_COLORS[post.category] ?? "#F88379";
             return (
               <motion.div
                 key={post.id}
@@ -62,7 +62,7 @@ export function BlogPreviewSection() {
                 transition={{ delay: i * 0.12 }}
                 data-ocid={`blog.card.${i + 1}`}
                 className="group rounded-2xl overflow-hidden"
-                style={{ border: "1px solid rgba(181,82,94,0.2)" }}
+                style={{ border: "1px solid rgba(248,131,121,0.2)" }}
               >
                 <div className="relative h-48 overflow-hidden">
                   <img
@@ -75,7 +75,7 @@ export function BlogPreviewSection() {
                     className="absolute inset-0"
                     style={{
                       background:
-                        "linear-gradient(180deg, transparent 50%, rgba(26,14,16,0.8) 100%)",
+                        "linear-gradient(180deg, transparent 50%, rgba(255,255,255,0.9) 100%)",
                     }}
                   />
                   <div className="absolute top-3 left-3 flex gap-2">
@@ -93,8 +93,8 @@ export function BlogPreviewSection() {
                       <span
                         className="flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold"
                         style={{
-                          background: "rgba(181,82,94,0.4)",
-                          color: "#FAD4D8",
+                          background: "rgba(248,131,121,0.4)",
+                          color: "#1A1A1A",
                         }}
                       >
                         <TrendingUp size={9} /> Trending
@@ -105,20 +105,20 @@ export function BlogPreviewSection() {
 
                 <div
                   className="p-5"
-                  style={{ background: "rgba(26,14,16,0.6)" }}
+                  style={{ background: "rgba(255,255,255,0.8)" }}
                 >
                   <h3
                     className="text-base font-semibold mb-2 leading-snug group-hover:opacity-80 transition-opacity"
                     style={{
                       fontFamily: "var(--font-display)",
-                      color: "#FAD4D8",
+                      color: "#1A1A1A",
                     }}
                   >
                     {post.title}
                   </h3>
                   <p
                     className="text-xs leading-relaxed mb-4 line-clamp-2"
-                    style={{ color: "#E8A0AA" }}
+                    style={{ color: "#4A4A4A" }}
                   >
                     {post.excerpt}
                   </p>
@@ -126,13 +126,13 @@ export function BlogPreviewSection() {
                     <div className="flex items-center gap-3">
                       <span
                         className="flex items-center gap-1 text-xs"
-                        style={{ color: "#E8A0AA60" }}
+                        style={{ color: "#4A4A4A60" }}
                       >
                         <Clock size={10} /> {post.readTime} min read
                       </span>
                       <span
                         className="flex items-center gap-1 text-xs"
-                        style={{ color: "#E8A0AA60" }}
+                        style={{ color: "#4A4A4A60" }}
                       >
                         <Eye size={10} /> {post.views.toLocaleString()}
                       </span>
@@ -142,7 +142,7 @@ export function BlogPreviewSection() {
                       params={{ slug: post.slug }}
                       data-ocid={`blog.read.${i + 1}`}
                       className="text-xs font-semibold transition-colors hover:opacity-70"
-                      style={{ color: "#B5525E" }}
+                      style={{ color: "#F88379" }}
                     >
                       Read →
                     </Link>

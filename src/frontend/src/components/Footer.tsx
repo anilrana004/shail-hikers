@@ -13,45 +13,45 @@ import {
 import { useState } from "react";
 
 const _treks = [
-  { name: "Kedarkantha", slug: "kedarkantha", color: "#2D5016" },
-  { name: "Har Ki Dun", slug: "har-ki-dun", color: "#2D5016" },
-  { name: "Buran Ghati", slug: "buran-ghati", color: "#B5525E" },
-  { name: "Rupin Pass", slug: "rupin-pass", color: "#B5525E" },
-  { name: "Bali Pass", slug: "bali-pass", color: "#B5525E" },
-  { name: "Valley of Flowers", slug: "valley-of-flowers", color: "#2D5016" },
-  { name: "Dayara Bugyal", slug: "dayara-bugyal", color: "#2D5016" },
-  { name: "Nag Tibba", slug: "nag-tibba", color: "#2D5016" },
+  { name: "Kedarkantha", slug: "kedarkantha", color: "#2D6A4F" },
+  { name: "Har Ki Dun", slug: "har-ki-dun", color: "#2D6A4F" },
+  { name: "Buran Ghati", slug: "buran-ghati", color: "#F88379" },
+  { name: "Rupin Pass", slug: "rupin-pass", color: "#F88379" },
+  { name: "Bali Pass", slug: "bali-pass", color: "#F88379" },
+  { name: "Valley of Flowers", slug: "valley-of-flowers", color: "#2D6A4F" },
+  { name: "Dayara Bugyal", slug: "dayara-bugyal", color: "#2D6A4F" },
+  { name: "Nag Tibba", slug: "nag-tibba", color: "#2D6A4F" },
   {
     name: "Chopta Chandrashila",
     slug: "chopta-chandrashila",
-    color: "#2D5016",
+    color: "#2D6A4F",
   },
-  { name: "Phulara Ridge", slug: "phulara-ridge", color: "#B5525E" },
-  { name: "Borasu Pass", slug: "borasu-pass", color: "#B5525E" },
-  { name: "Chandernahan Lake", slug: "chandernahan-lake", color: "#2D5016" },
-  { name: "Ruinsara Tal", slug: "ruinsara-tal", color: "#2D5016" },
-  { name: "Chaainsheel Bugyal", slug: "chaainsheel-bugyal", color: "#2D5016" },
+  { name: "Phulara Ridge", slug: "phulara-ridge", color: "#F88379" },
+  { name: "Borasu Pass", slug: "borasu-pass", color: "#F88379" },
+  { name: "Chandernahan Lake", slug: "chandernahan-lake", color: "#2D6A4F" },
+  { name: "Ruinsara Tal", slug: "ruinsara-tal", color: "#2D6A4F" },
+  { name: "Chaainsheel Bugyal", slug: "chaainsheel-bugyal", color: "#2D6A4F" },
 ];
 
 const FOOTER_TREKS = [
-  { name: "Kedarkantha", slug: "kedarkantha", color: "#2D5016" },
-  { name: "Har Ki Dun", slug: "har-ki-dun", color: "#2D5016" },
-  { name: "Valley of Flowers", slug: "valley-of-flowers", color: "#2D5016" },
-  { name: "Dayara Bugyal", slug: "dayara-bugyal", color: "#2D5016" },
-  { name: "Nag Tibba", slug: "nag-tibba", color: "#2D5016" },
+  { name: "Kedarkantha", slug: "kedarkantha", color: "#2D6A4F" },
+  { name: "Har Ki Dun", slug: "har-ki-dun", color: "#2D6A4F" },
+  { name: "Valley of Flowers", slug: "valley-of-flowers", color: "#2D6A4F" },
+  { name: "Dayara Bugyal", slug: "dayara-bugyal", color: "#2D6A4F" },
+  { name: "Nag Tibba", slug: "nag-tibba", color: "#2D6A4F" },
   {
     name: "Chopta Chandrashila",
     slug: "chopta-chandrashila",
-    color: "#2D5016",
+    color: "#2D6A4F",
   },
-  { name: "Chandernahan Lake", slug: "chandernahan-lake", color: "#C9A84C" },
-  { name: "Chaainsheel Bugyal", slug: "chaainsheel-bugyal", color: "#2D5016" },
-  { name: "Phulara Ridge", slug: "phulara-ridge", color: "#C9A84C" },
-  { name: "Ruinsara Tal", slug: "ruinsara-tal", color: "#C9A84C" },
-  { name: "Buran Ghati", slug: "buran-ghati", color: "#B5525E" },
-  { name: "Rupin Pass", slug: "rupin-pass", color: "#B5525E" },
-  { name: "Bali Pass", slug: "bali-pass", color: "#B5525E" },
-  { name: "Borasu Pass", slug: "borasu-pass", color: "#B5525E" },
+  { name: "Chandernahan Lake", slug: "chandernahan-lake", color: "#D4A843" },
+  { name: "Chaainsheel Bugyal", slug: "chaainsheel-bugyal", color: "#2D6A4F" },
+  { name: "Phulara Ridge", slug: "phulara-ridge", color: "#D4A843" },
+  { name: "Ruinsara Tal", slug: "ruinsara-tal", color: "#D4A843" },
+  { name: "Buran Ghati", slug: "buran-ghati", color: "#F88379" },
+  { name: "Rupin Pass", slug: "rupin-pass", color: "#F88379" },
+  { name: "Bali Pass", slug: "bali-pass", color: "#F88379" },
+  { name: "Borasu Pass", slug: "borasu-pass", color: "#F88379" },
 ];
 
 export function Footer() {
@@ -65,9 +65,9 @@ export function Footer() {
   };
 
   return (
-    <footer style={{ background: "#1A0E10" }} className="text-sm">
+    <footer style={{ background: "#E6D8C4" }} className="text-sm">
       {/* Trust badges bar */}
-      <div style={{ background: "#2D1B1E", borderTop: "1px solid #B5525E33" }}>
+      <div style={{ background: "#FFFFFF", borderTop: "1px solid #F8837933" }}>
         <div className="max-w-7xl mx-auto px-4 py-4 flex flex-wrap justify-center gap-8">
           {[
             { icon: "★", label: "10,000+ Happy Trekkers" },
@@ -80,9 +80,9 @@ export function Footer() {
             <span
               key={t.label}
               className="flex items-center gap-2 font-medium tracking-wide text-xs uppercase"
-              style={{ color: "#FAD4D8" }}
+              style={{ color: "#1A1A1A" }}
             >
-              <span style={{ color: "#C9A84C" }}>{t.icon}</span>
+              <span style={{ color: "#D4A843" }}>{t.icon}</span>
               {t.label}
             </span>
           ))}
@@ -102,19 +102,19 @@ export function Footer() {
               role="img"
               aria-label="Shail Hikers mountain logo"
             >
-              <path d="M20 4L36 34H4L20 4Z" fill="#B5525E" />
-              <path d="M20 14L28 34H12L20 14Z" fill="#1A0E10" opacity="0.5" />
-              <circle cx="20" cy="34" r="2" fill="#C9A84C" />
+              <path d="M20 4L36 34H4L20 4Z" fill="#F88379" />
+              <path d="M20 14L28 34H12L20 14Z" fill="#E6D8C4" opacity="0.5" />
+              <circle cx="20" cy="34" r="2" fill="#D4A843" />
             </svg>
             <span
-              style={{ color: "#FAD4D8", fontFamily: "var(--font-display)" }}
+              style={{ color: "#1A1A1A", fontFamily: "var(--font-display)" }}
               className="text-xl font-semibold tracking-widest uppercase"
             >
               Shail Hikers
             </span>
           </Link>
           <p
-            style={{ color: "#E8A0AA" }}
+            style={{ color: "#4A4A4A" }}
             className="text-xs leading-relaxed mb-6"
           >
             Uttarakhand's finest Himalayan trekking company. Crafting
@@ -136,11 +136,11 @@ export function Footer() {
                 href={s.href}
                 aria-label={s.label}
                 style={{
-                  background: "#2D1B1E",
-                  border: "1px solid #B5525E44",
-                  color: "#E8A0AA",
+                  background: "#FFFFFF",
+                  border: "1px solid #F8837944",
+                  color: "#4A4A4A",
                 }}
-                className="w-8 h-8 rounded-full flex items-center justify-center hover:border-[#B5525E] hover:text-[#FAD4D8] transition-all"
+                className="w-8 h-8 rounded-full flex items-center justify-center hover:border-[#F88379] hover:text-[#1A1A1A] transition-all"
               >
                 {s.icon}
               </a>
@@ -155,9 +155,9 @@ export function Footer() {
               <div key={c} className="flex items-center gap-1.5">
                 <span
                   className="w-1.5 h-1.5 rounded-full flex-shrink-0"
-                  style={{ background: "#C9A84C" }}
+                  style={{ background: "#D4A843" }}
                 />
-                <span style={{ color: "#E8A0AA77" }} className="text-[10px]">
+                <span style={{ color: "#4A4A4A77" }} className="text-[10px]">
                   {c}
                 </span>
               </div>
@@ -169,7 +169,7 @@ export function Footer() {
         <div>
           <h3
             className="text-xs font-bold uppercase tracking-widest mb-5 pb-2"
-            style={{ color: "#FAD4D8", borderBottom: "1px solid #B5525E44" }}
+            style={{ color: "#1A1A1A", borderBottom: "1px solid #F8837944" }}
           >
             Treks
           </h3>
@@ -183,8 +183,8 @@ export function Footer() {
                 <Link
                   to="/treks/$slug"
                   params={{ slug: t.slug }}
-                  style={{ color: "#E8A0AA" }}
-                  className="hover:text-[#FAD4D8] transition-colors text-xs"
+                  style={{ color: "#4A4A4A" }}
+                  className="hover:text-[#1A1A1A] transition-colors text-xs"
                 >
                   {t.name}
                 </Link>
@@ -196,7 +196,7 @@ export function Footer() {
         {/* Col 3 — Yatras + Packages */}
         <div>
           <h3
-            style={{ color: "#FAD4D8", borderBottom: "1px solid #B5525E44" }}
+            style={{ color: "#1A1A1A", borderBottom: "1px solid #F8837944" }}
             className="text-xs font-bold uppercase tracking-widest mb-5 pb-2"
           >
             Yatras & Tours
@@ -211,8 +211,8 @@ export function Footer() {
               <li key={l.to}>
                 <Link
                   to={l.to as "/"}
-                  style={{ color: "#E8A0AA" }}
-                  className="hover:text-[#FAD4D8] transition-colors text-xs"
+                  style={{ color: "#4A4A4A" }}
+                  className="hover:text-[#1A1A1A] transition-colors text-xs"
                 >
                   {l.label}
                 </Link>
@@ -220,7 +220,7 @@ export function Footer() {
             ))}
           </ul>
           <h3
-            style={{ color: "#FAD4D8", borderBottom: "1px solid #B5525E44" }}
+            style={{ color: "#1A1A1A", borderBottom: "1px solid #F8837944" }}
             className="text-xs font-bold uppercase tracking-widest mb-3 pb-2"
           >
             Explore
@@ -236,8 +236,8 @@ export function Footer() {
               <li key={l.to}>
                 <Link
                   to={l.to as "/"}
-                  style={{ color: "#E8A0AA" }}
-                  className="hover:text-[#FAD4D8] transition-colors text-xs"
+                  style={{ color: "#4A4A4A" }}
+                  className="hover:text-[#1A1A1A] transition-colors text-xs"
                 >
                   {l.label}
                 </Link>
@@ -249,7 +249,7 @@ export function Footer() {
         {/* Col 4 — Company */}
         <div>
           <h3
-            style={{ color: "#FAD4D8", borderBottom: "1px solid #B5525E44" }}
+            style={{ color: "#1A1A1A", borderBottom: "1px solid #F8837944" }}
             className="text-xs font-bold uppercase tracking-widest mb-5 pb-2"
           >
             Company
@@ -268,8 +268,8 @@ export function Footer() {
               <li key={l.to}>
                 <Link
                   to={l.to as "/"}
-                  style={{ color: "#E8A0AA" }}
-                  className="hover:text-[#FAD4D8] transition-colors text-xs"
+                  style={{ color: "#4A4A4A" }}
+                  className="hover:text-[#1A1A1A] transition-colors text-xs"
                 >
                   {l.label}
                 </Link>
@@ -280,9 +280,9 @@ export function Footer() {
             type="button"
             className="mt-5 flex items-center gap-1.5 text-xs font-semibold px-3 py-2 rounded-lg transition-colors"
             style={{
-              background: "#2D1B1E",
-              border: "1px solid #B5525E44",
-              color: "#FAD4D8",
+              background: "#FFFFFF",
+              border: "1px solid #F8837944",
+              color: "#1A1A1A",
             }}
           >
             📄 Download Press Kit
@@ -292,7 +292,7 @@ export function Footer() {
         {/* Col 5 — Contact + Newsletter */}
         <div>
           <h3
-            style={{ color: "#FAD4D8", borderBottom: "1px solid #B5525E44" }}
+            style={{ color: "#1A1A1A", borderBottom: "1px solid #F8837944" }}
             className="text-xs font-bold uppercase tracking-widest mb-5 pb-2"
           >
             Contact
@@ -301,13 +301,13 @@ export function Footer() {
             <li className="flex items-start gap-2">
               <Phone
                 size={13}
-                style={{ color: "#B5525E" }}
+                style={{ color: "#F88379" }}
                 className="mt-0.5 flex-shrink-0"
               />
               <a
                 href="tel:+918279888470"
-                style={{ color: "#E8A0AA" }}
-                className="hover:text-[#FAD4D8] text-xs"
+                style={{ color: "#4A4A4A" }}
+                className="hover:text-[#1A1A1A] text-xs"
               >
                 +91-8279888470
               </a>
@@ -315,13 +315,13 @@ export function Footer() {
             <li className="flex items-start gap-2">
               <Mail
                 size={13}
-                style={{ color: "#B5525E" }}
+                style={{ color: "#F88379" }}
                 className="mt-0.5 flex-shrink-0"
               />
               <a
                 href="mailto:Shailhikers@gmail.com"
-                style={{ color: "#E8A0AA" }}
-                className="hover:text-[#FAD4D8] text-xs break-all"
+                style={{ color: "#4A4A4A" }}
+                className="hover:text-[#1A1A1A] text-xs break-all"
               >
                 Shailhikers@gmail.com
               </a>
@@ -329,35 +329,35 @@ export function Footer() {
             <li className="flex items-start gap-2">
               <MapPin
                 size={13}
-                style={{ color: "#B5525E" }}
+                style={{ color: "#F88379" }}
                 className="mt-0.5 flex-shrink-0"
               />
-              <span style={{ color: "#E8A0AA" }} className="text-xs">
+              <span style={{ color: "#4A4A4A" }} className="text-xs">
                 Dehradun, Uttarakhand, India
               </span>
             </li>
             <li className="flex items-start gap-2">
               <Clock
                 size={13}
-                style={{ color: "#B5525E" }}
+                style={{ color: "#F88379" }}
                 className="mt-0.5 flex-shrink-0"
               />
-              <span style={{ color: "#E8A0AA" }} className="text-xs">
+              <span style={{ color: "#4A4A4A" }} className="text-xs">
                 Mon–Sun 7AM–10PM IST
               </span>
             </li>
           </ul>
           <p
-            style={{ color: "#FAD4D8" }}
+            style={{ color: "#1A1A1A" }}
             className="text-xs font-bold mb-1 uppercase tracking-wide"
           >
             Newsletter
           </p>
-          <p style={{ color: "#E8A0AA66" }} className="text-[10px] mb-3">
+          <p style={{ color: "#4A4A4A66" }} className="text-[10px] mb-3">
             Join 8,000+ trekkers for tips &amp; offers
           </p>
           {subscribed ? (
-            <p className="text-xs font-semibold" style={{ color: "#C9A84C" }}>
+            <p className="text-xs font-semibold" style={{ color: "#D4A843" }}>
               🏔 You're subscribed! Welcome to the tribe.
             </p>
           ) : (
@@ -368,21 +368,21 @@ export function Footer() {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Your email"
                 style={{
-                  background: "#2D1B1E",
-                  border: "1px solid #B5525E44",
-                  color: "#FAD4D8",
+                  background: "#FFFFFF",
+                  border: "1px solid #F8837944",
+                  color: "#1A1A1A",
                 }}
-                className="flex-1 text-xs px-3 py-2 rounded-l-lg outline-none placeholder:text-[#E8A0AA66] focus:border-[#B5525E]"
+                className="flex-1 text-xs px-3 py-2 rounded-l-lg outline-none placeholder:text-[#4A4A4A66] focus:border-[#F88379]"
                 data-ocid="footer.newsletter_input"
               />
               <button
                 type="submit"
-                style={{ background: "#B5525E" }}
+                style={{ background: "#F88379" }}
                 className="px-3 py-2 rounded-r-lg hover:opacity-90 transition-opacity"
                 data-ocid="footer.newsletter_submit"
                 aria-label="Subscribe to newsletter"
               >
-                <Send size={13} style={{ color: "#FAD4D8" }} />
+                <Send size={13} style={{ color: "#1A1A1A" }} />
               </button>
             </form>
           )}
@@ -390,11 +390,11 @@ export function Footer() {
       </div>
 
       {/* Bottom bar — payment icons + copyright */}
-      <div style={{ borderTop: "1px solid #B5525E1A", background: "#150A0C" }}>
+      <div style={{ borderTop: "1px solid #F883791A", background: "#150A0C" }}>
         <div className="max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row items-center justify-between gap-3">
           <div className="flex items-center gap-2 flex-wrap justify-center">
             <span
-              style={{ color: "#E8A0AA66" }}
+              style={{ color: "#4A4A4A66" }}
               className="text-[10px] uppercase tracking-wider mr-1"
             >
               Secure Payments:
@@ -411,21 +411,21 @@ export function Footer() {
                 key={p}
                 className="text-[10px] px-2 py-0.5 rounded font-medium"
                 style={{
-                  background: "#2D1B1E",
-                  color: "#E8A0AA",
-                  border: "1px solid #B5525E22",
+                  background: "#FFFFFF",
+                  color: "#4A4A4A",
+                  border: "1px solid #F8837922",
                 }}
               >
                 {p}
               </span>
             ))}
           </div>
-          <p style={{ color: "#E8A0AA66" }} className="text-xs">
+          <p style={{ color: "#4A4A4A66" }} className="text-xs">
             &copy; {year} Shail Hikers. All rights reserved.{" "}
             <a
               href={`https://caffeine.ai?utm_source=caffeine-footer&utm_medium=referral&utm_content=${encodeURIComponent(typeof window !== "undefined" ? window.location.hostname : "shailhikers.com")}`}
-              style={{ color: "#B5525E" }}
-              className="hover:text-[#FAD4D8] transition-colors"
+              style={{ color: "#F88379" }}
+              className="hover:text-[#1A1A1A] transition-colors"
             >
               Built with caffeine.ai
             </a>

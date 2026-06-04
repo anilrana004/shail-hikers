@@ -9,7 +9,7 @@ export function MapSection() {
   return (
     <section
       data-ocid="map.section"
-      style={{ background: "#2D1B1E" }}
+      style={{ background: "#FFFFFF" }}
       className="py-20"
     >
       <div className="max-w-7xl mx-auto px-4">
@@ -19,7 +19,7 @@ export function MapSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="text-xs uppercase tracking-[0.4em] mb-3"
-            style={{ color: "#B5525E" }}
+            style={{ color: "#F88379" }}
           >
             All 14 Trails
           </motion.p>
@@ -29,7 +29,7 @@ export function MapSection() {
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
             className="text-4xl md:text-6xl font-semibold"
-            style={{ fontFamily: "var(--font-display)", color: "#FAD4D8" }}
+            style={{ fontFamily: "var(--font-display)", color: "#1A1A1A" }}
           >
             OUR TREKKING UNIVERSE
           </motion.h2>
@@ -42,7 +42,7 @@ export function MapSection() {
               className="relative rounded-2xl overflow-hidden"
               style={{
                 aspectRatio: "4/3",
-                border: "1px solid rgba(181,82,94,0.3)",
+                border: "1px solid rgba(248,131,121,0.3)",
               }}
             >
               <img
@@ -55,7 +55,7 @@ export function MapSection() {
                 className="absolute inset-0"
                 style={{
                   background:
-                    "linear-gradient(180deg, rgba(26,14,16,0) 60%, rgba(26,14,16,0.7) 100%)",
+                    "linear-gradient(180deg, rgba(26,14,16,0) 60%, rgba(255,255,255,0.85) 100%)",
                 }}
               />
 
@@ -106,17 +106,17 @@ export function MapSection() {
                     className="w-3 h-3 rounded-full transition-all group-hover:scale-150"
                     style={{
                       background:
-                        activeTrek === pin.slug ? "#FAD4D8" : "#B5525E",
-                      border: "2px solid #FAD4D8",
-                      boxShadow: "0 0 8px rgba(181,82,94,0.6)",
+                        activeTrek === pin.slug ? "#1A1A1A" : "#F88379",
+                      border: "2px solid #1A1A1A",
+                      boxShadow: "0 0 8px rgba(248,131,121,0.6)",
                     }}
                   />
                   <span
                     className="text-[10px] font-semibold whitespace-nowrap px-1.5 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity"
                     style={{
                       background: "rgba(26,14,16,0.85)",
-                      color: "#FAD4D8",
-                      border: "1px solid rgba(181,82,94,0.4)",
+                      color: "#1A1A1A",
+                      border: "1px solid rgba(248,131,121,0.4)",
                     }}
                   >
                     {pin.name}
@@ -125,7 +125,7 @@ export function MapSection() {
               ))}
 
               <div className="absolute bottom-4 left-4">
-                <p className="text-xs" style={{ color: "#E8A0AA80" }}>
+                <p className="text-xs" style={{ color: "#4A4A4A80" }}>
                   Hover pins to explore routes
                 </p>
               </div>
@@ -136,14 +136,14 @@ export function MapSection() {
           <div
             className="rounded-2xl p-4 overflow-y-auto"
             style={{
-              background: "rgba(26,14,16,0.7)",
-              border: "1px solid rgba(181,82,94,0.2)",
+              background: "rgba(255,255,255,0.85)",
+              border: "1px solid rgba(248,131,121,0.2)",
               maxHeight: "480px",
             }}
           >
             <h3
               className="text-xs uppercase tracking-widest mb-4 font-bold"
-              style={{ color: "#FAD4D8" }}
+              style={{ color: "#1A1A1A" }}
             >
               All Treks
             </h3>
@@ -160,29 +160,29 @@ export function MapSection() {
                   style={{
                     background:
                       activeTrek === t.slug
-                        ? "rgba(181,82,94,0.2)"
+                        ? "rgba(248,131,121,0.2)"
                         : "transparent",
-                    border: `1px solid ${activeTrek === t.slug ? "rgba(181,82,94,0.4)" : "transparent"}`,
+                    border: `1px solid ${activeTrek === t.slug ? "rgba(248,131,121,0.4)" : "transparent"}`,
                   }}
                 >
                   <MapPin
                     size={12}
-                    style={{ color: "#B5525E", flexShrink: 0 }}
+                    style={{ color: "#F88379", flexShrink: 0 }}
                   />
                   <div className="flex-1 min-w-0">
                     <p
                       className="text-xs font-medium truncate"
-                      style={{ color: "#FAD4D8" }}
+                      style={{ color: "#1A1A1A" }}
                     >
                       {t.name}
                     </p>
-                    <p className="text-[10px]" style={{ color: "#E8A0AA60" }}>
+                    <p className="text-[10px]" style={{ color: "#4A4A4A60" }}>
                       {t.maxAltitude.toLocaleString()} ft · {t.durationDays}D
                     </p>
                   </div>
                   <span
                     className="text-[10px] font-medium"
-                    style={{ color: "#C9A84C", flexShrink: 0 }}
+                    style={{ color: "#D4A843", flexShrink: 0 }}
                   >
                     ₹{t.basePrice.toLocaleString()}
                   </span>

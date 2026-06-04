@@ -36,14 +36,14 @@ export default function TrekFAQsTab({ trek }: Props) {
   return (
     <div className="py-8 space-y-8">
       <div className="flex items-center justify-between">
-        <h2 className="font-display text-3xl" style={{ color: "#FAD4D8" }}>
+        <h2 className="font-display text-3xl" style={{ color: "#1A1A1A" }}>
           Frequently Asked Questions
         </h2>
         <button
           type="button"
           onClick={() => setShowAskModal(true)}
           className="text-sm px-4 py-2 rounded-xl border"
-          style={{ borderColor: "#E8A0AA44", color: "#E8A0AA" }}
+          style={{ borderColor: "#4A4A4A44", color: "#4A4A4A" }}
         >
           Ask a Question
         </button>
@@ -57,7 +57,7 @@ export default function TrekFAQsTab({ trek }: Props) {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           className="w-full px-5 py-3 rounded-xl border bg-transparent text-sm"
-          style={{ borderColor: "#E8A0AA44", color: "#FAD4D8" }}
+          style={{ borderColor: "#4A4A4A44", color: "#1A1A1A" }}
         />
       </div>
 
@@ -70,9 +70,10 @@ export default function TrekFAQsTab({ trek }: Props) {
             onClick={() => setCatFilter(cat)}
             className="text-xs px-3 py-1.5 rounded-full"
             style={{
-              background: catFilter === cat ? "#B5525E" : "rgba(45,27,30,0.8)",
-              color: "#FAD4D8",
-              border: `1px solid ${catFilter === cat ? "#B5525E" : "#E8A0AA33"}`,
+              background:
+                catFilter === cat ? "#F88379" : "rgba(255,255,255,0.9)",
+              color: "#1A1A1A",
+              border: `1px solid ${catFilter === cat ? "#F88379" : "#4A4A4A33"}`,
             }}
           >
             {cat}
@@ -86,7 +87,7 @@ export default function TrekFAQsTab({ trek }: Props) {
           <div
             key={faq.question}
             className="rounded-xl border"
-            style={{ borderColor: open === i ? "#B5525E66" : "#E8A0AA22" }}
+            style={{ borderColor: open === i ? "#F8837966" : "#4A4A4A22" }}
           >
             <button
               type="button"
@@ -94,28 +95,30 @@ export default function TrekFAQsTab({ trek }: Props) {
               className="w-full flex items-center gap-4 px-5 py-4 text-left"
               style={{
                 background:
-                  open === i ? "rgba(181,82,94,0.08)" : "rgba(45,27,30,0.8)",
+                  open === i
+                    ? "rgba(248,131,121,0.08)"
+                    : "rgba(255,255,255,0.9)",
               }}
             >
               <div className="flex-1">
                 <div
                   className="font-medium text-sm"
-                  style={{ color: "#FAD4D8" }}
+                  style={{ color: "#1A1A1A" }}
                 >
                   {faq.question}
                 </div>
                 <div
                   className="text-xs mt-0.5 px-2 py-0.5 rounded-full inline-block"
                   style={{
-                    background: "rgba(45,27,30,0.8)",
-                    color: "#E8A0AA",
-                    border: "1px solid #E8A0AA33",
+                    background: "rgba(255,255,255,0.9)",
+                    color: "#4A4A4A",
+                    border: "1px solid #4A4A4A33",
                   }}
                 >
                   {faq.category}
                 </div>
               </div>
-              <span className="text-sm" style={{ color: "#B5525E" }}>
+              <span className="text-sm" style={{ color: "#F88379" }}>
                 {open === i ? "-" : "+"}
               </span>
             </button>
@@ -130,16 +133,16 @@ export default function TrekFAQsTab({ trek }: Props) {
                 >
                   <div
                     className="px-5 py-4"
-                    style={{ background: "rgba(26,14,16,0.6)" }}
+                    style={{ background: "rgba(255,255,255,0.8)" }}
                   >
                     <div
                       className="text-sm leading-relaxed mb-4"
-                      style={{ color: "#FAD4D8" }}
+                      style={{ color: "#1A1A1A" }}
                     >
                       {faq.answer}
                     </div>
                     <div className="flex items-center gap-4">
-                      <span className="text-xs" style={{ color: "#E8A0AA" }}>
+                      <span className="text-xs" style={{ color: "#4A4A4A" }}>
                         Was this helpful?
                       </span>
                       <button
@@ -147,7 +150,7 @@ export default function TrekFAQsTab({ trek }: Props) {
                         onClick={() => setHelpful((h) => ({ ...h, [i]: true }))}
                         className="text-lg"
                         style={{
-                          color: helpful[i] === true ? "#2D5016" : "#E8A0AA",
+                          color: helpful[i] === true ? "#2D6A4F" : "#4A4A4A",
                         }}
                       >
                         &#128077;
@@ -159,7 +162,7 @@ export default function TrekFAQsTab({ trek }: Props) {
                         }
                         className="text-lg"
                         style={{
-                          color: helpful[i] === false ? "#B5525E" : "#E8A0AA",
+                          color: helpful[i] === false ? "#F88379" : "#4A4A4A",
                         }}
                       >
                         &#128078;
@@ -172,7 +175,7 @@ export default function TrekFAQsTab({ trek }: Props) {
           </div>
         ))}
         {filtered.length === 0 && (
-          <div className="text-center py-12" style={{ color: "#E8A0AA" }}>
+          <div className="text-center py-12" style={{ color: "#4A4A4A" }}>
             No FAQs found matching your search.
           </div>
         )}
@@ -182,23 +185,23 @@ export default function TrekFAQsTab({ trek }: Props) {
       {showAskModal && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center p-4"
-          style={{ background: "rgba(26,14,16,0.9)" }}
+          style={{ background: "rgba(255,255,255,0.95)" }}
         >
           <div
             className="rounded-2xl p-8 w-full max-w-lg"
-            style={{ background: "#2D1B1E" }}
+            style={{ background: "#FFFFFF" }}
           >
             <div className="flex items-center justify-between mb-6">
               <h3
                 className="font-display text-2xl"
-                style={{ color: "#FAD4D8" }}
+                style={{ color: "#1A1A1A" }}
               >
                 Ask a Question
               </h3>
               <button
                 type="button"
                 onClick={() => setShowAskModal(false)}
-                style={{ color: "#E8A0AA" }}
+                style={{ color: "#4A4A4A" }}
               >
                 &#10005;
               </button>
@@ -209,12 +212,12 @@ export default function TrekFAQsTab({ trek }: Props) {
               placeholder="What would you like to know about this trek?"
               rows={4}
               className="w-full px-4 py-3 rounded-xl border bg-transparent text-sm mb-4 resize-none"
-              style={{ borderColor: "#E8A0AA44", color: "#FAD4D8" }}
+              style={{ borderColor: "#4A4A4A44", color: "#1A1A1A" }}
             />
             <button
               type="button"
               className="w-full py-3 rounded-xl font-semibold text-sm"
-              style={{ background: "#B5525E", color: "#FAD4D8" }}
+              style={{ background: "#F88379", color: "#1A1A1A" }}
               onClick={() => {
                 setShowAskModal(false);
                 setAskQuestion("");

@@ -39,13 +39,13 @@ export function TrekCard({ trek, index }: TrekCardProps) {
   const [wishlisted, setWishlisted] = useState(false);
   const [hovered, setHovered] = useState(false);
   const elevData = getElevationData(trek.maxAltitude);
-  const diffColor = DIFFICULTY_COLORS[trek.difficulty] ?? "#C9A84C";
+  const diffColor = DIFFICULTY_COLORS[trek.difficulty] ?? "#D4A843";
   const seatsColor =
     (trek.seatsAvailable ?? 10) <= 3
-      ? "#B5525E"
+      ? "#F88379"
       : (trek.seatsAvailable ?? 10) <= 7
-        ? "#C9A84C"
-        : "#2D5016";
+        ? "#D4A843"
+        : "#2D6A4F";
 
   return (
     <motion.div
@@ -61,9 +61,9 @@ export function TrekCard({ trek, index }: TrekCardProps) {
         width: "300px",
         minWidth: "300px",
         height: "420px",
-        border: "1px solid rgba(181,82,94,0.2)",
+        border: "1px solid rgba(248,131,121,0.2)",
         boxShadow: hovered
-          ? "0 24px 60px rgba(181,82,94,0.25)"
+          ? "0 24px 60px rgba(248,131,121,0.25)"
           : "0 4px 24px rgba(0,0,0,0.4)",
         transition: "box-shadow 0.4s ease",
       }}
@@ -81,7 +81,7 @@ export function TrekCard({ trek, index }: TrekCardProps) {
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(180deg, rgba(26,14,16,0) 30%, rgba(26,14,16,0.7) 65%, rgba(26,14,16,0.97) 100%)",
+              "linear-gradient(180deg, rgba(26,14,16,0) 30%, rgba(255,255,255,0.85) 65%, rgba(26,14,16,0.97) 100%)",
           }}
         />
       </div>
@@ -104,8 +104,8 @@ export function TrekCard({ trek, index }: TrekCardProps) {
               className="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider"
               style={{
                 background: "rgba(201,168,76,0.25)",
-                border: "1px solid #C9A84C66",
-                color: "#C9A84C",
+                border: "1px solid #D4A84366",
+                color: "#D4A843",
               }}
             >
               UNESCO
@@ -121,16 +121,16 @@ export function TrekCard({ trek, index }: TrekCardProps) {
           }}
           className="w-8 h-8 rounded-full flex items-center justify-center transition-all hover:scale-110"
           style={{
-            background: "rgba(26,14,16,0.7)",
-            border: "1px solid rgba(181,82,94,0.3)",
+            background: "rgba(255,255,255,0.85)",
+            border: "1px solid rgba(248,131,121,0.3)",
           }}
           aria-label={wishlisted ? "Remove from wishlist" : "Add to wishlist"}
         >
           <Heart
             size={14}
             style={{
-              color: wishlisted ? "#B5525E" : "#FAD4D880",
-              fill: wishlisted ? "#B5525E" : "transparent",
+              color: wishlisted ? "#F88379" : "#1A1A1A80",
+              fill: wishlisted ? "#F88379" : "transparent",
             }}
           />
         </button>
@@ -141,7 +141,7 @@ export function TrekCard({ trek, index }: TrekCardProps) {
         <div
           className="flex items-center gap-1.5 px-2.5 py-1 rounded-full"
           style={{
-            background: "rgba(26,14,16,0.8)",
+            background: "rgba(255,255,255,0.9)",
             border: `1px solid ${seatsColor}44`,
           }}
         >
@@ -170,9 +170,9 @@ export function TrekCard({ trek, index }: TrekCardProps) {
               <Area
                 type="monotone"
                 dataKey="alt"
-                stroke="#B5525E"
+                stroke="#F88379"
                 strokeWidth={1.5}
-                fill="rgba(181,82,94,0.2)"
+                fill="rgba(248,131,121,0.2)"
                 isAnimationActive={false}
               />
             </AreaChart>
@@ -181,7 +181,7 @@ export function TrekCard({ trek, index }: TrekCardProps) {
 
         <h3
           className="text-lg font-semibold mb-1 leading-tight"
-          style={{ fontFamily: "var(--font-display)", color: "#FAD4D8" }}
+          style={{ fontFamily: "var(--font-display)", color: "#1A1A1A" }}
         >
           {trek.name}
         </h3>
@@ -189,19 +189,19 @@ export function TrekCard({ trek, index }: TrekCardProps) {
         <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mb-3">
           <span
             className="flex items-center gap-1 text-xs"
-            style={{ color: "#E8A0AA" }}
+            style={{ color: "#4A4A4A" }}
           >
             <Clock size={11} /> {trek.durationDays}D/{trek.durationNights}N
           </span>
           <span
             className="flex items-center gap-1 text-xs"
-            style={{ color: "#E8A0AA" }}
+            style={{ color: "#4A4A4A" }}
           >
             <Mountain size={11} /> {trek.maxAltitude.toLocaleString()} ft
           </span>
           <span
             className="flex items-center gap-1 text-xs"
-            style={{ color: "#E8A0AA" }}
+            style={{ color: "#4A4A4A" }}
           >
             <MapPin size={11} /> {trek.startingPoint.split(",")[0]}
           </span>
@@ -209,7 +209,7 @@ export function TrekCard({ trek, index }: TrekCardProps) {
 
         {/* Social proof */}
         {trek.completedThisMonth && (
-          <p className="text-[10px] mb-2" style={{ color: "#E8A0AA70" }}>
+          <p className="text-[10px] mb-2" style={{ color: "#4A4A4A70" }}>
             <Users size={9} className="inline mr-1" />
             {trek.completedThisMonth} trekkers this month
           </p>
@@ -219,13 +219,13 @@ export function TrekCard({ trek, index }: TrekCardProps) {
           <div>
             <span
               className="text-[10px] uppercase tracking-wider"
-              style={{ color: "#E8A0AA60" }}
+              style={{ color: "#4A4A4A60" }}
             >
               From
             </span>
             <p
               className="text-lg font-bold"
-              style={{ color: "#C9A84C", fontFamily: "var(--font-display)" }}
+              style={{ color: "#D4A843", fontFamily: "var(--font-display)" }}
             >
               ₹{trek.basePrice.toLocaleString()}
             </p>
@@ -241,11 +241,11 @@ export function TrekCard({ trek, index }: TrekCardProps) {
           >
             <div
               className="w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-bold flex-shrink-0"
-              style={{ background: "#B5525E", color: "#FAD4D8" }}
+              style={{ background: "#F88379", color: "#1A1A1A" }}
             >
               D
             </div>
-            <span className="text-[10px]" style={{ color: "#E8A0AA" }}>
+            <span className="text-[10px]" style={{ color: "#4A4A4A" }}>
               Guide: Deepak
             </span>
           </div>
@@ -255,7 +255,7 @@ export function TrekCard({ trek, index }: TrekCardProps) {
             params={{ slug: trek.slug }}
             data-ocid={`treks.explore.${index + 1}`}
             className="flex items-center gap-1 text-xs font-semibold uppercase tracking-wider transition-all hover:gap-2"
-            style={{ color: "#B5525E" }}
+            style={{ color: "#F88379" }}
             onClick={(e) => e.stopPropagation()}
           >
             Explore <ArrowRight size={12} />

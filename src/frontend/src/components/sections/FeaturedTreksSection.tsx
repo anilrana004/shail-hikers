@@ -12,7 +12,7 @@ export function FeaturedTreksSection() {
   return (
     <section
       data-ocid="featured_treks.section"
-      style={{ background: "#2D1B1E" }}
+      style={{ background: "#E6D8C4" }}
       className="py-20"
     >
       <div className="max-w-7xl mx-auto px-4">
@@ -23,7 +23,7 @@ export function FeaturedTreksSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               className="text-xs uppercase tracking-[0.4em] mb-3"
-              style={{ color: "#B5525E" }}
+              style={{ color: "#F88379" }}
             >
               Handpicked for You
             </motion.p>
@@ -33,7 +33,7 @@ export function FeaturedTreksSection() {
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
               className="text-4xl md:text-6xl font-semibold"
-              style={{ fontFamily: "var(--font-display)", color: "#FAD4D8" }}
+              style={{ fontFamily: "var(--font-display)", color: "#1A1A1A" }}
             >
               LEGENDARY TRAILS
             </motion.h2>
@@ -42,7 +42,7 @@ export function FeaturedTreksSection() {
             to="/treks"
             data-ocid="featured_treks.view_all"
             className="hidden md:flex items-center gap-2 text-sm font-medium transition-colors hover:opacity-80"
-            style={{ color: "#E8A0AA" }}
+            style={{ color: "#4A4A4A" }}
           >
             View All 14 Treks →
           </Link>
@@ -67,8 +67,8 @@ export function FeaturedTreksSection() {
             data-ocid="featured_treks.view_all_mobile"
             className="px-6 py-3 rounded-xl text-sm font-semibold tracking-wide"
             style={{
-              border: "1px solid rgba(181,82,94,0.4)",
-              color: "#B5525E",
+              border: "1px solid rgba(248,131,121,0.4)",
+              color: "#F88379",
             }}
           >
             View All 14 Treks →

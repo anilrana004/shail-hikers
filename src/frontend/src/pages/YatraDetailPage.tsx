@@ -64,14 +64,14 @@ export default function YatraDetailPage() {
     return (
       <div
         className="min-h-screen flex items-center justify-center"
-        style={{ background: "#1A0E10" }}
+        style={{ background: "#E6D8C4" }}
       >
         <div className="text-center">
           <p className="text-6xl mb-4">🛕</p>
-          <h2 className="text-2xl font-bold mb-2" style={{ color: "#FAD4D8" }}>
+          <h2 className="text-2xl font-bold mb-2" style={{ color: "#1A1A1A" }}>
             Yatra Not Found
           </h2>
-          <Link to="/" style={{ color: "#B5525E" }}>
+          <Link to="/" style={{ color: "#F88379" }}>
             ← Back to Home
           </Link>
         </div>
@@ -91,10 +91,10 @@ export default function YatraDetailPage() {
 
   const difficultyColor =
     yatra.difficulty === "Easy"
-      ? "#2D5016"
+      ? "#2D6A4F"
       : yatra.difficulty === "Moderate"
-        ? "#C9A84C"
-        : "#B5525E";
+        ? "#D4A843"
+        : "#F88379";
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -118,7 +118,7 @@ export default function YatraDetailPage() {
   };
 
   return (
-    <div style={{ background: "#1A0E10", minHeight: "100vh" }}>
+    <div style={{ background: "#E6D8C4", minHeight: "100vh" }}>
       {/* JSON-LD */}
       <script
         type="application/ld+json"
@@ -138,7 +138,7 @@ export default function YatraDetailPage() {
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
           <span
             className="text-[18rem] font-bold select-none"
-            style={{ color: "rgba(181,82,94,0.06)", lineHeight: 1 }}
+            style={{ color: "rgba(248,131,121,0.06)", lineHeight: 1 }}
           >
             ॐ
           </span>
@@ -147,7 +147,7 @@ export default function YatraDetailPage() {
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(to top, #1A0E10 0%, rgba(26,14,16,0.5) 50%, transparent 100%)",
+              "linear-gradient(to top, #E6D8C4 0%, rgba(255,255,255,0.7) 50%, transparent 100%)",
           }}
         />
 
@@ -165,19 +165,19 @@ export default function YatraDetailPage() {
               Yatras
             </Link>
             <span>›</span>
-            <span style={{ color: "#FAD4D8" }}>{yatra.name}</span>
+            <span style={{ color: "#1A1A1A" }}>{yatra.name}</span>
           </div>
 
           <h1
             className="text-4xl md:text-6xl font-bold mb-3"
-            style={{ color: "#FAD4D8", fontFamily: "var(--font-display)" }}
+            style={{ color: "#1A1A1A", fontFamily: "var(--font-display)" }}
           >
             {yatra.name}
           </h1>
           <p
             className="text-xl mb-6"
             style={{
-              color: "#E8A0AA",
+              color: "#4A4A4A",
               fontFamily: "var(--font-accent, var(--font-display))",
             }}
           >
@@ -203,14 +203,14 @@ export default function YatraDetailPage() {
                 key={stat.label}
                 className="px-4 py-2 rounded-full text-sm"
                 style={{
-                  background: "rgba(45,27,30,0.8)",
+                  background: "rgba(255,255,255,0.9)",
                   border: "1px solid rgba(232,160,170,0.3)",
                   backdropFilter: "blur(8px)",
                 }}
               >
-                <span style={{ color: "#B5525E" }}>{stat.label}: </span>
+                <span style={{ color: "#F88379" }}>{stat.label}: </span>
                 <span
-                  style={{ color: stat.color ?? "#FAD4D8", fontWeight: 600 }}
+                  style={{ color: stat.color ?? "#1A1A1A", fontWeight: 600 }}
                 >
                   {stat.value}
                 </span>
@@ -224,7 +224,7 @@ export default function YatraDetailPage() {
                   border: "1px solid rgba(201,168,76,0.4)",
                 }}
               >
-                <span style={{ color: "#C9A84C" }}>
+                <span style={{ color: "#D4A843" }}>
                   ⚠ Advance Registration Required
                 </span>
               </div>
@@ -237,7 +237,7 @@ export default function YatraDetailPage() {
                   border: "1px solid rgba(168,197,218,0.35)",
                 }}
               >
-                <span style={{ color: "#A8C5DA" }}>
+                <span style={{ color: "#82C8E5" }}>
                   🚁 Helicopter Available
                 </span>
               </div>
@@ -251,7 +251,7 @@ export default function YatraDetailPage() {
               params={{ slug: yatra.slug }}
               data-ocid="yatra.hero.book_button"
               className="px-8 py-3 rounded-full font-bold"
-              style={{ background: "#B5525E", color: "#FAD4D8" }}
+              style={{ background: "#F88379", color: "#1A1A1A" }}
             >
               Book This Yatra — ₹{yatra.basePrice.toLocaleString("en-IN")}
             </Link>
@@ -261,7 +261,7 @@ export default function YatraDetailPage() {
               className="px-6 py-3 rounded-full font-bold"
               style={{
                 border: "1px solid rgba(232,160,170,0.5)",
-                color: "#FAD4D8",
+                color: "#1A1A1A",
                 background: "rgba(45,27,30,0.6)",
               }}
               onClick={() => {
@@ -282,7 +282,7 @@ export default function YatraDetailPage() {
       {/* TRUST BAR */}
       <div
         style={{
-          background: "#2D1B1E",
+          background: "#FFFFFF",
           borderBottom: "1px solid rgba(232,160,170,0.15)",
         }}
       >
@@ -297,13 +297,15 @@ export default function YatraDetailPage() {
                 className="flex flex-col items-center gap-1 p-2 rounded-lg transition-colors text-center"
                 style={{
                   background:
-                    activeTrust === i ? "rgba(181,82,94,0.15)" : "transparent",
+                    activeTrust === i
+                      ? "rgba(248,131,121,0.15)"
+                      : "transparent",
                 }}
               >
                 <span className="text-xl">{item.icon}</span>
                 <span
                   className="text-xs font-medium leading-tight"
-                  style={{ color: "#E8A0AA" }}
+                  style={{ color: "#4A4A4A" }}
                 >
                   {item.label}
                 </span>
@@ -314,11 +316,11 @@ export default function YatraDetailPage() {
             <div
               className="mt-3 p-4 rounded-lg"
               style={{
-                background: "rgba(181,82,94,0.1)",
-                border: "1px solid rgba(181,82,94,0.25)",
+                background: "rgba(248,131,121,0.1)",
+                border: "1px solid rgba(248,131,121,0.25)",
               }}
             >
-              <p className="text-sm" style={{ color: "#FAD4D8" }}>
+              <p className="text-sm" style={{ color: "#1A1A1A" }}>
                 <span className="font-bold">
                   {TRUST_ITEMS[activeTrust].icon}{" "}
                   {TRUST_ITEMS[activeTrust].label}:
@@ -346,7 +348,7 @@ export default function YatraDetailPage() {
             <div
               className="rounded-2xl overflow-hidden"
               style={{
-                background: "#2D1B1E",
+                background: "#FFFFFF",
                 border: "1px solid rgba(232,160,170,0.2)",
               }}
             >
@@ -354,19 +356,19 @@ export default function YatraDetailPage() {
                 className="p-5"
                 style={{ borderBottom: "1px solid rgba(232,160,170,0.15)" }}
               >
-                <p className="text-sm" style={{ color: "#E8A0AA" }}>
+                <p className="text-sm" style={{ color: "#4A4A4A" }}>
                   Starting from
                 </p>
                 <p
                   className="text-3xl font-bold"
                   style={{
-                    color: "#C9A84C",
+                    color: "#D4A843",
                     fontFamily: "var(--font-display)",
                   }}
                 >
                   ₹{yatra.basePrice.toLocaleString("en-IN")}
                 </p>
-                <p className="text-xs" style={{ color: "#E8A0AA" }}>
+                <p className="text-xs" style={{ color: "#4A4A4A" }}>
                   per person · {yatra.durationDays} days
                 </p>
               </div>
@@ -377,7 +379,7 @@ export default function YatraDetailPage() {
                   <label
                     htmlFor="group-size-yatra"
                     className="block text-sm font-bold mb-2"
-                    style={{ color: "#FAD4D8" }}
+                    style={{ color: "#1A1A1A" }}
                   >
                     Group Size
                   </label>
@@ -391,15 +393,15 @@ export default function YatraDetailPage() {
                       onClick={() => setGroupSize(Math.max(1, groupSize - 1))}
                       className="w-8 h-8 rounded-full font-bold"
                       style={{
-                        background: "rgba(181,82,94,0.2)",
-                        color: "#FAD4D8",
+                        background: "rgba(248,131,121,0.2)",
+                        color: "#1A1A1A",
                       }}
                     >
                       −
                     </button>
                     <span
                       className="font-bold text-lg"
-                      style={{ color: "#FAD4D8" }}
+                      style={{ color: "#1A1A1A" }}
                     >
                       {groupSize}
                     </span>
@@ -409,18 +411,18 @@ export default function YatraDetailPage() {
                       onClick={() => setGroupSize(Math.min(20, groupSize + 1))}
                       className="w-8 h-8 rounded-full font-bold"
                       style={{
-                        background: "rgba(181,82,94,0.2)",
-                        color: "#FAD4D8",
+                        background: "rgba(248,131,121,0.2)",
+                        color: "#1A1A1A",
                       }}
                     >
                       +
                     </button>
-                    <span className="text-sm" style={{ color: "#E8A0AA" }}>
+                    <span className="text-sm" style={{ color: "#4A4A4A" }}>
                       persons
                     </span>
                   </div>
                   {groupSize >= 5 && (
-                    <p className="text-xs mt-1" style={{ color: "#2D5016" }}>
+                    <p className="text-xs mt-1" style={{ color: "#2D6A4F" }}>
                       🎉 Group discount applied: {groupSize >= 9 ? "10%" : "5%"}{" "}
                       off
                     </p>
@@ -436,16 +438,16 @@ export default function YatraDetailPage() {
                   }}
                 >
                   <div className="flex justify-between text-sm mb-1">
-                    <span style={{ color: "#E8A0AA" }}>Per person</span>
-                    <span style={{ color: "#C9A84C" }}>
+                    <span style={{ color: "#4A4A4A" }}>Per person</span>
+                    <span style={{ color: "#D4A843" }}>
                       ₹{Math.round(priceForGroup).toLocaleString("en-IN")}
                     </span>
                   </div>
                   <div className="flex justify-between text-sm mb-2">
-                    <span style={{ color: "#E8A0AA" }}>
+                    <span style={{ color: "#4A4A4A" }}>
                       Group of {groupSize}
                     </span>
-                    <span style={{ color: "#C9A84C" }}>
+                    <span style={{ color: "#D4A843" }}>
                       ₹{totalPrice.toLocaleString("en-IN")}
                     </span>
                   </div>
@@ -454,12 +456,12 @@ export default function YatraDetailPage() {
                     style={{ borderTop: "1px solid rgba(201,168,76,0.2)" }}
                   >
                     <div className="flex justify-between">
-                      <span className="font-bold" style={{ color: "#FAD4D8" }}>
+                      <span className="font-bold" style={{ color: "#1A1A1A" }}>
                         Total
                       </span>
                       <span
                         className="font-bold text-lg"
-                        style={{ color: "#C9A84C" }}
+                        style={{ color: "#D4A843" }}
                       >
                         ₹{totalPrice.toLocaleString("en-IN")}
                       </span>
@@ -472,7 +474,7 @@ export default function YatraDetailPage() {
                   params={{ slug: yatra.slug }}
                   data-ocid="yatra.sidebar.book_button"
                   className="block text-center py-4 rounded-xl font-bold transition-opacity hover:opacity-90"
-                  style={{ background: "#B5525E", color: "#FAD4D8" }}
+                  style={{ background: "#F88379", color: "#1A1A1A" }}
                 >
                   Book Now
                 </Link>
@@ -485,7 +487,7 @@ export default function YatraDetailPage() {
                   className="flex items-center justify-center gap-2 py-3 rounded-xl font-medium"
                   style={{
                     border: "1px solid rgba(232,160,170,0.3)",
-                    color: "#E8A0AA",
+                    color: "#4A4A4A",
                   }}
                 >
                   <span>💬</span> WhatsApp Us
@@ -499,7 +501,7 @@ export default function YatraDetailPage() {
                     border: "1px solid rgba(232,160,170,0.1)",
                   }}
                 >
-                  <p className="text-xs mb-2" style={{ color: "#B5525E" }}>
+                  <p className="text-xs mb-2" style={{ color: "#F88379" }}>
                     YOUR POTENTIAL GUIDE
                   </p>
                   <div className="flex items-center gap-3">
@@ -507,16 +509,16 @@ export default function YatraDetailPage() {
                       src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=60&q=80"
                       alt="Guide"
                       className="w-10 h-10 rounded-full object-cover"
-                      style={{ border: "2px solid #B5525E" }}
+                      style={{ border: "2px solid #F88379" }}
                     />
                     <div>
                       <p
                         className="font-bold text-sm"
-                        style={{ color: "#FAD4D8" }}
+                        style={{ color: "#1A1A1A" }}
                       >
                         Sanjay Kumar
                       </p>
-                      <p className="text-xs" style={{ color: "#E8A0AA" }}>
+                      <p className="text-xs" style={{ color: "#4A4A4A" }}>
                         9 yrs · ⭐ 4.9/5
                       </p>
                     </div>
@@ -528,14 +530,14 @@ export default function YatraDetailPage() {
                   <div
                     className="p-3 rounded-lg text-center"
                     style={{
-                      background: "rgba(181,82,94,0.1)",
-                      border: "1px solid rgba(181,82,94,0.25)",
+                      background: "rgba(248,131,121,0.1)",
+                      border: "1px solid rgba(248,131,121,0.25)",
                     }}
                   >
-                    <p className="text-xs" style={{ color: "#E8A0AA" }}>
+                    <p className="text-xs" style={{ color: "#4A4A4A" }}>
                       Next Departure
                     </p>
-                    <p className="font-bold" style={{ color: "#FAD4D8" }}>
+                    <p className="font-bold" style={{ color: "#1A1A1A" }}>
                       {new Date(yatra.nextDeparture).toLocaleDateString(
                         "en-IN",
                         { day: "numeric", month: "long", year: "numeric" },
@@ -552,17 +554,17 @@ export default function YatraDetailPage() {
         <div
           className="lg:hidden fixed bottom-0 left-0 right-0 z-40 p-4"
           style={{
-            background: "rgba(26,14,16,0.95)",
+            background: "rgba(255,255,255,0.95)",
             borderTop: "1px solid rgba(232,160,170,0.2)",
             backdropFilter: "blur(8px)",
           }}
         >
           <div className="flex items-center gap-4">
             <div>
-              <p className="text-xs" style={{ color: "#E8A0AA" }}>
+              <p className="text-xs" style={{ color: "#4A4A4A" }}>
                 from
               </p>
-              <p className="font-bold text-lg" style={{ color: "#C9A84C" }}>
+              <p className="font-bold text-lg" style={{ color: "#D4A843" }}>
                 ₹{yatra.basePrice.toLocaleString("en-IN")}
               </p>
             </div>
@@ -571,7 +573,7 @@ export default function YatraDetailPage() {
               params={{ slug: yatra.slug }}
               data-ocid="yatra.mobile.book_button"
               className="flex-1 text-center py-3 rounded-full font-bold"
-              style={{ background: "#B5525E", color: "#FAD4D8" }}
+              style={{ background: "#F88379", color: "#1A1A1A" }}
             >
               Book This Yatra
             </Link>

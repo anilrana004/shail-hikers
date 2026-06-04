@@ -215,7 +215,7 @@ function SliderInput({
   return (
     <div>
       <div className="text-center mb-3">
-        <span className="font-display text-3xl" style={{ color: "#C9A84C" }}>
+        <span className="font-display text-3xl" style={{ color: "#D4A843" }}>
           {formatLabel(value)}
         </span>
       </div>
@@ -226,12 +226,12 @@ function SliderInput({
         step={step}
         value={value}
         onChange={(e) => onChange(Number(e.target.value))}
-        className="w-full accent-[#B5525E] h-2"
-        style={{ accentColor: "#B5525E" }}
+        className="w-full accent-[#F88379] h-2"
+        style={{ accentColor: "#F88379" }}
       />
       <div
         className="flex justify-between text-xs mt-1"
-        style={{ color: "#E8A0AA" }}
+        style={{ color: "#4A4A4A" }}
       >
         <span>{formatLabel(min)}</span>
         <span>{formatLabel(max)}</span>
@@ -288,23 +288,23 @@ export default function TrekFinderPage() {
               style={{
                 background:
                   answers.fitness === opt.value
-                    ? "rgba(181,82,94,0.2)"
-                    : "rgba(26,14,16,0.8)",
+                    ? "rgba(248,131,121,0.2)"
+                    : "rgba(255,255,255,0.9)",
                 border:
                   answers.fitness === opt.value
-                    ? "2px solid #B5525E"
-                    : "2px solid rgba(181,82,94,0.2)",
+                    ? "2px solid #F88379"
+                    : "2px solid rgba(248,131,121,0.2)",
               }}
             >
               <span className="text-2xl">{opt.emoji}</span>
               <div>
                 <div
                   className="font-semibold text-sm"
-                  style={{ color: "#FAD4D8" }}
+                  style={{ color: "#1A1A1A" }}
                 >
                   {opt.label}
                 </div>
-                <div className="text-xs mt-0.5" style={{ color: "#E8A0AA" }}>
+                <div className="text-xs mt-0.5" style={{ color: "#4A4A4A" }}>
                   {opt.desc}
                 </div>
               </div>
@@ -312,7 +312,7 @@ export default function TrekFinderPage() {
                 <Check
                   size={16}
                   className="ml-auto"
-                  style={{ color: "#B5525E" }}
+                  style={{ color: "#F88379" }}
                 />
               )}
             </button>
@@ -371,12 +371,12 @@ export default function TrekFinderPage() {
                 className="py-3 rounded-xl text-sm font-semibold transition-all duration-200"
                 style={{
                   background: sel
-                    ? "rgba(181,82,94,0.2)"
-                    : "rgba(26,14,16,0.8)",
+                    ? "rgba(248,131,121,0.2)"
+                    : "rgba(255,255,255,0.9)",
                   border: sel
-                    ? "2px solid #B5525E"
-                    : "2px solid rgba(181,82,94,0.2)",
-                  color: sel ? "#FAD4D8" : "#E8A0AA",
+                    ? "2px solid #F88379"
+                    : "2px solid rgba(248,131,121,0.2)",
+                  color: sel ? "#1A1A1A" : "#4A4A4A",
                 }}
               >
                 {m}
@@ -419,17 +419,17 @@ export default function TrekFinderPage() {
                 className="p-4 rounded-xl flex flex-col items-center gap-2 transition-all duration-200"
                 style={{
                   background: sel
-                    ? "rgba(181,82,94,0.2)"
-                    : "rgba(26,14,16,0.8)",
+                    ? "rgba(248,131,121,0.2)"
+                    : "rgba(255,255,255,0.9)",
                   border: sel
-                    ? "2px solid #B5525E"
-                    : "2px solid rgba(181,82,94,0.2)",
+                    ? "2px solid #F88379"
+                    : "2px solid rgba(248,131,121,0.2)",
                 }}
               >
                 <span className="text-2xl">{emojis[ex]}</span>
                 <span
                   className="text-xs font-semibold"
-                  style={{ color: sel ? "#FAD4D8" : "#E8A0AA" }}
+                  style={{ color: sel ? "#1A1A1A" : "#4A4A4A" }}
                 >
                   {ex}
                 </span>
@@ -455,21 +455,21 @@ export default function TrekFinderPage() {
                 className="p-4 rounded-xl flex flex-col items-center gap-2 text-center transition-all duration-200"
                 style={{
                   background: sel
-                    ? "rgba(181,82,94,0.2)"
-                    : "rgba(26,14,16,0.8)",
+                    ? "rgba(248,131,121,0.2)"
+                    : "rgba(255,255,255,0.9)",
                   border: sel
-                    ? "2px solid #B5525E"
-                    : "2px solid rgba(181,82,94,0.2)",
+                    ? "2px solid #F88379"
+                    : "2px solid rgba(248,131,121,0.2)",
                 }}
               >
                 <span className="text-2xl">{g.emoji}</span>
                 <div
                   className="font-semibold text-sm"
-                  style={{ color: sel ? "#FAD4D8" : "#E8A0AA" }}
+                  style={{ color: sel ? "#1A1A1A" : "#4A4A4A" }}
                 >
                   {g.value}
                 </div>
-                <div className="text-xs" style={{ color: "#E8A0AA" }}>
+                <div className="text-xs" style={{ color: "#4A4A4A" }}>
                   {g.desc}
                 </div>
               </button>
@@ -494,27 +494,27 @@ export default function TrekFinderPage() {
                 className="p-5 rounded-xl text-center transition-all duration-200"
                 style={{
                   background: sel
-                    ? "rgba(181,82,94,0.2)"
-                    : "rgba(26,14,16,0.8)",
+                    ? "rgba(248,131,121,0.2)"
+                    : "rgba(255,255,255,0.9)",
                   border: sel
-                    ? "2px solid #B5525E"
-                    : "2px solid rgba(181,82,94,0.2)",
+                    ? "2px solid #F88379"
+                    : "2px solid rgba(248,131,121,0.2)",
                 }}
               >
                 <div
                   className="font-semibold text-base mb-1"
-                  style={{ color: sel ? "#FAD4D8" : "#E8A0AA" }}
+                  style={{ color: sel ? "#1A1A1A" : "#4A4A4A" }}
                 >
                   {o.label}
                 </div>
-                <div className="text-xs" style={{ color: "#E8A0AA" }}>
+                <div className="text-xs" style={{ color: "#4A4A4A" }}>
                   {o.desc}
                 </div>
                 {sel && (
                   <Check
                     size={16}
                     className="mx-auto mt-2"
-                    style={{ color: "#B5525E" }}
+                    style={{ color: "#F88379" }}
                   />
                 )}
               </button>
@@ -539,26 +539,26 @@ export default function TrekFinderPage() {
                 className="flex items-center gap-4 p-5 rounded-xl text-left transition-all duration-200"
                 style={{
                   background: sel
-                    ? "rgba(181,82,94,0.2)"
-                    : "rgba(26,14,16,0.8)",
+                    ? "rgba(248,131,121,0.2)"
+                    : "rgba(255,255,255,0.9)",
                   border: sel
-                    ? "2px solid #B5525E"
-                    : "2px solid rgba(181,82,94,0.2)",
+                    ? "2px solid #F88379"
+                    : "2px solid rgba(248,131,121,0.2)",
                 }}
               >
                 <span className="text-3xl">{o.emoji}</span>
                 <div className="flex-1">
                   <div
                     className="font-semibold"
-                    style={{ color: sel ? "#FAD4D8" : "#E8A0AA" }}
+                    style={{ color: sel ? "#1A1A1A" : "#4A4A4A" }}
                   >
                     {o.label}
                   </div>
-                  <div className="text-sm" style={{ color: "#E8A0AA" }}>
+                  <div className="text-sm" style={{ color: "#4A4A4A" }}>
                     {o.desc}
                   </div>
                 </div>
-                {sel && <Check size={18} style={{ color: "#B5525E" }} />}
+                {sel && <Check size={18} style={{ color: "#F88379" }} />}
               </button>
             );
           })}
@@ -570,7 +570,7 @@ export default function TrekFinderPage() {
   // Results screen
   if (step === 8) {
     return (
-      <div className="min-h-screen" style={{ background: "#1A0E10" }}>
+      <div className="min-h-screen" style={{ background: "#E6D8C4" }}>
         <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -579,17 +579,20 @@ export default function TrekFinderPage() {
             <div className="text-center mb-10">
               <div
                 className="inline-block px-4 py-1 rounded-full text-xs font-semibold mb-3"
-                style={{ background: "rgba(181,82,94,0.15)", color: "#B5525E" }}
+                style={{
+                  background: "rgba(248,131,121,0.15)",
+                  color: "#F88379",
+                }}
               >
                 Your Results
               </div>
               <h1
                 className="font-display text-4xl mb-2"
-                style={{ color: "#FAD4D8" }}
+                style={{ color: "#1A1A1A" }}
               >
                 Your Perfect Treks
               </h1>
-              <p className="text-sm" style={{ color: "#E8A0AA" }}>
+              <p className="text-sm" style={{ color: "#4A4A4A" }}>
                 Based on your preferences, here are our top recommendations
               </p>
             </div>
@@ -602,17 +605,17 @@ export default function TrekFinderPage() {
                   transition={{ delay: i * 0.15 }}
                   className="rounded-2xl overflow-hidden"
                   style={{
-                    background: "rgba(45,27,30,0.9)",
+                    background: "rgba(255,255,255,0.95)",
                     border:
                       i === 0
-                        ? "2px solid #B5525E"
-                        : "1px solid rgba(181,82,94,0.25)",
+                        ? "2px solid #F88379"
+                        : "1px solid rgba(248,131,121,0.25)",
                   }}
                 >
                   {i === 0 && (
                     <div
                       className="px-4 py-1.5 text-xs font-semibold flex items-center gap-1.5"
-                      style={{ background: "#B5525E", color: "#FAD4D8" }}
+                      style={{ background: "#F88379", color: "#1A1A1A" }}
                     >
                       ⭐ Best Match
                     </div>
@@ -627,7 +630,7 @@ export default function TrekFinderPage() {
                       <div className="flex items-center gap-3 mb-1">
                         <h2
                           className="font-display text-xl"
-                          style={{ color: "#FAD4D8" }}
+                          style={{ color: "#1A1A1A" }}
                         >
                           {r.trek.name}
                         </h2>
@@ -635,7 +638,7 @@ export default function TrekFinderPage() {
                           className="flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-bold"
                           style={{
                             background: "rgba(201,168,76,0.2)",
-                            color: "#C9A84C",
+                            color: "#D4A843",
                           }}
                         >
                           {r.score}% match
@@ -643,7 +646,7 @@ export default function TrekFinderPage() {
                       </div>
                       <div
                         className="text-xs mb-2"
-                        style={{ color: "#E8A0AA" }}
+                        style={{ color: "#4A4A4A" }}
                       >
                         {r.trek.durationDays} days · {r.trek.difficulty} · ₹
                         {r.trek.basePrice.toLocaleString("en-IN")} ·{" "}
@@ -658,9 +661,9 @@ export default function TrekFinderPage() {
                             <Check
                               size={11}
                               className="mt-0.5 flex-shrink-0"
-                              style={{ color: "#B5525E" }}
+                              style={{ color: "#F88379" }}
                             />
-                            <span style={{ color: "#E8A0AA" }}>{reason}</span>
+                            <span style={{ color: "#4A4A4A" }}>{reason}</span>
                           </div>
                         ))}
                       </div>
@@ -668,7 +671,7 @@ export default function TrekFinderPage() {
                         <a
                           href={`/book/${r.trek.slug}`}
                           className="px-4 py-2 rounded-xl text-xs font-semibold"
-                          style={{ background: "#B5525E", color: "#FAD4D8" }}
+                          style={{ background: "#F88379", color: "#1A1A1A" }}
                           data-ocid={`trekfinder.result.book.${i + 1}`}
                         >
                           Book Now
@@ -677,9 +680,9 @@ export default function TrekFinderPage() {
                           href={`/treks/${r.trek.slug}`}
                           className="px-4 py-2 rounded-xl text-xs font-semibold"
                           style={{
-                            background: "rgba(181,82,94,0.15)",
-                            color: "#E8A0AA",
-                            border: "1px solid rgba(181,82,94,0.3)",
+                            background: "rgba(248,131,121,0.15)",
+                            color: "#4A4A4A",
+                            border: "1px solid rgba(248,131,121,0.3)",
                           }}
                           data-ocid={`trekfinder.result.view.${i + 1}`}
                         >
@@ -696,13 +699,13 @@ export default function TrekFinderPage() {
             <div
               className="mt-8 p-5 rounded-2xl"
               style={{
-                background: "rgba(26,14,16,0.8)",
-                border: "1px solid rgba(181,82,94,0.25)",
+                background: "rgba(255,255,255,0.9)",
+                border: "1px solid rgba(248,131,121,0.25)",
               }}
             >
               <h3
                 className="font-display text-lg mb-4"
-                style={{ color: "#FAD4D8" }}
+                style={{ color: "#1A1A1A" }}
               >
                 Quick Comparison
               </h3>
@@ -710,14 +713,14 @@ export default function TrekFinderPage() {
                 <table className="w-full text-sm">
                   <thead>
                     <tr>
-                      <td className="pb-2 pr-4" style={{ color: "#E8A0AA" }}>
+                      <td className="pb-2 pr-4" style={{ color: "#4A4A4A" }}>
                         Metric
                       </td>
                       {results.map((r) => (
                         <td
                           key={r.trek.slug}
                           className="pb-2 pr-4 font-semibold"
-                          style={{ color: "#FAD4D8" }}
+                          style={{ color: "#1A1A1A" }}
                         >
                           {r.trek.name}
                         </td>
@@ -743,14 +746,14 @@ export default function TrekFinderPage() {
                       { label: "Best Time", fn: (t: Trek) => t.bestTime },
                     ].map((row) => (
                       <tr key={row.label}>
-                        <td className="py-2 pr-4" style={{ color: "#E8A0AA" }}>
+                        <td className="py-2 pr-4" style={{ color: "#4A4A4A" }}>
                           {row.label}
                         </td>
                         {results.map((r) => (
                           <td
                             key={r.trek.slug}
                             className="py-2 pr-4"
-                            style={{ color: "#FAD4D8" }}
+                            style={{ color: "#1A1A1A" }}
                           >
                             {row.fn(r.trek)}
                           </td>
@@ -773,9 +776,9 @@ export default function TrekFinderPage() {
                 className="flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold"
                 data-ocid="trekfinder.retake_button"
                 style={{
-                  background: "rgba(181,82,94,0.15)",
-                  color: "#E8A0AA",
-                  border: "1px solid rgba(181,82,94,0.3)",
+                  background: "rgba(248,131,121,0.15)",
+                  color: "#4A4A4A",
+                  border: "1px solid rgba(248,131,121,0.3)",
                 }}
               >
                 <RefreshCw size={14} /> Retake Quiz
@@ -784,9 +787,9 @@ export default function TrekFinderPage() {
                 type="button"
                 className="flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold"
                 style={{
-                  background: "rgba(181,82,94,0.15)",
-                  color: "#E8A0AA",
-                  border: "1px solid rgba(181,82,94,0.3)",
+                  background: "rgba(248,131,121,0.15)",
+                  color: "#4A4A4A",
+                  border: "1px solid rgba(248,131,121,0.3)",
                 }}
               >
                 <Share2 size={14} /> Share Results
@@ -801,23 +804,23 @@ export default function TrekFinderPage() {
   const q = QUESTIONS[step];
 
   return (
-    <div className="min-h-screen" style={{ background: "#1A0E10" }}>
+    <div className="min-h-screen" style={{ background: "#E6D8C4" }}>
       <div className="max-w-2xl mx-auto px-4 sm:px-6 py-12">
         {/* Header */}
         <div className="text-center mb-8">
           <div
             className="inline-block px-4 py-1 rounded-full text-xs font-semibold mb-3"
-            style={{ background: "rgba(181,82,94,0.15)", color: "#B5525E" }}
+            style={{ background: "rgba(248,131,121,0.15)", color: "#F88379" }}
           >
             Trek Finder Quiz
           </div>
           <h1
             className="font-display text-4xl mb-2"
-            style={{ color: "#FAD4D8" }}
+            style={{ color: "#1A1A1A" }}
           >
             Find Your Perfect Himalayan Trek
           </h1>
-          <p className="text-sm" style={{ color: "#E8A0AA" }}>
+          <p className="text-sm" style={{ color: "#4A4A4A" }}>
             Answer 8 quick questions and we'll match you with the best trek
           </p>
         </div>
@@ -826,7 +829,7 @@ export default function TrekFinderPage() {
         <div className="mb-8">
           <div
             className="flex justify-between text-xs mb-2"
-            style={{ color: "#E8A0AA" }}
+            style={{ color: "#4A4A4A" }}
           >
             <span>
               Question {step + 1} of {totalSteps}
@@ -835,12 +838,12 @@ export default function TrekFinderPage() {
           </div>
           <div
             className="h-2 rounded-full"
-            style={{ background: "rgba(181,82,94,0.2)" }}
+            style={{ background: "rgba(248,131,121,0.2)" }}
           >
             <motion.div
               className="h-2 rounded-full"
               style={{
-                background: "linear-gradient(to right, #B5525E, #E8A0AA)",
+                background: "linear-gradient(to right, #F88379, #4A4A4A)",
               }}
               initial={false}
               animate={{ width: `${progress}%` }}
@@ -859,18 +862,18 @@ export default function TrekFinderPage() {
             transition={{ duration: 0.2 }}
             className="p-6 rounded-2xl mb-6"
             style={{
-              background: "rgba(45,27,30,0.9)",
-              border: "1px solid rgba(181,82,94,0.25)",
+              background: "rgba(255,255,255,0.95)",
+              border: "1px solid rgba(248,131,121,0.25)",
             }}
           >
             <h2
               className="font-display text-2xl mb-1"
-              style={{ color: "#FAD4D8" }}
+              style={{ color: "#1A1A1A" }}
             >
               {q.q}
             </h2>
             {q.hint && (
-              <p className="text-sm mb-6" style={{ color: "#E8A0AA" }}>
+              <p className="text-sm mb-6" style={{ color: "#4A4A4A" }}>
                 {q.hint}
               </p>
             )}
@@ -888,9 +891,11 @@ export default function TrekFinderPage() {
             data-ocid="trekfinder.back_button"
             style={{
               background:
-                step === 0 ? "rgba(181,82,94,0.05)" : "rgba(181,82,94,0.15)",
-              color: step === 0 ? "rgba(232,160,170,0.3)" : "#E8A0AA",
-              border: "1px solid rgba(181,82,94,0.2)",
+                step === 0
+                  ? "rgba(248,131,121,0.05)"
+                  : "rgba(248,131,121,0.15)",
+              color: step === 0 ? "rgba(232,160,170,0.3)" : "#4A4A4A",
+              border: "1px solid rgba(248,131,121,0.2)",
               cursor: step === 0 ? "not-allowed" : "pointer",
             }}
           >
@@ -903,7 +908,7 @@ export default function TrekFinderPage() {
             onClick={goNext}
             data-ocid="trekfinder.next_button"
             className="flex items-center gap-2 px-8 py-3 rounded-xl text-sm font-semibold"
-            style={{ background: "#B5525E", color: "#FAD4D8" }}
+            style={{ background: "#F88379", color: "#1A1A1A" }}
           >
             {step === totalSteps - 1 ? "See My Treks" : "Next"}{" "}
             <ChevronRight size={16} />

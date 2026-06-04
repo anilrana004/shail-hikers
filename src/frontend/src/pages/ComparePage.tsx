@@ -213,7 +213,7 @@ function YesNo({ yes }: { yes: boolean }) {
   return yes ? (
     <span
       className="inline-flex items-center gap-1 text-xs font-semibold"
-      style={{ color: "#2D5016" }}
+      style={{ color: "#2D6A4F" }}
     >
       <CheckIcon size={13} />
       Yes
@@ -221,7 +221,7 @@ function YesNo({ yes }: { yes: boolean }) {
   ) : (
     <span
       className="inline-flex items-center gap-1 text-xs font-semibold"
-      style={{ color: "#B5525E" }}
+      style={{ color: "#F88379" }}
     >
       <XIcon size={13} />
       No
@@ -280,11 +280,11 @@ function TrekDropdown({
         style={{
           background: "rgba(250,212,216,0.07)",
           border: "1px solid rgba(232,160,170,0.3)",
-          color: slot ? "#FAD4D8" : "#E8A0AA",
+          color: slot ? "#1A1A1A" : "#4A4A4A",
         }}
       >
         <span className="flex items-center gap-2 min-w-0">
-          <MountainIcon size={15} style={{ color: "#B5525E", flexShrink: 0 }} />
+          <MountainIcon size={15} style={{ color: "#F88379", flexShrink: 0 }} />
           {slot ? (
             <span className="truncate font-semibold">{slot.name}</span>
           ) : (
@@ -306,7 +306,7 @@ function TrekDropdown({
           <ChevronDownIcon
             size={15}
             className={`transition-transform ${open ? "rotate-180" : ""}`}
-            style={{ color: "#E8A0AA" }}
+            style={{ color: "#4A4A4A" }}
           />
         </span>
       </button>
@@ -320,7 +320,7 @@ function TrekDropdown({
             transition={{ duration: 0.16 }}
             className="absolute top-full mt-2 left-0 right-0 z-50 rounded-xl overflow-hidden shadow-2xl"
             style={{
-              background: "#2D1B1E",
+              background: "#FFFFFF",
               border: "1px solid rgba(232,160,170,0.3)",
             }}
           >
@@ -332,13 +332,13 @@ function TrekDropdown({
                 className="flex items-center gap-2 rounded-lg px-3 py-2"
                 style={{ background: "rgba(250,212,216,0.07)" }}
               >
-                <SearchIcon size={13} style={{ color: "#E8A0AA" }} />
+                <SearchIcon size={13} style={{ color: "#4A4A4A" }} />
                 <input
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   placeholder="Search treks…"
                   className="flex-1 bg-transparent outline-none text-sm"
-                  style={{ color: "#FAD4D8" }}
+                  style={{ color: "#1A1A1A" }}
                   data-ocid={`compare.search_input.${index + 1}`}
                 />
               </div>
@@ -352,7 +352,7 @@ function TrekDropdown({
                   setQuery("");
                 }}
                 className="w-full flex items-center gap-2 px-4 py-2 text-sm transition-colors hover:bg-white/5"
-                style={{ color: "#E8A0AA" }}
+                style={{ color: "#4A4A4A" }}
               >
                 <XIcon size={12} /> Clear selection
               </button>
@@ -361,7 +361,7 @@ function TrekDropdown({
               {filtered.length === 0 ? (
                 <div
                   className="px-4 py-3 text-sm opacity-60"
-                  style={{ color: "#E8A0AA" }}
+                  style={{ color: "#4A4A4A" }}
                 >
                   No treks found
                 </div>
@@ -376,7 +376,7 @@ function TrekDropdown({
                       setQuery("");
                     }}
                     className="w-full flex items-center justify-between gap-3 px-4 py-2.5 text-left transition-colors hover:bg-white/5"
-                    style={{ color: "#FAD4D8" }}
+                    style={{ color: "#1A1A1A" }}
                   >
                     <span className="flex flex-col min-w-0">
                       <span className="font-medium truncate">{t.name}</span>
@@ -450,7 +450,7 @@ export default function ComparePage() {
       label: "Price",
       icon: <span>₹</span>,
       render: (t) => (
-        <span className="font-bold" style={{ color: "#C9A84C" }}>
+        <span className="font-bold" style={{ color: "#D4A843" }}>
           ₹{t.basePrice.toLocaleString()}
         </span>
       ),
@@ -572,12 +572,12 @@ export default function ComparePage() {
         UNESCO_SLUGS.has(t.slug) ? (
           <span
             className="px-2 py-0.5 rounded-full text-xs font-bold"
-            style={{ background: "#C9A84C22", color: "#C9A84C" }}
+            style={{ background: "#D4A84322", color: "#D4A843" }}
           >
             UNESCO Heritage
           </span>
         ) : (
-          <span style={{ opacity: 0.4, color: "#E8A0AA" }}>—</span>
+          <span style={{ opacity: 0.4, color: "#4A4A4A" }}>—</span>
         ),
     },
     {
@@ -629,7 +629,7 @@ export default function ComparePage() {
       icon: <StarIcon size={13} />,
       render: (t) => (
         <span className="flex items-center justify-center gap-1">
-          <StarIcon size={11} fill="#C9A84C" style={{ color: "#C9A84C" }} />
+          <StarIcon size={11} fill="#D4A843" style={{ color: "#D4A843" }} />
           <span className="font-bold">{t.rating?.toFixed(1) ?? "—"}</span>
         </span>
       ),
@@ -647,10 +647,10 @@ export default function ComparePage() {
           style={{
             color:
               (t.seatsAvailable ?? 0) <= 3
-                ? "#B5525E"
+                ? "#F88379"
                 : (t.seatsAvailable ?? 0) <= 6
-                  ? "#C9A84C"
-                  : "#2D5016",
+                  ? "#D4A843"
+                  : "#2D6A4F",
           }}
         >
           {t.seatsAvailable ?? "—"} seats
@@ -661,7 +661,7 @@ export default function ComparePage() {
       label: "Next Batch",
       icon: <CalendarIcon size={13} />,
       render: (t) => (
-        <span className="text-xs font-medium" style={{ color: "#FAD4D8" }}>
+        <span className="text-xs font-medium" style={{ color: "#1A1A1A" }}>
           {NEXT_BATCH[t.slug] ?? "TBD"}
         </span>
       ),
@@ -674,7 +674,7 @@ export default function ComparePage() {
       <div
         className="py-16 px-4 text-center"
         style={{
-          background: "linear-gradient(160deg, #1A0E10 0%, #2D1B1E 100%)",
+          background: "linear-gradient(160deg, #E6D8C4 0%, #FFFFFF 100%)",
         }}
       >
         <motion.div
@@ -684,17 +684,17 @@ export default function ComparePage() {
         >
           <p
             className="text-xs font-semibold tracking-[0.3em] uppercase mb-3"
-            style={{ color: "#B5525E" }}
+            style={{ color: "#F88379" }}
           >
             Side-by-Side Analysis
           </p>
           <h1
             className="text-4xl md:text-6xl font-bold mb-4"
-            style={{ fontFamily: "var(--font-display)", color: "#FAD4D8" }}
+            style={{ fontFamily: "var(--font-display)", color: "#1A1A1A" }}
           >
             Compare Treks
           </h1>
-          <p className="text-lg max-w-xl mx-auto" style={{ color: "#E8A0AA" }}>
+          <p className="text-lg max-w-xl mx-auto" style={{ color: "#4A4A4A" }}>
             Select up to 3 treks and compare across 25 parameters to find your
             perfect Himalayan adventure.
           </p>
@@ -704,7 +704,7 @@ export default function ComparePage() {
       {/* Selectors */}
       <div
         style={{
-          background: "#2D1B1E",
+          background: "#FFFFFF",
           borderBottom: "1px solid rgba(232,160,170,0.15)",
         }}
       >
@@ -744,7 +744,7 @@ export default function ComparePage() {
                     ? "rgba(45,80,22,0.3)"
                     : "rgba(250,212,216,0.1)",
                   border: "1px solid rgba(232,160,170,0.3)",
-                  color: copied ? "#A8C5DA" : "#FAD4D8",
+                  color: copied ? "#82C8E5" : "#1A1A1A",
                 }}
                 data-ocid="compare.save_button"
               >
@@ -758,13 +758,13 @@ export default function ComparePage() {
                 style={{
                   background: "rgba(250,212,216,0.1)",
                   border: "1px solid rgba(232,160,170,0.3)",
-                  color: "#FAD4D8",
+                  color: "#1A1A1A",
                 }}
                 data-ocid="compare.print_button"
               >
                 <PrinterIcon size={13} /> Print
               </button>
-              <span className="text-sm ml-auto" style={{ color: "#E8A0AA" }}>
+              <span className="text-sm ml-auto" style={{ color: "#4A4A4A" }}>
                 {activeCount} trek{activeCount !== 1 ? "s" : ""} selected
               </span>
             </motion.div>
@@ -773,7 +773,7 @@ export default function ComparePage() {
       </div>
 
       {/* Content */}
-      <div style={{ background: "#1A0E10", minHeight: "60vh" }}>
+      <div style={{ background: "#E6D8C4", minHeight: "60vh" }}>
         <div className="max-w-6xl mx-auto px-4 py-10">
           <AnimatePresence mode="wait">
             {activeCount === 0 ? (
@@ -788,24 +788,24 @@ export default function ComparePage() {
                 <div
                   className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6"
                   style={{
-                    background: "rgba(181,82,94,0.1)",
-                    border: "1px solid rgba(181,82,94,0.25)",
+                    background: "rgba(248,131,121,0.1)",
+                    border: "1px solid rgba(248,131,121,0.25)",
                   }}
                 >
-                  <MountainIcon size={36} style={{ color: "#B5525E" }} />
+                  <MountainIcon size={36} style={{ color: "#F88379" }} />
                 </div>
                 <h2
                   className="text-2xl font-bold mb-3"
                   style={{
                     fontFamily: "var(--font-display)",
-                    color: "#FAD4D8",
+                    color: "#1A1A1A",
                   }}
                 >
                   Select a trek above to start comparing
                 </h2>
                 <p
                   className="text-base mb-8 max-w-md mx-auto"
-                  style={{ color: "#E8A0AA" }}
+                  style={{ color: "#4A4A4A" }}
                 >
                   Choose up to 3 treks from the dropdowns above to see a
                   detailed comparison across 25 parameters.
@@ -813,7 +813,7 @@ export default function ComparePage() {
                 <Link
                   to="/treks"
                   className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm transition-all hover:opacity-90"
-                  style={{ background: "#B5525E", color: "#FAD4D8" }}
+                  style={{ background: "#F88379", color: "#1A1A1A" }}
                   data-ocid="compare.browse_treks_link"
                 >
                   Browse All Treks <ArrowRightIcon size={15} />
@@ -855,7 +855,7 @@ export default function ComparePage() {
                                 className="absolute inset-0"
                                 style={{
                                   background:
-                                    "linear-gradient(to top, #1A0E10 0%, transparent 60%)",
+                                    "linear-gradient(to top, #E6D8C4 0%, transparent 60%)",
                                 }}
                               />
                               <button
@@ -872,18 +872,18 @@ export default function ComparePage() {
                                 }}
                                 aria-label={`Remove ${t.name}`}
                               >
-                                <XIcon size={11} style={{ color: "#E8A0AA" }} />
+                                <XIcon size={11} style={{ color: "#4A4A4A" }} />
                               </button>
                             </div>
                             <div
                               className="p-3"
-                              style={{ background: "#2D1B1E" }}
+                              style={{ background: "#FFFFFF" }}
                             >
                               <h3
                                 className="font-bold text-sm leading-snug mb-1.5"
                                 style={{
                                   fontFamily: "var(--font-display)",
-                                  color: "#FAD4D8",
+                                  color: "#1A1A1A",
                                 }}
                               >
                                 {t.name}
@@ -900,15 +900,15 @@ export default function ComparePage() {
                                 </span>
                                 <span
                                   className="text-xs font-semibold"
-                                  style={{ color: "#C9A84C" }}
+                                  style={{ color: "#D4A843" }}
                                 >
                                   ₹{t.basePrice.toLocaleString()}
                                 </span>
                                 <span
                                   className="flex items-center gap-0.5 text-xs"
-                                  style={{ color: "#C9A84C" }}
+                                  style={{ color: "#D4A843" }}
                                 >
-                                  <StarIcon size={10} fill="#C9A84C" />{" "}
+                                  <StarIcon size={10} fill="#D4A843" />{" "}
                                   {t.rating?.toFixed(1) ?? "—"}
                                 </span>
                               </div>
@@ -917,8 +917,8 @@ export default function ComparePage() {
                                 params={{ slug: t.slug }}
                                 className="block w-full text-center py-1.5 rounded-lg text-xs font-semibold transition-all hover:opacity-90"
                                 style={{
-                                  background: "#B5525E",
-                                  color: "#FAD4D8",
+                                  background: "#F88379",
+                                  color: "#1A1A1A",
                                 }}
                                 data-ocid={`compare.book_button.${i + 1}`}
                               >
@@ -948,7 +948,7 @@ export default function ComparePage() {
                               background:
                                 rowIdx % 2 === 0
                                   ? "rgba(45,27,30,0.6)"
-                                  : "rgba(26,14,16,0.6)",
+                                  : "rgba(255,255,255,0.8)",
                               borderBottom: "1px solid rgba(232,160,170,0.07)",
                             }}
                           >
@@ -956,11 +956,11 @@ export default function ComparePage() {
                               className="flex items-center gap-2 px-4 py-3 text-xs font-medium flex-shrink-0"
                               style={{
                                 width: 200,
-                                color: "#E8A0AA",
+                                color: "#4A4A4A",
                                 borderRight: "1px solid rgba(232,160,170,0.1)",
                               }}
                             >
-                              <span style={{ color: "#B5525E" }}>
+                              <span style={{ color: "#F88379" }}>
                                 {param.icon}
                               </span>
                               {param.label}
@@ -979,13 +979,13 @@ export default function ComparePage() {
                                       colIdx < 2
                                         ? "1px solid rgba(232,160,170,0.07)"
                                         : undefined,
-                                    color: "#FAD4D8",
+                                    color: "#1A1A1A",
                                   }}
                                 >
                                   {hl[colIdx] && (
                                     <span
                                       className="mr-1 text-xs"
-                                      style={{ color: "#C9A84C" }}
+                                      style={{ color: "#D4A843" }}
                                     >
                                       ★
                                     </span>
@@ -1014,8 +1014,8 @@ export default function ComparePage() {
                               params={{ slug: t.slug }}
                               className="flex items-center justify-center gap-2 py-2.5 rounded-xl font-semibold text-sm transition-all hover:opacity-90"
                               style={{
-                                background: "#B5525E",
-                                color: "#FAD4D8",
+                                background: "#F88379",
+                                color: "#1A1A1A",
                               }}
                               data-ocid={`compare.book_bottom_button.${i + 1}`}
                             >
@@ -1027,7 +1027,7 @@ export default function ComparePage() {
                               className="flex items-center justify-center py-2 rounded-xl text-xs transition-all hover:opacity-80"
                               style={{
                                 border: "1px solid rgba(232,160,170,0.3)",
-                                color: "#E8A0AA",
+                                color: "#4A4A4A",
                               }}
                               data-ocid={`compare.view_details_link.${i + 1}`}
                             >

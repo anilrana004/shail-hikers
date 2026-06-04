@@ -121,7 +121,7 @@ export function SearchBar({ compact }: SearchBarProps) {
       data-ocid="search.section"
       className={`w-full ${compact ? "" : "sticky top-[88px] z-30"}`}
       style={{
-        background: "#2D1B1E",
+        background: "#FFFFFF",
         borderBottom: "1px solid rgba(232,160,170,0.2)",
       }}
     >
@@ -133,7 +133,7 @@ export function SearchBar({ compact }: SearchBarProps) {
             <Search
               size={15}
               className="absolute left-3 top-1/2 -translate-y-1/2"
-              style={{ color: "#E8A0AA80" }}
+              style={{ color: "#4A4A4A80" }}
             />
             <input
               type="text"
@@ -143,9 +143,9 @@ export function SearchBar({ compact }: SearchBarProps) {
               onChange={(e) => setQuery(e.target.value)}
               className="w-full pl-9 pr-3 py-2.5 rounded-lg text-sm outline-none placeholder:opacity-50"
               style={{
-                background: "rgba(26,14,16,0.7)",
+                background: "rgba(255,255,255,0.85)",
                 border: "1px solid rgba(232,160,170,0.25)",
-                color: "#FAD4D8",
+                color: "#1A1A1A",
               }}
             />
           </div>
@@ -197,9 +197,9 @@ export function SearchBar({ compact }: SearchBarProps) {
               onChange={(e) => d.setter(e.target.value)}
               className="px-3 py-2.5 rounded-lg text-sm outline-none min-w-[110px] cursor-pointer"
               style={{
-                background: "rgba(26,14,16,0.7)",
+                background: "rgba(255,255,255,0.85)",
                 border: "1px solid rgba(232,160,170,0.25)",
-                color: d.value ? "#FAD4D8" : "#E8A0AA88",
+                color: d.value ? "#1A1A1A" : "#4A4A4A88",
               }}
             >
               <option value="">{d.label}</option>
@@ -207,7 +207,7 @@ export function SearchBar({ compact }: SearchBarProps) {
                 <option
                   key={o}
                   value={o}
-                  style={{ background: "#1A0E10", color: "#FAD4D8" }}
+                  style={{ background: "#E6D8C4", color: "#1A1A1A" }}
                 >
                   {o}
                 </option>
@@ -221,7 +221,7 @@ export function SearchBar({ compact }: SearchBarProps) {
             data-ocid="search.submit_button"
             onClick={handleSearch}
             className="px-6 py-2.5 rounded-lg text-sm font-semibold uppercase tracking-wider transition-all hover:opacity-90"
-            style={{ background: "#B5525E", color: "#FAD4D8" }}
+            style={{ background: "#F88379", color: "#1A1A1A" }}
           >
             Search
           </button>
@@ -247,7 +247,7 @@ export function SearchBar({ compact }: SearchBarProps) {
               className="p-2.5 rounded-lg transition-colors"
               style={{
                 border: "1px solid rgba(232,160,170,0.25)",
-                color: "#E8A0AA",
+                color: "#4A4A4A",
               }}
               aria-label="Clear filters"
             >
@@ -260,7 +260,7 @@ export function SearchBar({ compact }: SearchBarProps) {
         <div className="flex flex-wrap gap-2 items-center">
           <Filter
             size={13}
-            style={{ color: "#E8A0AA60" }}
+            style={{ color: "#4A4A4A60" }}
             className="flex-shrink-0"
           />
           {QUICK_FILTERS.map((f) => (
@@ -272,16 +272,16 @@ export function SearchBar({ compact }: SearchBarProps) {
               className="px-3 py-1 rounded-full text-xs font-medium transition-all"
               style={{
                 background: activeFilters.includes(f)
-                  ? "#B5525E"
-                  : "rgba(26,14,16,0.6)",
-                border: `1px solid ${activeFilters.includes(f) ? "#B5525E" : "rgba(232,160,170,0.2)"}`,
-                color: activeFilters.includes(f) ? "#FAD4D8" : "#E8A0AA",
+                  ? "#F88379"
+                  : "rgba(255,255,255,0.8)",
+                border: `1px solid ${activeFilters.includes(f) ? "#F88379" : "rgba(232,160,170,0.2)"}`,
+                color: activeFilters.includes(f) ? "#1A1A1A" : "#4A4A4A",
               }}
             >
               {f}
             </button>
           ))}
-          <span className="ml-auto text-xs" style={{ color: "#E8A0AA60" }}>
+          <span className="ml-auto text-xs" style={{ color: "#4A4A4A60" }}>
             Showing {results.length} trek{results.length !== 1 ? "s" : ""}
           </span>
         </div>

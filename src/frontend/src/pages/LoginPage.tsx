@@ -24,14 +24,14 @@ export default function LoginPage() {
   return (
     <div
       className="min-h-screen flex flex-col items-center justify-center px-4 py-12"
-      style={{ background: "#2D1B1E" }}
+      style={{ background: "#FFFFFF" }}
       data-ocid="login.page"
     >
       <div
         className="w-full max-w-md rounded-2xl overflow-hidden"
         style={{
-          background: "#1A0E10",
-          border: "1px solid rgba(181,82,94,0.25)",
+          background: "#E6D8C4",
+          border: "1px solid rgba(248,131,121,0.25)",
         }}
       >
         <img
@@ -43,13 +43,13 @@ export default function LoginPage() {
         <div className="p-8">
           <h1
             className="text-4xl font-semibold mb-2"
-            style={{ fontFamily: "var(--font-display)", color: "#FAD4D8" }}
+            style={{ fontFamily: "var(--font-display)", color: "#1A1A1A" }}
           >
             Welcome Back
           </h1>
           <p
             className="text-sm mb-8"
-            style={{ color: "#E8A0AA", fontFamily: "var(--font-body)" }}
+            style={{ color: "#4A4A4A", fontFamily: "var(--font-body)" }}
           >
             Sign in to manage your trek bookings
           </p>
@@ -61,7 +61,7 @@ export default function LoginPage() {
             }
             className="w-full py-4 rounded-xl text-lg font-semibold transition-all flex items-center justify-center gap-3 hover:opacity-90 disabled:opacity-70"
             style={{
-              background: "#B5525E",
+              background: "#F88379",
               color: "#fff",
               fontFamily: "var(--font-body)",
             }}
@@ -81,7 +81,7 @@ export default function LoginPage() {
           </button>
           <p
             className="mt-6 text-sm text-center leading-relaxed"
-            style={{ color: "#A8C5DA" }}
+            style={{ color: "#82C8E5" }}
           >
             Internet Identity is a secure, passwordless login — no passwords or
             personal data shared.

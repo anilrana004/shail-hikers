@@ -13,18 +13,18 @@ export default function TrekItineraryTab({ trek }: Props) {
   );
 
   const TRAIL_COLORS: Record<string, string> = {
-    Forest: "#2D5016",
+    Forest: "#2D6A4F",
     Meadow: "#4A7C2F",
-    Snow: "#A8C5DA",
+    Snow: "#82C8E5",
     Rocky: "#8B7355",
     "River Crossing": "#4A9ECC",
-    Village: "#C9A84C",
+    Village: "#D4A843",
   };
 
   return (
     <div className="py-8 space-y-6">
       <div className="flex items-center justify-between">
-        <h2 className="font-display text-3xl" style={{ color: "#FAD4D8" }}>
+        <h2 className="font-display text-3xl" style={{ color: "#1A1A1A" }}>
           Day-by-Day Itinerary
         </h2>
         <div className="flex gap-3">
@@ -32,7 +32,7 @@ export default function TrekItineraryTab({ trek }: Props) {
             type="button"
             onClick={() => setOpenDay(0)}
             className="text-xs px-3 py-1.5 rounded-lg border"
-            style={{ borderColor: "#E8A0AA44", color: "#E8A0AA" }}
+            style={{ borderColor: "#4A4A4A44", color: "#4A4A4A" }}
           >
             Expand All
           </button>
@@ -40,7 +40,7 @@ export default function TrekItineraryTab({ trek }: Props) {
             type="button"
             onClick={() => setOpenDay(null)}
             className="text-xs px-3 py-1.5 rounded-lg border"
-            style={{ borderColor: "#E8A0AA44", color: "#E8A0AA" }}
+            style={{ borderColor: "#4A4A4A44", color: "#4A4A4A" }}
           >
             Collapse All
           </button>
@@ -50,7 +50,7 @@ export default function TrekItineraryTab({ trek }: Props) {
               setViewMode(viewMode === "accordion" ? "timeline" : "accordion")
             }
             className="text-xs px-3 py-1.5 rounded-lg"
-            style={{ background: "#B5525E", color: "#FAD4D8" }}
+            style={{ background: "#F88379", color: "#1A1A1A" }}
           >
             {viewMode === "accordion" ? "Timeline View" : "Accordion View"}
           </button>
@@ -63,7 +63,7 @@ export default function TrekItineraryTab({ trek }: Props) {
             <div
               key={day.dayNum}
               className="rounded-2xl overflow-hidden border"
-              style={{ borderColor: openDay === i ? "#B5525E66" : "#E8A0AA22" }}
+              style={{ borderColor: openDay === i ? "#F8837966" : "#4A4A4A22" }}
             >
               <button
                 type="button"
@@ -72,27 +72,27 @@ export default function TrekItineraryTab({ trek }: Props) {
                 style={{
                   background:
                     openDay === i
-                      ? "rgba(181,82,94,0.12)"
-                      : "rgba(45,27,30,0.8)",
+                      ? "rgba(248,131,121,0.12)"
+                      : "rgba(255,255,255,0.9)",
                 }}
               >
                 <span
                   className="text-xs font-bold px-3 py-1.5 rounded-full flex-shrink-0"
-                  style={{ background: "#B5525E", color: "#FAD4D8" }}
+                  style={{ background: "#F88379", color: "#1A1A1A" }}
                 >
                   Day {day.dayNum}
                 </span>
                 <div className="flex-1">
-                  <div className="font-semibold" style={{ color: "#FAD4D8" }}>
+                  <div className="font-semibold" style={{ color: "#1A1A1A" }}>
                     {day.title}
                   </div>
-                  <div className="text-xs mt-1" style={{ color: "#E8A0AA" }}>
+                  <div className="text-xs mt-1" style={{ color: "#4A4A4A" }}>
                     {day.distance} km / {day.walkingHours}h /{" "}
                     {day.altitudeStart.toLocaleString()}-
                     {day.altitudeEnd.toLocaleString()} ft
                   </div>
                 </div>
-                <span className="text-sm" style={{ color: "#B5525E" }}>
+                <span className="text-sm" style={{ color: "#F88379" }}>
                   {openDay === i ? "^" : "v"}
                 </span>
               </button>
@@ -108,7 +108,7 @@ export default function TrekItineraryTab({ trek }: Props) {
                   >
                     <div
                       className="px-6 py-6 space-y-5"
-                      style={{ background: "rgba(26,14,16,0.9)" }}
+                      style={{ background: "rgba(255,255,255,0.95)" }}
                     >
                       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                         {(
@@ -128,17 +128,17 @@ export default function TrekItineraryTab({ trek }: Props) {
                           <div
                             key={label}
                             className="rounded-lg p-3 text-center"
-                            style={{ background: "rgba(45,27,30,0.8)" }}
+                            style={{ background: "rgba(255,255,255,0.9)" }}
                           >
                             <div
                               className="text-xs mb-1"
-                              style={{ color: "#E8A0AA" }}
+                              style={{ color: "#4A4A4A" }}
                             >
                               {label}
                             </div>
                             <div
                               className="text-sm font-semibold"
-                              style={{ color: "#FAD4D8" }}
+                              style={{ color: "#1A1A1A" }}
                             >
                               {val}
                             </div>
@@ -149,22 +149,22 @@ export default function TrekItineraryTab({ trek }: Props) {
                       <div>
                         <div
                           className="text-xs mb-2"
-                          style={{ color: "#E8A0AA" }}
+                          style={{ color: "#4A4A4A" }}
                         >
                           Altitude Change
                         </div>
                         <div className="flex gap-2 items-center">
                           <div
                             className="flex-1 h-3 rounded-full"
-                            style={{ background: "rgba(45,27,30,0.8)" }}
+                            style={{ background: "rgba(255,255,255,0.9)" }}
                           >
                             <div
                               className="h-3 rounded-full"
                               style={{
                                 background:
                                   day.altitudeEnd >= day.altitudeStart
-                                    ? "#B5525E"
-                                    : "#A8C5DA",
+                                    ? "#F88379"
+                                    : "#82C8E5",
                                 width: `${Math.min(100, Math.abs(day.altitudeEnd - day.altitudeStart) / 100)}%`,
                               }}
                             />
@@ -174,8 +174,8 @@ export default function TrekItineraryTab({ trek }: Props) {
                             style={{
                               color:
                                 day.altitudeEnd >= day.altitudeStart
-                                  ? "#B5525E"
-                                  : "#A8C5DA",
+                                  ? "#F88379"
+                                  : "#82C8E5",
                             }}
                           >
                             {day.altitudeEnd >= day.altitudeStart
@@ -187,7 +187,7 @@ export default function TrekItineraryTab({ trek }: Props) {
 
                       <div
                         className="text-sm leading-relaxed"
-                        style={{ color: "#E8A0AA" }}
+                        style={{ color: "#4A4A4A" }}
                       >
                         {day.description}
                       </div>
@@ -199,7 +199,7 @@ export default function TrekItineraryTab({ trek }: Props) {
                             className="text-xs px-3 py-1 rounded-full"
                             style={{
                               background: `${TRAIL_COLORS[t] || "#555"}33`,
-                              color: TRAIL_COLORS[t] || "#FAD4D8",
+                              color: TRAIL_COLORS[t] || "#1A1A1A",
                               border: `1px solid ${TRAIL_COLORS[t] || "#555"}66`,
                             }}
                           >
@@ -210,9 +210,9 @@ export default function TrekItineraryTab({ trek }: Props) {
                           <span
                             className="text-xs px-3 py-1 rounded-full"
                             style={{
-                              background: "rgba(181,82,94,0.2)",
-                              color: "#B5525E",
-                              border: "1px solid #B5525E66",
+                              background: "rgba(248,131,121,0.2)",
+                              color: "#F88379",
+                              border: "1px solid #F8837966",
                             }}
                           >
                             {day.difficultyPill}
@@ -224,7 +224,7 @@ export default function TrekItineraryTab({ trek }: Props) {
                         <div>
                           <div
                             className="text-xs font-semibold mb-2"
-                            style={{ color: "#E8A0AA" }}
+                            style={{ color: "#4A4A4A" }}
                           >
                             Trail Waypoints
                           </div>
@@ -234,8 +234,8 @@ export default function TrekItineraryTab({ trek }: Props) {
                                 key={w}
                                 className="text-xs px-2 py-1 rounded"
                                 style={{
-                                  background: "rgba(45,27,30,0.8)",
-                                  color: "#FAD4D8",
+                                  background: "rgba(255,255,255,0.9)",
+                                  color: "#1A1A1A",
                                 }}
                               >
                                 pin {w}
@@ -252,11 +252,11 @@ export default function TrekItineraryTab({ trek }: Props) {
                         >
                           <div
                             className="text-xs font-semibold mb-1"
-                            style={{ color: "#C9A84C" }}
+                            style={{ color: "#D4A843" }}
                           >
                             Camp Info
                           </div>
-                          <div className="text-sm" style={{ color: "#FAD4D8" }}>
+                          <div className="text-sm" style={{ color: "#1A1A1A" }}>
                             {day.campsiteInfo}
                           </div>
                         </div>
@@ -273,17 +273,17 @@ export default function TrekItineraryTab({ trek }: Props) {
                           <div
                             key={label}
                             className="rounded-lg p-3"
-                            style={{ background: "rgba(45,27,30,0.8)" }}
+                            style={{ background: "rgba(255,255,255,0.9)" }}
                           >
                             <div
                               className="text-xs font-semibold mb-1"
-                              style={{ color: "#C9A84C" }}
+                              style={{ color: "#D4A843" }}
                             >
                               {label}
                             </div>
                             <div
                               className="text-xs"
-                              style={{ color: "#FAD4D8" }}
+                              style={{ color: "#1A1A1A" }}
                             >
                               {meal}
                             </div>
@@ -296,8 +296,8 @@ export default function TrekItineraryTab({ trek }: Props) {
                           className="text-sm px-4 py-3 rounded-xl"
                           style={{
                             background: "rgba(168,197,218,0.1)",
-                            color: "#A8C5DA",
-                            borderLeft: "3px solid #A8C5DA",
+                            color: "#82C8E5",
+                            borderLeft: "3px solid #82C8E5",
                           }}
                         >
                           {day.weatherNote}
@@ -307,17 +307,17 @@ export default function TrekItineraryTab({ trek }: Props) {
                       <div
                         className="px-4 py-3 rounded-xl"
                         style={{
-                          borderLeft: "4px solid #B5525E",
-                          background: "rgba(181,82,94,0.08)",
+                          borderLeft: "4px solid #F88379",
+                          background: "rgba(248,131,121,0.08)",
                         }}
                       >
                         <div
                           className="text-xs font-bold mb-1"
-                          style={{ color: "#B5525E" }}
+                          style={{ color: "#F88379" }}
                         >
                           PRO TIP
                         </div>
-                        <div className="text-sm" style={{ color: "#FAD4D8" }}>
+                        <div className="text-sm" style={{ color: "#1A1A1A" }}>
                           {day.proTip}
                         </div>
                       </div>
@@ -329,11 +329,11 @@ export default function TrekItineraryTab({ trek }: Props) {
                         <div>
                           <div
                             className="text-xs font-bold mb-1"
-                            style={{ color: "#C9A84C" }}
+                            style={{ color: "#D4A843" }}
                           >
                             BEST PHOTO SPOT
                           </div>
-                          <div className="text-sm" style={{ color: "#FAD4D8" }}>
+                          <div className="text-sm" style={{ color: "#1A1A1A" }}>
                             {day.photoSpot}
                           </div>
                         </div>
@@ -349,42 +349,42 @@ export default function TrekItineraryTab({ trek }: Props) {
         <div className="relative pl-8">
           <div
             className="absolute left-3 top-0 bottom-0 w-0.5"
-            style={{ background: "#B5525E44" }}
+            style={{ background: "#F8837944" }}
           />
           {trek.itinerary.map((day) => (
             <div key={day.dayNum} className="relative mb-8">
               <div
                 className="absolute -left-5 w-5 h-5 rounded-full border-2 flex items-center justify-center"
-                style={{ background: "#1A0E10", borderColor: "#B5525E" }}
+                style={{ background: "#E6D8C4", borderColor: "#F88379" }}
               >
                 <div
                   className="w-2 h-2 rounded-full"
-                  style={{ background: "#B5525E" }}
+                  style={{ background: "#F88379" }}
                 />
               </div>
               <div
                 className="rounded-2xl p-5 border"
                 style={{
-                  background: "rgba(45,27,30,0.8)",
-                  borderColor: "#E8A0AA22",
+                  background: "rgba(255,255,255,0.9)",
+                  borderColor: "#4A4A4A22",
                 }}
               >
                 <div className="flex items-center gap-3 mb-2">
                   <span
                     className="text-xs font-bold px-2 py-1 rounded-full"
-                    style={{ background: "#B5525E", color: "#FAD4D8" }}
+                    style={{ background: "#F88379", color: "#1A1A1A" }}
                   >
                     Day {day.dayNum}
                   </span>
-                  <span className="font-semibold" style={{ color: "#FAD4D8" }}>
+                  <span className="font-semibold" style={{ color: "#1A1A1A" }}>
                     {day.title}
                   </span>
                 </div>
-                <div className="text-xs mb-2" style={{ color: "#E8A0AA" }}>
+                <div className="text-xs mb-2" style={{ color: "#4A4A4A" }}>
                   {day.altitudeStart.toLocaleString()} ft to{" "}
                   {day.altitudeEnd.toLocaleString()} ft / {day.distance} km
                 </div>
-                <div className="text-sm" style={{ color: "#E8A0AA" }}>
+                <div className="text-sm" style={{ color: "#4A4A4A" }}>
                   {day.description.slice(0, 120)}...
                 </div>
               </div>

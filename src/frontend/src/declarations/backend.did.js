@@ -63,6 +63,25 @@ export const UserProfilePublic = IDL.Record({
   'loyaltyTier' : LoyaltyTier,
   'totalTreksCompleted' : IDL.Nat,
 });
+export const GuideAvailability = IDL.Variant({
+  'Available' : IDL.Null,
+  'OnTrek' : IDL.Null,
+  'OnLeave' : IDL.Null,
+});
+export const GuidePublic = IDL.Record({
+  'id' : IDL.Text,
+  'bio' : IDL.Text,
+  'currentAssignment' : IDL.Opt(IDL.Text),
+  'yearsExperience' : IDL.Nat,
+  'name' : IDL.Text,
+  'designation' : IDL.Text,
+  'favoriteTrek' : IDL.Text,
+  'availability' : GuideAvailability,
+  'rating' : IDL.Float64,
+  'photo' : IDL.Text,
+  'certifications' : IDL.Vec(IDL.Text),
+  'totalTreksLed' : IDL.Nat,
+});
 export const Difficulty = IDL.Variant({
   'Easy' : IDL.Null,
   'Extreme' : IDL.Null,
@@ -176,6 +195,28 @@ export const ReviewPublic = IDL.Record({
   'helpfulVotes' : IDL.Nat,
   'guideRating' : IDL.Nat,
 });
+export const WaitlistStatus = IDL.Variant({
+  'Notified' : IDL.Null,
+  'Booked' : IDL.Null,
+  'Waiting' : IDL.Null,
+  'Expired' : IDL.Null,
+});
+export const WaitlistEntryPublic = IDL.Record({
+  'id' : IDL.Text,
+  'status' : WaitlistStatus,
+  'name' : IDL.Text,
+  'createdAt' : IDL.Int,
+  'email' : IDL.Text,
+  'notifiedAt' : IDL.Opt(IDL.Int),
+  'batchId' : IDL.Text,
+  'phone' : IDL.Text,
+  'position' : IDL.Nat,
+  'numPeople' : IDL.Nat,
+});
+export const WaitlistResult = IDL.Variant({
+  'ok' : IDL.Record({ 'waitlistId' : IDL.Text, 'position' : IDL.Nat }),
+  'err' : IDL.Text,
+});
 export const NewsletterPreference = IDL.Variant({
   'BlogPosts' : IDL.Null,
   'Offers' : IDL.Null,
@@ -185,6 +226,11 @@ export const NewsletterPreference = IDL.Variant({
 
 export const idlService = IDL.Service({
   'addToWishlist' : IDL.Func([IDL.Text], [IDL.Bool], []),
+  'assignGuideToBatch' : IDL.Func(
+      [IDL.Text, IDL.Text],
+      [IDL.Variant({ 'ok' : IDL.Null, 'err' : IDL.Text })],
+      [],
+    ),
   'calculateGroupPrice' : IDL.Func(
       [IDL.Text, IDL.Nat, IDL.Vec(AddOn), IDL.Nat],
       [IDL.Nat],
@@ -219,6 +265,8 @@ export const idlService = IDL.Service({
       [UserProfilePublic],
       [],
     ),
+  'getAdminPrincipal' : IDL.Func([], [IDL.Opt(IDL.Principal)], ['query']),
+  'getAllGuides' : IDL.Func([], [IDL.Vec(GuidePublic)], ['query']),
   'getAllTreks' : IDL.Func([], [IDL.Vec(Trek)], ['query']),
   'getAllYatras' : IDL.Func([], [IDL.Vec(Yatra)], ['query']),
   'getAvailability' : IDL.Func(
@@ -255,15 +303,47 @@ export const idlService = IDL.Service({
   'getCorporateLeads' : IDL.Func([], [IDL.Vec(CorporateLead)], []),
   'getFaqVotes' : IDL.Func([IDL.Text, IDL.Nat], [FaqVotesPublic], ['query']),
   'getFeaturedTreks' : IDL.Func([], [IDL.Vec(Trek)], ['query']),
+  'getGuideById' : IDL.Func([IDL.Text], [IDL.Opt(GuidePublic)], ['query']),
   'getReviewsByTrek' : IDL.Func([IDL.Text], [IDL.Vec(ReviewPublic)], ['query']),
   'getStripePublicKey' : IDL.Func([], [IDL.Text], ['query']),
   'getSubscriberCount' : IDL.Func([], [IDL.Nat], ['query']),
   'getTrekBySlug' : IDL.Func([IDL.Text], [IDL.Opt(Trek)], ['query']),
   'getTreksByDifficulty' : IDL.Func([Difficulty], [IDL.Vec(Trek)], ['query']),
   'getUserProfile' : IDL.Func([], [IDL.Opt(UserProfilePublic)], ['query']),
+  'getWaitlistByBatch' : IDL.Func(
+      [IDL.Text],
+      [IDL.Vec(WaitlistEntryPublic)],
+      ['query'],
+    ),
+  'getWaitlistPosition' : IDL.Func(
+      [IDL.Text, IDL.Text],
+      [IDL.Opt(IDL.Nat)],
+      ['query'],
+    ),
   'getYatraBySlug' : IDL.Func([IDL.Text], [IDL.Opt(Yatra)], ['query']),
   'incrementBlogViews' : IDL.Func([IDL.Text], [IDL.Bool], []),
+  'initAdmin' : IDL.Func(
+      [],
+      [IDL.Variant({ 'ok' : IDL.Null, 'err' : IDL.Text })],
+      [],
+    ),
+  'joinWaitlist' : IDL.Func(
+      [IDL.Text, IDL.Text, IDL.Text, IDL.Text, IDL.Nat],
+      [WaitlistResult],
+      [],
+    ),
+  'notifyNextOnWaitlist' : IDL.Func([IDL.Text], [IDL.Bool], []),
+  'promoteFromWaitlist' : IDL.Func(
+      [IDL.Text, IDL.Text],
+      [IDL.Variant({ 'ok' : IDL.Null, 'err' : IDL.Text })],
+      [],
+    ),
   'removeFromWishlist' : IDL.Func([IDL.Text], [IDL.Bool], []),
+  'sendManualWaitlistNotification' : IDL.Func(
+      [IDL.Text, IDL.Text, IDL.Text],
+      [IDL.Bool],
+      [],
+    ),
   'setStripeSecretKey' : IDL.Func([IDL.Text, IDL.Text], [], []),
   'submitCorporateLead' : IDL.Func(
       [
@@ -299,7 +379,17 @@ export const idlService = IDL.Service({
       [],
     ),
   'unsubscribe' : IDL.Func([IDL.Text], [IDL.Bool], []),
+  'updateGuideAvailability' : IDL.Func(
+      [IDL.Text, GuideAvailability],
+      [IDL.Variant({ 'ok' : IDL.Null, 'err' : IDL.Text })],
+      [],
+    ),
   'updatePaymentStatus' : IDL.Func([IDL.Nat, PaymentStatus], [IDL.Bool], []),
+  'upsertGuide' : IDL.Func(
+      [GuidePublic],
+      [IDL.Variant({ 'ok' : IDL.Null, 'err' : IDL.Text })],
+      [],
+    ),
   'voteFaq' : IDL.Func([IDL.Text, IDL.Nat, IDL.Bool], [IDL.Bool], []),
   'voteHelpful' : IDL.Func([IDL.Nat], [IDL.Bool], []),
 });
@@ -355,6 +445,25 @@ export const idlFactory = ({ IDL }) => {
     'referralCredits' : IDL.Nat,
     'loyaltyTier' : LoyaltyTier,
     'totalTreksCompleted' : IDL.Nat,
+  });
+  const GuideAvailability = IDL.Variant({
+    'Available' : IDL.Null,
+    'OnTrek' : IDL.Null,
+    'OnLeave' : IDL.Null,
+  });
+  const GuidePublic = IDL.Record({
+    'id' : IDL.Text,
+    'bio' : IDL.Text,
+    'currentAssignment' : IDL.Opt(IDL.Text),
+    'yearsExperience' : IDL.Nat,
+    'name' : IDL.Text,
+    'designation' : IDL.Text,
+    'favoriteTrek' : IDL.Text,
+    'availability' : GuideAvailability,
+    'rating' : IDL.Float64,
+    'photo' : IDL.Text,
+    'certifications' : IDL.Vec(IDL.Text),
+    'totalTreksLed' : IDL.Nat,
   });
   const Difficulty = IDL.Variant({
     'Easy' : IDL.Null,
@@ -469,6 +578,28 @@ export const idlFactory = ({ IDL }) => {
     'helpfulVotes' : IDL.Nat,
     'guideRating' : IDL.Nat,
   });
+  const WaitlistStatus = IDL.Variant({
+    'Notified' : IDL.Null,
+    'Booked' : IDL.Null,
+    'Waiting' : IDL.Null,
+    'Expired' : IDL.Null,
+  });
+  const WaitlistEntryPublic = IDL.Record({
+    'id' : IDL.Text,
+    'status' : WaitlistStatus,
+    'name' : IDL.Text,
+    'createdAt' : IDL.Int,
+    'email' : IDL.Text,
+    'notifiedAt' : IDL.Opt(IDL.Int),
+    'batchId' : IDL.Text,
+    'phone' : IDL.Text,
+    'position' : IDL.Nat,
+    'numPeople' : IDL.Nat,
+  });
+  const WaitlistResult = IDL.Variant({
+    'ok' : IDL.Record({ 'waitlistId' : IDL.Text, 'position' : IDL.Nat }),
+    'err' : IDL.Text,
+  });
   const NewsletterPreference = IDL.Variant({
     'BlogPosts' : IDL.Null,
     'Offers' : IDL.Null,
@@ -478,6 +609,11 @@ export const idlFactory = ({ IDL }) => {
   
   return IDL.Service({
     'addToWishlist' : IDL.Func([IDL.Text], [IDL.Bool], []),
+    'assignGuideToBatch' : IDL.Func(
+        [IDL.Text, IDL.Text],
+        [IDL.Variant({ 'ok' : IDL.Null, 'err' : IDL.Text })],
+        [],
+      ),
     'calculateGroupPrice' : IDL.Func(
         [IDL.Text, IDL.Nat, IDL.Vec(AddOn), IDL.Nat],
         [IDL.Nat],
@@ -512,6 +648,8 @@ export const idlFactory = ({ IDL }) => {
         [UserProfilePublic],
         [],
       ),
+    'getAdminPrincipal' : IDL.Func([], [IDL.Opt(IDL.Principal)], ['query']),
+    'getAllGuides' : IDL.Func([], [IDL.Vec(GuidePublic)], ['query']),
     'getAllTreks' : IDL.Func([], [IDL.Vec(Trek)], ['query']),
     'getAllYatras' : IDL.Func([], [IDL.Vec(Yatra)], ['query']),
     'getAvailability' : IDL.Func(
@@ -556,6 +694,7 @@ export const idlFactory = ({ IDL }) => {
     'getCorporateLeads' : IDL.Func([], [IDL.Vec(CorporateLead)], []),
     'getFaqVotes' : IDL.Func([IDL.Text, IDL.Nat], [FaqVotesPublic], ['query']),
     'getFeaturedTreks' : IDL.Func([], [IDL.Vec(Trek)], ['query']),
+    'getGuideById' : IDL.Func([IDL.Text], [IDL.Opt(GuidePublic)], ['query']),
     'getReviewsByTrek' : IDL.Func(
         [IDL.Text],
         [IDL.Vec(ReviewPublic)],
@@ -566,9 +705,40 @@ export const idlFactory = ({ IDL }) => {
     'getTrekBySlug' : IDL.Func([IDL.Text], [IDL.Opt(Trek)], ['query']),
     'getTreksByDifficulty' : IDL.Func([Difficulty], [IDL.Vec(Trek)], ['query']),
     'getUserProfile' : IDL.Func([], [IDL.Opt(UserProfilePublic)], ['query']),
+    'getWaitlistByBatch' : IDL.Func(
+        [IDL.Text],
+        [IDL.Vec(WaitlistEntryPublic)],
+        ['query'],
+      ),
+    'getWaitlistPosition' : IDL.Func(
+        [IDL.Text, IDL.Text],
+        [IDL.Opt(IDL.Nat)],
+        ['query'],
+      ),
     'getYatraBySlug' : IDL.Func([IDL.Text], [IDL.Opt(Yatra)], ['query']),
     'incrementBlogViews' : IDL.Func([IDL.Text], [IDL.Bool], []),
+    'initAdmin' : IDL.Func(
+        [],
+        [IDL.Variant({ 'ok' : IDL.Null, 'err' : IDL.Text })],
+        [],
+      ),
+    'joinWaitlist' : IDL.Func(
+        [IDL.Text, IDL.Text, IDL.Text, IDL.Text, IDL.Nat],
+        [WaitlistResult],
+        [],
+      ),
+    'notifyNextOnWaitlist' : IDL.Func([IDL.Text], [IDL.Bool], []),
+    'promoteFromWaitlist' : IDL.Func(
+        [IDL.Text, IDL.Text],
+        [IDL.Variant({ 'ok' : IDL.Null, 'err' : IDL.Text })],
+        [],
+      ),
     'removeFromWishlist' : IDL.Func([IDL.Text], [IDL.Bool], []),
+    'sendManualWaitlistNotification' : IDL.Func(
+        [IDL.Text, IDL.Text, IDL.Text],
+        [IDL.Bool],
+        [],
+      ),
     'setStripeSecretKey' : IDL.Func([IDL.Text, IDL.Text], [], []),
     'submitCorporateLead' : IDL.Func(
         [
@@ -604,7 +774,17 @@ export const idlFactory = ({ IDL }) => {
         [],
       ),
     'unsubscribe' : IDL.Func([IDL.Text], [IDL.Bool], []),
+    'updateGuideAvailability' : IDL.Func(
+        [IDL.Text, GuideAvailability],
+        [IDL.Variant({ 'ok' : IDL.Null, 'err' : IDL.Text })],
+        [],
+      ),
     'updatePaymentStatus' : IDL.Func([IDL.Nat, PaymentStatus], [IDL.Bool], []),
+    'upsertGuide' : IDL.Func(
+        [GuidePublic],
+        [IDL.Variant({ 'ok' : IDL.Null, 'err' : IDL.Text })],
+        [],
+      ),
     'voteFaq' : IDL.Func([IDL.Text, IDL.Nat, IDL.Bool], [IDL.Bool], []),
     'voteHelpful' : IDL.Func([IDL.Nat], [IDL.Bool], []),
   });

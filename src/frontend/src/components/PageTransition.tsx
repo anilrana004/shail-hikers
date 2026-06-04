@@ -41,7 +41,7 @@ export function PageTransition({ children }: PageTransitionProps) {
             exit={{ scaleX: 0, originX: 1 }}
             transition={{ duration: 0.35, ease: [0.76, 0, 0.24, 1] }}
             className="fixed inset-0 z-[60] pointer-events-none"
-            style={{ background: "#B5525E" }}
+            style={{ background: "#F88379" }}
             aria-hidden="true"
           />
         )}

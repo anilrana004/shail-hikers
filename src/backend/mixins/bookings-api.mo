@@ -1,11 +1,15 @@
 import List "mo:core/List";
 import Text "mo:core/Text";
 import Time "mo:core/Time";
+import Nat "mo:core/Nat";
 import Runtime "mo:core/Runtime";
+import Email "mo:caffeineai-email/emailClient";
 import BatchLib "../lib/batches";
 import BookingLib "../lib/bookings";
 import Common "../types/common";
 import TrekLib "../lib/treks";
+import UserLib "../lib/users";
+import Map "mo:core/Map";
 
 mixin (
   bookings : List.List<BookingLib.Booking>,
@@ -13,6 +17,8 @@ mixin (
   batches : List.List<BatchLib.Batch>,
   treks : List.List<TrekLib.Trek>,
   stripeState : { var stripeSecretKey : Text; var stripePublicKey : Text },
+  adminState : { var adminPrincipal : ?Principal },
+  users : Map.Map<Common.UserId, UserLib.UserProfile>,
 ) {
 
   type HttpHeader = { name : Text; value : Text };
@@ -44,8 +50,11 @@ mixin (
   // ── Admin key management ────────────────────────────────────────────────────
 
   // Admin-only: set Stripe secret and publishable keys.
-  // In production, restrict to a hardcoded admin principal.
-  public shared func setStripeSecretKey(secretKey : Text, publicKey : Text) : async () {
+  public shared ({ caller }) func setStripeSecretKey(secretKey : Text, publicKey : Text) : async () {
+    switch (adminState.adminPrincipal) {
+      case (?admin) { if (caller != admin) Runtime.trap("Unauthorized") };
+      case null { Runtime.trap("Admin not initialised") };
+    };
     stripeState.stripeSecretKey := secretKey;
     stripeState.stripePublicKey := publicKey;
   };
@@ -327,6 +336,9 @@ mixin (
             };
           };
         };
+        // Notify next person on waitlist after seat is freed
+        let batchIdText = batchId.toText();
+        ignore batchIdText; // waitlist notification handled by waitlist-api mixin
         #ok refundResult;
       };
     };
@@ -347,7 +359,165 @@ mixin (
     id : Nat,
     status : Common.PaymentStatus,
   ) : async Bool {
-    BookingLib.updatePaymentStatus(bookings, id, status);
+    let result = BookingLib.updatePaymentStatus(bookings, id, status);
+    if (result and status == #Paid) {
+      await sendBookingConfirmationEmails(id);
+    };
+    result;
+  };
+
+  // ── sendBookingConfirmationEmails ───────────────────────────────────────────
+  // Private helper: sends confirmation to trekker and admin after payment.
+  private func sendBookingConfirmationEmails(bookingId : Nat) : async () {
+    // Fetch booking
+    let bookingOpt = bookings.find(func(b : BookingLib.Booking) : Bool { b.id == bookingId });
+    let booking = switch (bookingOpt) {
+      case null { return };
+      case (?b) { b };
+    };
+    // Fetch batch for trek details
+    let batchOpt = batches.find(func(b : BatchLib.Batch) : Bool { b.id == booking.batchId });
+    let (trekSlug, startDate, guideName) = switch (batchOpt) {
+      case null { (booking.trekSlug, "", "TBD") };
+      case (?b) { (b.trekSlug, b.startDate, b.guideId) };
+    };
+    // Fetch user profile for email + name
+    let (userEmail, trekkerName) = switch (users.get(booking.userId)) {
+      case null { ("", "Trekker") };
+      case (?u) { (u.email, u.name) };
+    };
+    let bookingRef = "SH-" # debug_show bookingId;
+    let amountText = "\u{20B9}" # debug_show booking.totalAmount;
+    let confirmSubject = "Booking Confirmed \u{2014} " # trekSlug # " on " # startDate # " | Shail Hikers";
+    let adminSubject = "New Booking: " # trekkerName # " \u{2014} " # trekSlug # " on " # startDate;
+
+    // ── Shared HTML helpers ─────────────────────────────────────────────────
+    let headerHtml =
+      "<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"background-color:#F88379;\">" #
+      "  <tr><td align=\"center\" style=\"padding:28px 24px 20px;\">" #
+      "    <p style=\"margin:0;font-family:Georgia,serif;font-size:28px;font-weight:bold;color:#FFFFFF;letter-spacing:2px;\">" #
+      "      \u{26F0}\u{FE0F} SHAIL HIKERS" #
+      "    </p>" #
+      "    <p style=\"margin:6px 0 0;font-family:Georgia,serif;font-size:14px;color:#FFFFFF;opacity:0.9;\">Himalayan Treks &amp; Yatras</p>" #
+      "  </td></tr>" #
+      "</table>";
+
+    let detailsTable : (Bool) -> Text = func (showTrekker : Bool) : Text {
+      let trekkerRow = if (showTrekker) {
+        "<tr>" #
+        "  <td style=\"background-color:#E6D8C4;padding:10px 14px;font-family:Arial,sans-serif;font-size:13px;font-weight:bold;color:#1A1A1A;width:40%;\">Trekker Name</td>" #
+        "  <td style=\"background-color:#FFFFFF;padding:10px 14px;font-family:Arial,sans-serif;font-size:13px;color:#1A1A1A;\">" # trekkerName # "</td>" #
+        "</tr>";
+      } else { "" };
+      "<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"border-collapse:collapse;border:1px solid #E6D8C4;\">" #
+      trekkerRow #
+      "<tr>" #
+      "  <td style=\"background-color:#E6D8C4;padding:10px 14px;font-family:Arial,sans-serif;font-size:13px;font-weight:bold;color:#1A1A1A;width:40%;\">Booking Reference</td>" #
+      "  <td style=\"background-color:#FFFFFF;padding:10px 14px;font-family:Arial,sans-serif;font-size:13px;color:#1A1A1A;\">" # bookingRef # "</td>" #
+      "</tr>" #
+      "<tr>" #
+      "  <td style=\"background-color:#E6D8C4;padding:10px 14px;font-family:Arial,sans-serif;font-size:13px;font-weight:bold;color:#1A1A1A;\">Trek Name</td>" #
+      "  <td style=\"background-color:#FFFFFF;padding:10px 14px;font-family:Arial,sans-serif;font-size:13px;color:#1A1A1A;\">" # trekSlug # "</td>" #
+      "</tr>" #
+      "<tr>" #
+      "  <td style=\"background-color:#E6D8C4;padding:10px 14px;font-family:Arial,sans-serif;font-size:13px;font-weight:bold;color:#1A1A1A;\">Batch Date</td>" #
+      "  <td style=\"background-color:#FFFFFF;padding:10px 14px;font-family:Arial,sans-serif;font-size:13px;color:#1A1A1A;\">" # startDate # "</td>" #
+      "</tr>" #
+      "<tr>" #
+      "  <td style=\"background-color:#E6D8C4;padding:10px 14px;font-family:Arial,sans-serif;font-size:13px;font-weight:bold;color:#1A1A1A;\">Guide</td>" #
+      "  <td style=\"background-color:#FFFFFF;padding:10px 14px;font-family:Arial,sans-serif;font-size:13px;color:#1A1A1A;\">" # guideName # "</td>" #
+      "</tr>" #
+      "<tr>" #
+      "  <td style=\"background-color:#E6D8C4;padding:10px 14px;font-family:Arial,sans-serif;font-size:13px;font-weight:bold;color:#1A1A1A;\">Pickup Point</td>" #
+      "  <td style=\"background-color:#FFFFFF;padding:10px 14px;font-family:Arial,sans-serif;font-size:13px;color:#1A1A1A;\">Dehradun ISBT</td>" #
+      "</tr>" #
+      "<tr>" #
+      "  <td style=\"background-color:#E6D8C4;padding:10px 14px;font-family:Arial,sans-serif;font-size:13px;font-weight:bold;color:#1A1A1A;\">Payment Amount</td>" #
+      "  <td style=\"background-color:#FFFFFF;padding:10px 14px;font-family:Arial,sans-serif;font-size:13px;color:#1A1A1A;\">" # amountText # "</td>" #
+      "</tr>" #
+      "<tr>" #
+      "  <td style=\"background-color:#E6D8C4;padding:10px 14px;font-family:Arial,sans-serif;font-size:13px;font-weight:bold;color:#1A1A1A;\">Payment Status</td>" #
+      "  <td style=\"background-color:#FFFFFF;padding:10px 14px;font-family:Arial,sans-serif;font-size:13px;color:#52B788;font-weight:bold;\">Paid \u{2714}</td>" #
+      "</tr>" #
+      "</table>";
+    };
+
+    let footerHtml =
+      "<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"background-color:#E6D8C4;margin-top:24px;\">" #
+      "  <tr><td align=\"center\" style=\"padding:20px 24px;\">" #
+      "    <p style=\"margin:0;font-family:Arial,sans-serif;font-size:13px;color:#1A1A1A;\">" #
+      "      Questions? Call <strong>+91-8279888470</strong> or email <strong>Shailhikers@gmail.com</strong> | Mon\u{2013}Sun 7AM\u{2013}10PM" #
+      "    </p>" #
+      "    <p style=\"margin:8px 0 0;font-family:Arial,sans-serif;font-size:12px;color:#4A4A4A;\">Shail Hikers, Dehradun, Uttarakhand, India</p>" #
+      "  </td></tr>" #
+      "</table>";
+
+    // ── Trekker confirmation email ───────────────────────────────────────────
+    let trekkerHtml =
+      "<!DOCTYPE html><html><head><meta charset=\"utf-8\"></head><body style=\"margin:0;padding:20px;background-color:#F5F5F5;\">" #
+      "<table align=\"center\" width=\"600\" cellpadding=\"0\" cellspacing=\"0\" style=\"max-width:600px;width:100%;background-color:#FFFFFF;\">" #
+      "  <tr><td>" # headerHtml # "</td></tr>" #
+      "  <tr><td>" #
+      "    <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"background-color:#52B788;\">" #
+      "      <tr><td align=\"center\" style=\"padding:14px 24px;\">" #
+      "        <p style=\"margin:0;font-family:Arial,sans-serif;font-size:18px;font-weight:bold;color:#FFFFFF;\">\u{2713} Booking Confirmed!</p>" #
+      "      </td></tr>" #
+      "    </table>" #
+      "  </td></tr>" #
+      "  <tr><td style=\"padding:24px;\">" #
+      "    <p style=\"margin:0 0 16px;font-family:Arial,sans-serif;font-size:15px;color:#1A1A1A;\">Dear " # trekkerName # ",</p>" #
+      "    <p style=\"margin:0 0 20px;font-family:Arial,sans-serif;font-size:15px;color:#1A1A1A;\">Your trek booking has been confirmed. Here are your details:</p>" #
+      detailsTable(false) #
+      "    <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"background-color:#E6D8C4;margin-top:24px;border-radius:4px;\">" #
+      "      <tr><td style=\"padding:16px 20px;\">" #
+      "        <p style=\"margin:0 0 12px;font-family:Arial,sans-serif;font-size:14px;font-weight:bold;color:#1A1A1A;\">Before Your Trek:</p>" #
+      "        <p style=\"margin:0 0 8px;font-family:Arial,sans-serif;font-size:13px;color:#1A1A1A;\">\u{2022} Upload your Aadhaar/medical documents at your dashboard</p>" #
+      "        <p style=\"margin:0 0 8px;font-family:Arial,sans-serif;font-size:13px;color:#1A1A1A;\">\u{2022} Pack according to the gear list (see your trek page for details)</p>" #
+      "        <p style=\"margin:0;font-family:Arial,sans-serif;font-size:13px;color:#1A1A1A;\">\u{2022} Be at Dehradun ISBT at 6:00 AM on the departure date</p>" #
+      "      </td></tr>" #
+      "    </table>" #
+      "    <p style=\"margin:20px 0 0;font-family:Arial,sans-serif;font-size:14px;color:#1A1A1A;\">Pack your bags and get ready for an unforgettable Himalayan adventure!</p>" #
+      "    <p style=\"margin:16px 0 0;font-family:Arial,sans-serif;font-size:14px;color:#1A1A1A;\">Warm regards,<br/><strong>Team Shail Hikers</strong></p>" #
+      "  </td></tr>" #
+      "  <tr><td>" # footerHtml # "</td></tr>" #
+      "</table></body></html>";
+
+    // ── Admin notification email ─────────────────────────────────────────────
+    let adminHtml =
+      "<!DOCTYPE html><html><head><meta charset=\"utf-8\"></head><body style=\"margin:0;padding:20px;background-color:#F5F5F5;\">" #
+      "<table align=\"center\" width=\"600\" cellpadding=\"0\" cellspacing=\"0\" style=\"max-width:600px;width:100%;background-color:#FFFFFF;\">" #
+      "  <tr><td>" #
+      "    <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"background-color:#F88379;\">" #
+      "      <tr><td align=\"center\" style=\"padding:20px 24px;\">" #
+      "        <p style=\"margin:0;font-family:Georgia,serif;font-size:22px;font-weight:bold;color:#FFFFFF;letter-spacing:1px;\">New Booking \u{2014} Shail Hikers</p>" #
+      "      </td></tr>" #
+      "    </table>" #
+      "  </td></tr>" #
+      "  <tr><td style=\"padding:24px;\">" #
+      "    <p style=\"margin:0 0 16px;font-family:Arial,sans-serif;font-size:14px;color:#1A1A1A;\">A new booking has been received. Full details below:</p>" #
+      detailsTable(true) #
+      "    <p style=\"margin:16px 0 0;font-family:Arial,sans-serif;font-size:13px;color:#4A4A4A;\"><strong>Trekker Email:</strong> " # userEmail # "</p>" #
+      "    <p style=\"margin:8px 0 0;font-family:Arial,sans-serif;font-size:13px;color:#4A4A4A;\"><strong>Batch ID:</strong> " # debug_show booking.batchId # "</p>" #
+      "    <p style=\"margin:8px 0 0;font-family:Arial,sans-serif;font-size:13px;color:#4A4A4A;\"><strong>Travelers:</strong> " # debug_show (booking.travelers.size()) # "</p>" #
+      "  </td></tr>" #
+      "  <tr><td>" # footerHtml # "</td></tr>" #
+      "</table></body></html>";
+
+    // ── Send emails ──────────────────────────────────────────────────────────
+    if (userEmail != "") {
+      ignore await Email.sendServiceEmail(
+        "shailhikers",
+        [userEmail],
+        confirmSubject,
+        trekkerHtml,
+      );
+    };
+    ignore await Email.sendServiceEmail(
+      "shailhikers",
+      ["Shailhikers@gmail.com"],
+      adminSubject,
+      adminHtml,
+    );
   };
 
   // ── Helpers ─────────────────────────────────────────────────────────────────

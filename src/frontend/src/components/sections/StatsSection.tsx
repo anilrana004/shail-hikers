@@ -56,7 +56,7 @@ export function StatsSection() {
     <section
       ref={ref}
       data-ocid="stats.section"
-      style={{ background: "#B5525E" }}
+      style={{ background: "#F88379" }}
       className="py-10"
     >
       <div className="max-w-7xl mx-auto px-4">
@@ -72,7 +72,7 @@ export function StatsSection() {
             >
               <p
                 className="text-3xl md:text-4xl font-bold tracking-tight leading-none mb-1"
-                style={{ fontFamily: "var(--font-display)", color: "#FAD4D8" }}
+                style={{ fontFamily: "var(--font-display)", color: "#FFFFFF" }}
               >
                 <AnimatedNumber
                   target={stat.value}
@@ -82,7 +82,7 @@ export function StatsSection() {
               </p>
               <p
                 className="text-xs uppercase tracking-widest"
-                style={{ color: "rgba(250,212,216,0.7)" }}
+                style={{ color: "rgba(255,255,255,0.8)" }}
               >
                 {stat.label}
               </p>

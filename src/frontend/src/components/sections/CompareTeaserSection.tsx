@@ -32,7 +32,7 @@ export function CompareTeaserSection() {
   return (
     <section
       data-ocid="compare_teaser.section"
-      style={{ background: "#2D1B1E" }}
+      style={{ background: "#FFFFFF" }}
       className="py-20"
     >
       <div className="max-w-7xl mx-auto px-4">
@@ -42,7 +42,7 @@ export function CompareTeaserSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="text-xs uppercase tracking-[0.4em] mb-3"
-            style={{ color: "#B5525E" }}
+            style={{ color: "#F88379" }}
           >
             Can't Decide?
           </motion.p>
@@ -52,11 +52,11 @@ export function CompareTeaserSection() {
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
             className="text-4xl md:text-5xl font-semibold"
-            style={{ fontFamily: "var(--font-display)", color: "#FAD4D8" }}
+            style={{ fontFamily: "var(--font-display)", color: "#1A1A1A" }}
           >
             COMPARE TREKS
             <br />
-            <span style={{ color: "#B5525E", fontStyle: "italic" }}>
+            <span style={{ color: "#F88379", fontStyle: "italic" }}>
               SIDE BY SIDE
             </span>
           </motion.h2>
@@ -65,8 +65,8 @@ export function CompareTeaserSection() {
         <div
           className="max-w-3xl mx-auto rounded-2xl p-6"
           style={{
-            background: "rgba(26,14,16,0.7)",
-            border: "1px solid rgba(181,82,94,0.25)",
+            background: "rgba(255,255,255,0.85)",
+            border: "1px solid rgba(248,131,121,0.25)",
           }}
         >
           {/* Trek selectors */}
@@ -84,16 +84,16 @@ export function CompareTeaserSection() {
                 onChange={(e) => sel.setter(e.target.value)}
                 className="w-full px-3 py-3 rounded-xl text-sm font-medium outline-none"
                 style={{
-                  background: "#2D1B1E",
-                  border: "1px solid rgba(181,82,94,0.35)",
-                  color: "#FAD4D8",
+                  background: "#FFFFFF",
+                  border: "1px solid rgba(248,131,121,0.35)",
+                  color: "#1A1A1A",
                 }}
               >
                 {TREKS.map((t) => (
                   <option
                     key={t.slug}
                     value={t.slug}
-                    style={{ background: "#1A0E10" }}
+                    style={{ background: "#E6D8C4" }}
                   >
                     {t.name}
                   </option>
@@ -106,7 +106,7 @@ export function CompareTeaserSection() {
           {leftTrek && rightTrek && (
             <div
               className="divide-y"
-              style={{ borderColor: "rgba(181,82,94,0.15)" }}
+              style={{ borderColor: "rgba(248,131,121,0.15)" }}
             >
               {COMPARE_FIELDS.map((field) => (
                 <div
@@ -115,19 +115,19 @@ export function CompareTeaserSection() {
                 >
                   <span
                     className="text-xs uppercase tracking-wide text-center"
-                    style={{ color: "#E8A0AA60" }}
+                    style={{ color: "#4A4A4A60" }}
                   >
                     {field.label}
                   </span>
                   <span
                     className="text-sm font-medium text-center"
-                    style={{ color: "#FAD4D8" }}
+                    style={{ color: "#1A1A1A" }}
                   >
                     {field.get(leftTrek)}
                   </span>
                   <span
                     className="text-sm font-medium text-center"
-                    style={{ color: "#FAD4D8" }}
+                    style={{ color: "#1A1A1A" }}
                   >
                     {field.get(rightTrek)}
                   </span>
@@ -140,7 +140,7 @@ export function CompareTeaserSection() {
             to="/compare"
             data-ocid="compare_teaser.full_compare"
             className="mt-6 w-full flex items-center justify-center gap-2 py-3.5 rounded-xl font-semibold text-sm transition-all hover:opacity-90"
-            style={{ background: "#B5525E", color: "#FAD4D8" }}
+            style={{ background: "#F88379", color: "#1A1A1A" }}
           >
             See Full Comparison (25+ Parameters) <ArrowRight size={14} />
           </Link>

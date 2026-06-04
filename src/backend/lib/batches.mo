@@ -1,6 +1,7 @@
 import List "mo:core/List";
 import BatchTypes "../types/batch";
 import Common "../types/common";
+import Nat "mo:core/Nat";
 
 module {
   public type Batch = BatchTypes.Batch;
@@ -8,7 +9,7 @@ module {
 
   // Converts mutable Batch to a shareable BatchPublic record
   public func toPublic(b : Batch) : BatchPublic {
-    let seatsAvailable = if (b.bookedSeats >= b.totalSeats) { 0 } else { b.totalSeats - b.bookedSeats };
+    let seatsAvailable = Nat.sub(b.totalSeats, b.bookedSeats);
     {
       id = b.id;
       trekSlug = b.trekSlug;
@@ -48,7 +49,7 @@ module {
     switch (batches.find(func(b) { b.id == batchId })) {
       case null { false };
       case (?b) {
-        let available = if (b.bookedSeats >= b.totalSeats) { 0 } else { b.totalSeats - b.bookedSeats };
+        let available = Nat.sub(b.totalSeats, b.bookedSeats);
         if (b.status != #Open or available < groupSize) {
           false;
         } else {
@@ -86,7 +87,7 @@ module {
     switch (batches.find(func(b) { b.id == batchId })) {
       case null { null };
       case (?b) {
-        let seatsAvailable = if (b.bookedSeats >= b.totalSeats) { 0 } else { b.totalSeats - b.bookedSeats };
+        let seatsAvailable = Nat.sub(b.totalSeats, b.bookedSeats);
         ?{
           batchId = b.id;
           seatsAvailable;
@@ -110,7 +111,7 @@ module {
       case null { null };
       case (?b) {
         let reserved = b.bookedSeats;
-        let available = if (reserved >= b.totalSeats) { 0 } else { b.totalSeats - reserved };
+        let available = Nat.sub(b.totalSeats, reserved);
         let percentFilled = if (b.totalSeats == 0) { 100 } else { (reserved * 100) / b.totalSeats };
         ?{
           total = b.totalSeats;

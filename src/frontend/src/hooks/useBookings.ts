@@ -79,11 +79,11 @@ export function useCreateBooking() {
           "Backend not connected. Please check your connection and try again.",
         );
       return actor.createBooking(
-        params.trekSlug,
-        params.batchId,
-        params.travelers,
+        BigInt(params.batchId),
+        BigInt(params.travelers.length),
         params.addOns,
-        params.totalAmount,
+        params.travelers,
+        false,
       );
     },
   });
@@ -146,6 +146,7 @@ export function useCalculatePrice() {
         params.trekSlug,
         params.groupSize,
         params.addOns,
+        BigInt(0),
       );
     },
   });

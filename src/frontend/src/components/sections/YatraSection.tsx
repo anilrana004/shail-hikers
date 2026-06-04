@@ -5,9 +5,9 @@ import { motion } from "motion/react";
 import { useState } from "react";
 
 const PILGRIMAGE_COLORS: Record<string, string> = {
-  Easy: "#2D5016",
-  Moderate: "#C9A84C",
-  Challenging: "#B5525E",
+  Easy: "#2D6A4F",
+  Moderate: "#D4A843",
+  Challenging: "#F88379",
 };
 
 function getDaysUntil(dateStr: string) {
@@ -24,7 +24,7 @@ export function YatraSection() {
   return (
     <section
       data-ocid="yatras.section"
-      style={{ background: "#1A0E10" }}
+      style={{ background: "#E6D8C4" }}
       className="py-20"
     >
       {/* Om watermark */}
@@ -35,7 +35,7 @@ export function YatraSection() {
             opacity: 0.04,
             fontSize: "24rem",
             fontFamily: "serif",
-            color: "#FAD4D8",
+            color: "#1A1A1A",
             zIndex: 0,
           }}
           aria-hidden="true"
@@ -50,7 +50,7 @@ export function YatraSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               className="text-xs uppercase tracking-[0.4em] mb-3"
-              style={{ color: "#B5525E" }}
+              style={{ color: "#F88379" }}
             >
               Sacred Journeys
             </motion.p>
@@ -60,11 +60,11 @@ export function YatraSection() {
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
               className="text-4xl md:text-6xl font-semibold"
-              style={{ fontFamily: "var(--font-display)", color: "#FAD4D8" }}
+              style={{ fontFamily: "var(--font-display)", color: "#1A1A1A" }}
             >
               YATRAS & SACRED TOURS
             </motion.h2>
-            <p className="mt-4 text-sm" style={{ color: "#E8A0AA" }}>
+            <p className="mt-4 text-sm" style={{ color: "#4A4A4A" }}>
               Experience the divine — Uttarakhand's most revered pilgrimages
             </p>
           </div>
@@ -73,7 +73,7 @@ export function YatraSection() {
             {YATRAS.map((yatra, i) => {
               const daysUntil = getDaysUntil(yatra.nextDeparture);
               const pilgrimageColor =
-                PILGRIMAGE_COLORS[yatra.pilgrimage as string] ?? "#C9A84C";
+                PILGRIMAGE_COLORS[yatra.pilgrimage as string] ?? "#D4A843";
               return (
                 <motion.div
                   key={yatra.id}
@@ -83,7 +83,7 @@ export function YatraSection() {
                   transition={{ delay: i * 0.12, duration: 0.6 }}
                   data-ocid={`yatras.card.${i + 1}`}
                   className="group rounded-2xl overflow-hidden"
-                  style={{ border: "1px solid rgba(181,82,94,0.2)" }}
+                  style={{ border: "1px solid rgba(248,131,121,0.2)" }}
                 >
                   {/* Image */}
                   <div className="relative h-52 overflow-hidden">
@@ -96,7 +96,7 @@ export function YatraSection() {
                       className="absolute inset-0"
                       style={{
                         background:
-                          "linear-gradient(180deg, rgba(26,14,16,0) 40%, rgba(26,14,16,0.9) 100%)",
+                          "linear-gradient(180deg, rgba(26,14,16,0) 40%, rgba(255,255,255,0.95) 100%)",
                       }}
                     />
                     {/* Badges */}
@@ -115,8 +115,8 @@ export function YatraSection() {
                         <span
                           className="px-2 py-0.5 rounded-full text-[10px] font-bold"
                           style={{
-                            background: "rgba(181,82,94,0.35)",
-                            color: "#FAD4D8",
+                            background: "rgba(248,131,121,0.35)",
+                            color: "#1A1A1A",
                           }}
                         >
                           Reg Required
@@ -129,8 +129,8 @@ export function YatraSection() {
                           className="flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold"
                           style={{
                             background: "rgba(201,168,76,0.3)",
-                            border: "1px solid #C9A84C66",
-                            color: "#C9A84C",
+                            border: "1px solid #D4A84366",
+                            color: "#D4A843",
                           }}
                         >
                           🚁 Heli
@@ -144,7 +144,7 @@ export function YatraSection() {
                         style={{
                           background: "rgba(26,14,16,0.85)",
                           border: "1px solid rgba(232,160,170,0.3)",
-                          color: "#E8A0AA",
+                          color: "#4A4A4A",
                         }}
                       >
                         <Calendar size={10} />
@@ -156,26 +156,26 @@ export function YatraSection() {
                   </div>
 
                   {/* Info */}
-                  <div className="p-4" style={{ background: "#2D1B1E" }}>
+                  <div className="p-4" style={{ background: "#FFFFFF" }}>
                     <h3
                       className="text-base font-semibold mb-1 leading-tight"
                       style={{
                         fontFamily: "var(--font-display)",
-                        color: "#FAD4D8",
+                        color: "#1A1A1A",
                       }}
                     >
                       {yatra.name}
                     </h3>
                     <p
                       className="text-xs mb-3 line-clamp-2"
-                      style={{ color: "#E8A0AA" }}
+                      style={{ color: "#4A4A4A" }}
                     >
                       {yatra.tagline}
                     </p>
                     <div className="flex items-center gap-3 mb-3">
                       <span
                         className="flex items-center gap-1 text-xs"
-                        style={{ color: "#E8A0AA80" }}
+                        style={{ color: "#4A4A4A80" }}
                       >
                         <Clock size={11} /> {yatra.durationDays}D/
                         {yatra.durationNights}N
@@ -185,14 +185,14 @@ export function YatraSection() {
                       <div>
                         <span
                           className="text-[10px] uppercase"
-                          style={{ color: "#E8A0AA50" }}
+                          style={{ color: "#4A4A4A50" }}
                         >
                           From
                         </span>
                         <p
                           className="text-base font-bold"
                           style={{
-                            color: "#C9A84C",
+                            color: "#D4A843",
                             fontFamily: "var(--font-display)",
                           }}
                         >
@@ -205,9 +205,9 @@ export function YatraSection() {
                         data-ocid={`yatras.explore.${i + 1}`}
                         className="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all hover:opacity-80"
                         style={{
-                          background: "rgba(181,82,94,0.2)",
-                          border: "1px solid rgba(181,82,94,0.35)",
-                          color: "#B5525E",
+                          background: "rgba(248,131,121,0.2)",
+                          border: "1px solid rgba(248,131,121,0.35)",
+                          color: "#F88379",
                         }}
                       >
                         Explore →

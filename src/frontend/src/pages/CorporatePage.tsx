@@ -42,7 +42,7 @@ const packages = [
     duration: "2 Days",
     trek: "Nag Tibba",
     price: "Rs 8,999",
-    color: "#E8A0AA",
+    color: "#4A4A4A",
     includes: [
       "Expert guide",
       "All meals",
@@ -57,7 +57,7 @@ const packages = [
     duration: "4 Days",
     trek: "Kedarkantha",
     price: "Rs 14,999",
-    color: "#B5525E",
+    color: "#F88379",
     includes: [
       "Expert guide",
       "All meals",
@@ -74,7 +74,7 @@ const packages = [
     duration: "6 Days",
     trek: "Har Ki Dun",
     price: "Rs 24,999",
-    color: "#C9A84C",
+    color: "#D4A843",
     includes: [
       "Senior guide + co-guide",
       "Premium meals",
@@ -91,7 +91,7 @@ const packages = [
     duration: "Custom",
     trek: "Your choice",
     price: "Contact us",
-    color: "#A8C5DA",
+    color: "#82C8E5",
     includes: [
       "Fully tailored itinerary",
       "Custom branding on gear",
@@ -193,9 +193,9 @@ export default function CorporatePage() {
 
   const inputStyle: React.CSSProperties = {
     width: "100%",
-    background: "#1A0E10",
+    background: "#E6D8C4",
     border: "1px solid rgba(232,160,170,0.25)",
-    color: "#FAD4D8",
+    color: "#1A1A1A",
     borderRadius: 8,
     padding: "0.6rem 0.75rem",
     fontFamily: "var(--font-body)",
@@ -204,7 +204,7 @@ export default function CorporatePage() {
 
   return (
     <Layout>
-      <div style={{ background: "#1A0E10", minHeight: "100vh" }}>
+      <div style={{ background: "#E6D8C4", minHeight: "100vh" }}>
         {/* Hero */}
         <section className="relative h-[75vh] min-h-[520px] flex items-center justify-center overflow-hidden">
           <img
@@ -223,7 +223,7 @@ export default function CorporatePage() {
                 alignItems: "center",
                 gap: 8,
                 border: "1px solid rgba(232,160,170,0.4)",
-                color: "#E8A0AA",
+                color: "#4A4A4A",
                 padding: "4px 16px",
                 borderRadius: 999,
                 fontFamily: "var(--font-body)",
@@ -243,7 +243,7 @@ export default function CorporatePage() {
               style={{
                 fontFamily: "var(--font-display)",
                 fontSize: "clamp(2.75rem, 7vw, 4.5rem)",
-                color: "#FAD4D8",
+                color: "#1A1A1A",
                 fontWeight: 700,
                 lineHeight: 1.05,
                 marginBottom: "1.25rem",
@@ -256,7 +256,7 @@ export default function CorporatePage() {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.45, duration: 0.6 }}
               style={{
-                color: "#E8A0AA",
+                color: "#4A4A4A",
                 fontFamily: "var(--font-body)",
                 fontSize: "1.1rem",
                 maxWidth: 500,
@@ -271,8 +271,8 @@ export default function CorporatePage() {
               data-ocid="corporate.hero_cta_button"
               style={{
                 display: "inline-block",
-                background: "#B5525E",
-                color: "#FAD4D8",
+                background: "#F88379",
+                color: "#1A1A1A",
                 padding: "0.875rem 2.25rem",
                 borderRadius: 999,
                 fontFamily: "var(--font-body)",
@@ -287,7 +287,7 @@ export default function CorporatePage() {
         </section>
 
         {/* Benefits */}
-        <section className="py-20 px-4" style={{ background: "#2D1B1E" }}>
+        <section className="py-20 px-4" style={{ background: "#FFFFFF" }}>
           <div className="max-w-5xl mx-auto">
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
@@ -296,7 +296,7 @@ export default function CorporatePage() {
               style={{
                 fontFamily: "var(--font-display)",
                 fontSize: "2.5rem",
-                color: "#FAD4D8",
+                color: "#1A1A1A",
                 textAlign: "center",
                 marginBottom: "3rem",
                 fontWeight: 700,
@@ -314,19 +314,19 @@ export default function CorporatePage() {
                   transition={{ delay: i * 0.1, duration: 0.5 }}
                   className="p-6 rounded-2xl text-center"
                   style={{
-                    background: "#1A0E10",
+                    background: "#E6D8C4",
                     border: "1px solid rgba(232,160,170,0.12)",
                   }}
                 >
                   <b.icon
                     className="w-8 h-8 mx-auto mb-3"
-                    style={{ color: "#B5525E" }}
+                    style={{ color: "#F88379" }}
                   />
                   <h3
                     style={{
                       fontFamily: "var(--font-display)",
                       fontSize: "1.25rem",
-                      color: "#FAD4D8",
+                      color: "#1A1A1A",
                       fontWeight: 700,
                       marginBottom: "0.5rem",
                     }}
@@ -335,7 +335,7 @@ export default function CorporatePage() {
                   </h3>
                   <p
                     style={{
-                      color: "#E8A0AA",
+                      color: "#4A4A4A",
                       fontFamily: "var(--font-body)",
                       fontSize: "0.875rem",
                       lineHeight: 1.65,
@@ -350,7 +350,7 @@ export default function CorporatePage() {
         </section>
 
         {/* Packages */}
-        <section className="py-20 px-4" style={{ background: "#1A0E10" }}>
+        <section className="py-20 px-4" style={{ background: "#E6D8C4" }}>
           <div className="max-w-6xl mx-auto">
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
@@ -359,7 +359,7 @@ export default function CorporatePage() {
               style={{
                 fontFamily: "var(--font-display)",
                 fontSize: "2.5rem",
-                color: "#FAD4D8",
+                color: "#1A1A1A",
                 textAlign: "center",
                 marginBottom: "3rem",
                 fontWeight: 700,
@@ -377,22 +377,22 @@ export default function CorporatePage() {
                   transition={{ delay: i * 0.1, duration: 0.5 }}
                   className="rounded-2xl overflow-hidden flex flex-col"
                   style={{
-                    background: "#2D1B1E",
-                    border: `2px solid ${pkg.highlight ? "#B5525E" : "rgba(232,160,170,0.15)"}`,
+                    background: "#FFFFFF",
+                    border: `2px solid ${pkg.highlight ? "#F88379" : "rgba(232,160,170,0.15)"}`,
                     boxShadow: pkg.highlight
-                      ? "0 0 30px rgba(181,82,94,0.2)"
+                      ? "0 0 30px rgba(248,131,121,0.2)"
                       : "none",
                   }}
                 >
                   {pkg.highlight && (
                     <div
                       style={{
-                        background: "#B5525E",
+                        background: "#F88379",
                         textAlign: "center",
                         padding: "4px",
                         fontFamily: "var(--font-body)",
                         fontSize: "0.7rem",
-                        color: "#FAD4D8",
+                        color: "#1A1A1A",
                         letterSpacing: "0.1em",
                       }}
                     >
@@ -416,7 +416,7 @@ export default function CorporatePage() {
                       style={{
                         fontFamily: "var(--font-display)",
                         fontSize: "1.5rem",
-                        color: "#FAD4D8",
+                        color: "#1A1A1A",
                         fontWeight: 700,
                         marginBottom: "0.25rem",
                       }}
@@ -425,7 +425,7 @@ export default function CorporatePage() {
                     </h3>
                     <div
                       style={{
-                        color: "#E8A0AA",
+                        color: "#4A4A4A",
                         fontFamily: "var(--font-body)",
                         fontSize: "0.85rem",
                         marginBottom: "0.75rem",
@@ -437,7 +437,7 @@ export default function CorporatePage() {
                       style={{
                         fontFamily: "var(--font-display)",
                         fontSize: "1.875rem",
-                        color: "#C9A84C",
+                        color: "#D4A843",
                         fontWeight: 700,
                         marginBottom: "1.25rem",
                       }}
@@ -446,7 +446,7 @@ export default function CorporatePage() {
                       <span
                         style={{
                           fontSize: "0.875rem",
-                          color: "#E8A0AA",
+                          color: "#4A4A4A",
                           fontFamily: "var(--font-body)",
                           fontWeight: 400,
                         }}
@@ -463,7 +463,7 @@ export default function CorporatePage() {
                           />
                           <span
                             style={{
-                              color: "#E8A0AA",
+                              color: "#4A4A4A",
                               fontFamily: "var(--font-body)",
                               fontSize: "0.85rem",
                             }}
@@ -479,9 +479,9 @@ export default function CorporatePage() {
                       style={{
                         display: "block",
                         textAlign: "center",
-                        background: pkg.highlight ? "#B5525E" : "transparent",
+                        background: pkg.highlight ? "#F88379" : "transparent",
                         border: `1px solid ${pkg.color}`,
-                        color: pkg.highlight ? "#FAD4D8" : pkg.color,
+                        color: pkg.highlight ? "#1A1A1A" : pkg.color,
                         padding: "0.625rem",
                         borderRadius: 999,
                         fontFamily: "var(--font-body)",
@@ -500,7 +500,7 @@ export default function CorporatePage() {
         </section>
 
         {/* Corporate Planner */}
-        <section className="py-20 px-4" style={{ background: "#2D1B1E" }}>
+        <section className="py-20 px-4" style={{ background: "#FFFFFF" }}>
           <div className="max-w-2xl mx-auto">
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
@@ -509,7 +509,7 @@ export default function CorporatePage() {
               style={{
                 fontFamily: "var(--font-display)",
                 fontSize: "2rem",
-                color: "#FAD4D8",
+                color: "#1A1A1A",
                 textAlign: "center",
                 marginBottom: "0.5rem",
                 fontWeight: 700,
@@ -520,7 +520,7 @@ export default function CorporatePage() {
             <p
               style={{
                 textAlign: "center",
-                color: "#E8A0AA",
+                color: "#4A4A4A",
                 fontFamily: "var(--font-body)",
                 marginBottom: "2rem",
                 fontSize: "0.9rem",
@@ -531,8 +531,8 @@ export default function CorporatePage() {
             <div
               className="rounded-2xl p-7 flex flex-col gap-4"
               style={{
-                background: "#1A0E10",
-                border: "1px solid rgba(181,82,94,0.25)",
+                background: "#E6D8C4",
+                border: "1px solid rgba(248,131,121,0.25)",
               }}
             >
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -540,7 +540,7 @@ export default function CorporatePage() {
                   <label
                     htmlFor="corp-headcount"
                     style={{
-                      color: "#E8A0AA",
+                      color: "#4A4A4A",
                       fontFamily: "var(--font-body)",
                       fontSize: "0.8rem",
                       display: "block",
@@ -556,14 +556,14 @@ export default function CorporatePage() {
                     value={headcount}
                     onChange={(e) => setHeadcount(e.target.value)}
                     data-ocid="corporate.planner_headcount_input"
-                    style={{ ...inputStyle, background: "#2D1B1E" }}
+                    style={{ ...inputStyle, background: "#FFFFFF" }}
                   />
                 </div>
                 <div>
                   <label
                     htmlFor="corp-budget"
                     style={{
-                      color: "#E8A0AA",
+                      color: "#4A4A4A",
                       fontFamily: "var(--font-body)",
                       fontSize: "0.8rem",
                       display: "block",
@@ -579,14 +579,14 @@ export default function CorporatePage() {
                     value={budget}
                     onChange={(e) => setBudget(e.target.value)}
                     data-ocid="corporate.planner_budget_input"
-                    style={{ ...inputStyle, background: "#2D1B1E" }}
+                    style={{ ...inputStyle, background: "#FFFFFF" }}
                   />
                 </div>
                 <div>
                   <label
                     htmlFor="corp-month"
                     style={{
-                      color: "#E8A0AA",
+                      color: "#4A4A4A",
                       fontFamily: "var(--font-body)",
                       fontSize: "0.8rem",
                       display: "block",
@@ -600,7 +600,7 @@ export default function CorporatePage() {
                     value={month}
                     onChange={(e) => setMonth(e.target.value)}
                     data-ocid="corporate.planner_month_select"
-                    style={{ ...inputStyle, background: "#2D1B1E" }}
+                    style={{ ...inputStyle, background: "#FFFFFF" }}
                   >
                     <option value="">Select month</option>
                     {[
@@ -629,8 +629,8 @@ export default function CorporatePage() {
                 onClick={calculatePackage}
                 data-ocid="corporate.planner_calculate_button"
                 style={{
-                  background: "#B5525E",
-                  color: "#FAD4D8",
+                  background: "#F88379",
+                  color: "#1A1A1A",
                   border: "none",
                   padding: "0.75rem 2rem",
                   borderRadius: 999,
@@ -650,17 +650,17 @@ export default function CorporatePage() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0 }}
                     style={{
-                      background: "rgba(181,82,94,0.12)",
-                      border: "1px solid rgba(181,82,94,0.35)",
+                      background: "rgba(248,131,121,0.12)",
+                      border: "1px solid rgba(248,131,121,0.35)",
                       borderRadius: 12,
                       padding: "1rem 1.25rem",
-                      color: "#FAD4D8",
+                      color: "#1A1A1A",
                       fontFamily: "var(--font-body)",
                       fontSize: "0.9rem",
                     }}
                     data-ocid="corporate.planner_result"
                   >
-                    <strong style={{ color: "#C9A84C" }}>Recommended: </strong>
+                    <strong style={{ color: "#D4A843" }}>Recommended: </strong>
                     {recommendation}
                   </motion.div>
                 )}
@@ -670,7 +670,7 @@ export default function CorporatePage() {
         </section>
 
         {/* Post-Trek Deliverables */}
-        <section className="py-20 px-4" style={{ background: "#1A0E10" }}>
+        <section className="py-20 px-4" style={{ background: "#E6D8C4" }}>
           <div className="max-w-5xl mx-auto">
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
@@ -679,7 +679,7 @@ export default function CorporatePage() {
               style={{
                 fontFamily: "var(--font-display)",
                 fontSize: "2.25rem",
-                color: "#FAD4D8",
+                color: "#1A1A1A",
                 textAlign: "center",
                 marginBottom: "3rem",
                 fontWeight: 700,
@@ -697,7 +697,7 @@ export default function CorporatePage() {
                   transition={{ delay: i * 0.1, duration: 0.45 }}
                   className="p-6 rounded-2xl"
                   style={{
-                    background: "#2D1B1E",
+                    background: "#FFFFFF",
                     border: "1px solid rgba(232,160,170,0.12)",
                     textAlign: "center",
                   }}
@@ -709,7 +709,7 @@ export default function CorporatePage() {
                     style={{
                       fontFamily: "var(--font-display)",
                       fontSize: "1.125rem",
-                      color: "#FAD4D8",
+                      color: "#1A1A1A",
                       fontWeight: 700,
                       marginBottom: "0.5rem",
                     }}
@@ -718,7 +718,7 @@ export default function CorporatePage() {
                   </h3>
                   <p
                     style={{
-                      color: "#E8A0AA",
+                      color: "#4A4A4A",
                       fontFamily: "var(--font-body)",
                       fontSize: "0.85rem",
                       lineHeight: 1.65,
@@ -733,11 +733,11 @@ export default function CorporatePage() {
         </section>
 
         {/* Client Logos */}
-        <section className="py-16 px-4" style={{ background: "#2D1B1E" }}>
+        <section className="py-16 px-4" style={{ background: "#FFFFFF" }}>
           <div className="max-w-5xl mx-auto text-center">
             <p
               style={{
-                color: "#E8A0AA",
+                color: "#4A4A4A",
                 fontFamily: "var(--font-body)",
                 fontSize: "0.8rem",
                 letterSpacing: "0.15em",
@@ -754,7 +754,7 @@ export default function CorporatePage() {
                   style={{
                     fontFamily: "var(--font-display)",
                     fontSize: "1.5rem",
-                    color: "#FAD4D8",
+                    color: "#1A1A1A",
                     opacity: 0.55,
                     fontWeight: 700,
                     letterSpacing: "0.04em",
@@ -771,7 +771,7 @@ export default function CorporatePage() {
         </section>
 
         {/* Case Study */}
-        <section className="py-16 px-4" style={{ background: "#1A0E10" }}>
+        <section className="py-16 px-4" style={{ background: "#E6D8C4" }}>
           <div className="max-w-3xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -782,14 +782,14 @@ export default function CorporatePage() {
             >
               <div
                 style={{
-                  background: "#2D1B1E",
+                  background: "#FFFFFF",
                   padding: "0.75rem 1.5rem",
                   borderBottom: "1px solid rgba(201,168,76,0.2)",
                 }}
               >
                 <span
                   style={{
-                    color: "#C9A84C",
+                    color: "#D4A843",
                     fontFamily: "var(--font-body)",
                     fontSize: "0.75rem",
                     letterSpacing: "0.15em",
@@ -799,12 +799,12 @@ export default function CorporatePage() {
                   Case Study
                 </span>
               </div>
-              <div style={{ background: "#2D1B1E", padding: "2rem" }}>
+              <div style={{ background: "#FFFFFF", padding: "2rem" }}>
                 <h3
                   style={{
                     fontFamily: "var(--font-display)",
                     fontSize: "1.5rem",
-                    color: "#FAD4D8",
+                    color: "#1A1A1A",
                     fontWeight: 700,
                     marginBottom: "0.75rem",
                   }}
@@ -822,7 +822,7 @@ export default function CorporatePage() {
                         style={{
                           fontFamily: "var(--font-display)",
                           fontSize: "1.75rem",
-                          color: "#C9A84C",
+                          color: "#D4A843",
                           fontWeight: 700,
                         }}
                       >
@@ -830,7 +830,7 @@ export default function CorporatePage() {
                       </div>
                       <div
                         style={{
-                          color: "#E8A0AA",
+                          color: "#4A4A4A",
                           fontFamily: "var(--font-body)",
                           fontSize: "0.8rem",
                         }}
@@ -842,7 +842,7 @@ export default function CorporatePage() {
                 </div>
                 <p
                   style={{
-                    color: "#E8A0AA",
+                    color: "#4A4A4A",
                     fontFamily: "var(--font-body)",
                     lineHeight: 1.75,
                     fontSize: "0.9rem",
@@ -856,7 +856,7 @@ export default function CorporatePage() {
                     style={{
                       display: "block",
                       marginTop: "0.75rem",
-                      color: "#FAD4D8",
+                      color: "#1A1A1A",
                       fontWeight: 600,
                     }}
                   >
@@ -869,7 +869,7 @@ export default function CorporatePage() {
         </section>
 
         {/* Insurance Accordion */}
-        <section className="py-16 px-4" style={{ background: "#2D1B1E" }}>
+        <section className="py-16 px-4" style={{ background: "#FFFFFF" }}>
           <div className="max-w-3xl mx-auto">
             <button
               type="button"
@@ -880,9 +880,9 @@ export default function CorporatePage() {
                 display: "flex",
                 justifyContent: "space-between",
                 alignItems: "center",
-                background: "#1A0E10",
-                border: "1px solid rgba(181,82,94,0.3)",
-                color: "#FAD4D8",
+                background: "#E6D8C4",
+                border: "1px solid rgba(248,131,121,0.3)",
+                color: "#1A1A1A",
                 padding: "1.25rem 1.5rem",
                 borderRadius: insuranceOpen ? "12px 12px 0 0" : 12,
                 fontFamily: "var(--font-display)",
@@ -893,9 +893,9 @@ export default function CorporatePage() {
             >
               <span>Group Insurance Coverage</span>
               {insuranceOpen ? (
-                <ChevronUp className="w-5 h-5" style={{ color: "#B5525E" }} />
+                <ChevronUp className="w-5 h-5" style={{ color: "#F88379" }} />
               ) : (
-                <ChevronDown className="w-5 h-5" style={{ color: "#B5525E" }} />
+                <ChevronDown className="w-5 h-5" style={{ color: "#F88379" }} />
               )}
             </button>
             <AnimatePresence>
@@ -909,8 +909,8 @@ export default function CorporatePage() {
                 >
                   <div
                     style={{
-                      background: "#1A0E10",
-                      border: "1px solid rgba(181,82,94,0.3)",
+                      background: "#E6D8C4",
+                      border: "1px solid rgba(248,131,121,0.3)",
                       borderTop: "none",
                       borderRadius: "0 0 12px 12px",
                       padding: "1.5rem",
@@ -923,13 +923,13 @@ export default function CorporatePage() {
                       >
                         <CheckCircle
                           className="w-4 h-4 mt-0.5 flex-shrink-0"
-                          style={{ color: "#B5525E" }}
+                          style={{ color: "#F88379" }}
                         />
                         <div>
                           <span
                             style={{
                               fontFamily: "var(--font-body)",
-                              color: "#FAD4D8",
+                              color: "#1A1A1A",
                               fontWeight: 600,
                               fontSize: "0.9rem",
                             }}
@@ -938,7 +938,7 @@ export default function CorporatePage() {
                           </span>
                           <span
                             style={{
-                              color: "#E8A0AA",
+                              color: "#4A4A4A",
                               fontFamily: "var(--font-body)",
                               fontSize: "0.9rem",
                             }}
@@ -959,7 +959,7 @@ export default function CorporatePage() {
         <section
           id="quote"
           className="py-20 px-4"
-          style={{ background: "#1A0E10" }}
+          style={{ background: "#E6D8C4" }}
         >
           <div className="max-w-2xl mx-auto">
             <motion.h2
@@ -969,7 +969,7 @@ export default function CorporatePage() {
               style={{
                 fontFamily: "var(--font-display)",
                 fontSize: "2.25rem",
-                color: "#FAD4D8",
+                color: "#1A1A1A",
                 textAlign: "center",
                 marginBottom: "0.5rem",
                 fontWeight: 700,
@@ -980,7 +980,7 @@ export default function CorporatePage() {
             <p
               style={{
                 textAlign: "center",
-                color: "#E8A0AA",
+                color: "#4A4A4A",
                 fontFamily: "var(--font-body)",
                 marginBottom: "2.5rem",
                 fontSize: "0.9rem",
@@ -995,8 +995,8 @@ export default function CorporatePage() {
                 animate={{ opacity: 1, scale: 1 }}
                 className="text-center p-10 rounded-2xl"
                 style={{
-                  background: "#2D1B1E",
-                  border: "1px solid rgba(181,82,94,0.3)",
+                  background: "#FFFFFF",
+                  border: "1px solid rgba(248,131,121,0.3)",
                 }}
                 data-ocid="corporate.quote_success_state"
               >
@@ -1007,14 +1007,14 @@ export default function CorporatePage() {
                   style={{
                     fontFamily: "var(--font-display)",
                     fontSize: "1.5rem",
-                    color: "#FAD4D8",
+                    color: "#1A1A1A",
                     marginBottom: "0.75rem",
                     fontWeight: 700,
                   }}
                 >
                   Quote Request Received!
                 </h3>
-                <p style={{ color: "#E8A0AA", fontFamily: "var(--font-body)" }}>
+                <p style={{ color: "#4A4A4A", fontFamily: "var(--font-body)" }}>
                   Our corporate team will reach out within 4 hours with a
                   customised proposal for your team.
                 </p>
@@ -1024,7 +1024,7 @@ export default function CorporatePage() {
                 onSubmit={handleSubmit}
                 className="rounded-2xl p-7 flex flex-col gap-4"
                 style={{
-                  background: "#2D1B1E",
+                  background: "#FFFFFF",
                   border: "1px solid rgba(232,160,170,0.12)",
                 }}
                 data-ocid="corporate.quote_form"
@@ -1060,7 +1060,7 @@ export default function CorporatePage() {
                       <label
                         htmlFor={`corp-${field.id}`}
                         style={{
-                          color: "#E8A0AA",
+                          color: "#4A4A4A",
                           fontFamily: "var(--font-body)",
                           fontSize: "0.8rem",
                           display: "block",
@@ -1091,7 +1091,7 @@ export default function CorporatePage() {
                   <label
                     htmlFor="corp-trek"
                     style={{
-                      color: "#E8A0AA",
+                      color: "#4A4A4A",
                       fontFamily: "var(--font-body)",
                       fontSize: "0.8rem",
                       display: "block",
@@ -1127,7 +1127,7 @@ export default function CorporatePage() {
                   <label
                     htmlFor="corp-message"
                     style={{
-                      color: "#E8A0AA",
+                      color: "#4A4A4A",
                       fontFamily: "var(--font-body)",
                       fontSize: "0.8rem",
                       display: "block",
@@ -1152,8 +1152,8 @@ export default function CorporatePage() {
                   type="submit"
                   data-ocid="corporate.quote_submit_button"
                   style={{
-                    background: "#B5525E",
-                    color: "#FAD4D8",
+                    background: "#F88379",
+                    color: "#1A1A1A",
                     border: "none",
                     padding: "0.875rem",
                     borderRadius: 999,

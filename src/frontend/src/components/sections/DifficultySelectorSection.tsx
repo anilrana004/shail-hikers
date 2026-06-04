@@ -7,7 +7,7 @@ const DIFFICULTIES = [
   {
     level: "Beginner",
     sublabel: "Easy",
-    color: "#2D5016",
+    color: "#2D6A4F",
     fitnessNote: "Can walk 8 km/day on flat terrain",
     trainingWeeks: 2,
     ageRange: "12–65",
@@ -20,7 +20,7 @@ const DIFFICULTIES = [
   {
     level: "Moderate",
     sublabel: "Intermediate",
-    color: "#C9A84C",
+    color: "#D4A843",
     fitnessNote: "Can walk 12 km/day, some hill experience",
     trainingWeeks: 6,
     ageRange: "16–55",
@@ -38,7 +38,7 @@ const DIFFICULTIES = [
   {
     level: "Difficult",
     sublabel: "Challenging",
-    color: "#B5525E",
+    color: "#F88379",
     fitnessNote: "Regular runner or gym-goer, trekking experience",
     trainingWeeks: 10,
     ageRange: "18–50",
@@ -69,7 +69,7 @@ export function DifficultySelectorSection() {
   return (
     <section
       data-ocid="difficulty.section"
-      style={{ background: "#2D1B1E" }}
+      style={{ background: "#FFFFFF" }}
       className="py-20"
     >
       <div className="max-w-7xl mx-auto px-4">
@@ -79,7 +79,7 @@ export function DifficultySelectorSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="text-xs uppercase tracking-[0.4em] mb-3"
-            style={{ color: "#B5525E" }}
+            style={{ color: "#F88379" }}
           >
             Find Your Level
           </motion.p>
@@ -89,7 +89,7 @@ export function DifficultySelectorSection() {
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
             className="text-4xl md:text-5xl font-semibold"
-            style={{ fontFamily: "var(--font-display)", color: "#FAD4D8" }}
+            style={{ fontFamily: "var(--font-display)", color: "#1A1A1A" }}
           >
             CHOOSE YOUR CHALLENGE
           </motion.h2>
@@ -109,7 +109,7 @@ export function DifficultySelectorSection() {
               className="group p-5 rounded-2xl text-left transition-all duration-300"
               style={{
                 background:
-                  selected === i ? `${diff.color}20` : "rgba(26,14,16,0.6)",
+                  selected === i ? `${diff.color}20` : "rgba(255,255,255,0.8)",
                 border: `2px solid ${selected === i ? diff.color : `${diff.color}44`}`,
                 boxShadow:
                   selected === i ? `0 8px 32px ${diff.color}30` : "none",
@@ -122,7 +122,7 @@ export function DifficultySelectorSection() {
               >
                 {diff.level}
               </p>
-              <p className="text-xs" style={{ color: "#E8A0AA" }}>
+              <p className="text-xs" style={{ color: "#4A4A4A" }}>
                 {diff.sublabel}
               </p>
             </motion.button>
@@ -139,7 +139,7 @@ export function DifficultySelectorSection() {
               transition={{ duration: 0.35 }}
               className="rounded-2xl p-6 md:p-8"
               style={{
-                background: "rgba(26,14,16,0.7)",
+                background: "rgba(255,255,255,0.85)",
                 border: `1px solid ${DIFFICULTIES[selected].color}44`,
               }}
             >
@@ -156,7 +156,7 @@ export function DifficultySelectorSection() {
                   </h3>
                   <p
                     className="text-sm leading-relaxed mb-6"
-                    style={{ color: "#E8A0AA" }}
+                    style={{ color: "#4A4A4A" }}
                   >
                     {DIFFICULTIES[selected].description}
                   </p>
@@ -183,13 +183,13 @@ export function DifficultySelectorSection() {
                       <div key={item.label}>
                         <p
                           className="text-[10px] uppercase tracking-wider mb-1"
-                          style={{ color: "#E8A0AA50" }}
+                          style={{ color: "#4A4A4A50" }}
                         >
                           {item.label}
                         </p>
                         <p
                           className="text-xs font-medium"
-                          style={{ color: "#FAD4D8" }}
+                          style={{ color: "#1A1A1A" }}
                         >
                           {item.value}
                         </p>
@@ -201,7 +201,7 @@ export function DifficultySelectorSection() {
                 <div>
                   <p
                     className="text-xs uppercase tracking-wider mb-4"
-                    style={{ color: "#E8A0AA50" }}
+                    style={{ color: "#4A4A4A50" }}
                   >
                     Matching Treks
                   </p>
@@ -215,7 +215,7 @@ export function DifficultySelectorSection() {
                             flexShrink: 0,
                           }}
                         />
-                        <span className="text-sm" style={{ color: "#FAD4D8" }}>
+                        <span className="text-sm" style={{ color: "#1A1A1A" }}>
                           {t}
                         </span>
                       </div>
@@ -227,7 +227,7 @@ export function DifficultySelectorSection() {
                     className="flex items-center gap-2 px-5 py-3 rounded-xl text-sm font-semibold transition-all hover:opacity-90 inline-flex"
                     style={{
                       background: DIFFICULTIES[selected].color,
-                      color: "#FAD4D8",
+                      color: "#1A1A1A",
                     }}
                   >
                     Take Full Trek Finder Quiz <ArrowRight size={14} />

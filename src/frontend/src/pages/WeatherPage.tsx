@@ -4,7 +4,7 @@ export default function WeatherPage() {
   return (
     <div
       style={{
-        color: "#FAD4D8",
+        color: "#1A1A1A",
         padding: "4rem 2rem",
         fontFamily: "var(--font-display)",
         fontSize: "2rem",

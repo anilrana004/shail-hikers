@@ -53,9 +53,9 @@ const BASE_CAMPS = [
 ];
 
 const WeatherIcon = ({ type }: { type: string }) => {
-  const props = { size: 18, style: { color: "#A8C5DA" } };
+  const props = { size: 18, style: { color: "#82C8E5" } };
   if (type === "snow") return <CloudSnow {...props} />;
-  if (type === "sunny") return <Sun {...props} style={{ color: "#C9A84C" }} />;
+  if (type === "sunny") return <Sun {...props} style={{ color: "#D4A843" }} />;
   if (type === "wind") return <Wind {...props} />;
   if (type === "cloud") return <Cloud {...props} />;
   return <Sun {...props} />;
@@ -66,9 +66,9 @@ export function WeatherStripSection() {
     <section
       data-ocid="weather_strip.section"
       style={{
-        background: "#1A0E10",
-        borderTop: "1px solid rgba(181,82,94,0.15)",
-        borderBottom: "1px solid rgba(181,82,94,0.15)",
+        background: "#E6D8C4",
+        borderTop: "1px solid rgba(248,131,121,0.15)",
+        borderBottom: "1px solid rgba(248,131,121,0.15)",
       }}
       className="py-5"
     >
@@ -76,7 +76,7 @@ export function WeatherStripSection() {
         <div className="flex flex-wrap items-center gap-4 md:gap-6 justify-between">
           <p
             className="text-xs uppercase tracking-widest flex-shrink-0"
-            style={{ color: "#B5525E" }}
+            style={{ color: "#F88379" }}
           >
             🌡️ Live Base Camp Weather
           </p>
@@ -92,18 +92,18 @@ export function WeatherStripSection() {
                 className="flex items-center gap-2 px-3 py-2 rounded-xl"
                 style={{
                   background: "rgba(45,27,30,0.6)",
-                  border: "1px solid rgba(181,82,94,0.15)",
+                  border: "1px solid rgba(248,131,121,0.15)",
                 }}
               >
                 <WeatherIcon type={camp.icon} />
                 <div>
                   <p
                     className="text-xs font-semibold"
-                    style={{ color: "#FAD4D8" }}
+                    style={{ color: "#1A1A1A" }}
                   >
                     {camp.name}
                   </p>
-                  <p className="text-[10px]" style={{ color: "#E8A0AA80" }}>
+                  <p className="text-[10px]" style={{ color: "#4A4A4A80" }}>
                     {camp.temp} · {camp.condition}
                   </p>
                 </div>
@@ -112,7 +112,7 @@ export function WeatherStripSection() {
           </div>
           <p
             className="text-[10px] hidden md:block flex-shrink-0"
-            style={{ color: "#E8A0AA50" }}
+            style={{ color: "#4A4A4A50" }}
           >
             Updated hourly
           </p>

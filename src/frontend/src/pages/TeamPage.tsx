@@ -119,7 +119,7 @@ const cardVariants = {
 export default function TeamPage() {
   return (
     <Layout>
-      <div style={{ background: "#2D1B1E", minHeight: "100vh" }}>
+      <div style={{ background: "#FFFFFF", minHeight: "100vh" }}>
         {/* Hero Heading */}
         <section className="pt-24 pb-8 text-center px-4">
           <motion.h1
@@ -129,7 +129,7 @@ export default function TeamPage() {
             style={{
               fontFamily: "var(--font-display)",
               fontSize: "clamp(2.5rem, 6vw, 3.75rem)",
-              color: "#FAD4D8",
+              color: "#1A1A1A",
               fontWeight: 700,
               letterSpacing: "0.04em",
               lineHeight: 1.1,
@@ -142,7 +142,7 @@ export default function TeamPage() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3, duration: 0.6 }}
             style={{
-              color: "#E8A0AA",
+              color: "#4A4A4A",
               fontFamily: "var(--font-body)",
               marginTop: "1rem",
               fontSize: "1.125rem",
@@ -154,7 +154,7 @@ export default function TeamPage() {
         </section>
 
         {/* Stats Bar */}
-        <section style={{ background: "#B5525E" }} className="py-5">
+        <section style={{ background: "#F88379" }} className="py-5">
           <div className="max-w-5xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
             {stats.map((s) => (
               <div key={s.label}>
@@ -162,7 +162,7 @@ export default function TeamPage() {
                   style={{
                     fontFamily: "var(--font-display)",
                     fontSize: "2rem",
-                    color: "#FAD4D8",
+                    color: "#1A1A1A",
                     fontWeight: 700,
                   }}
                 >
@@ -170,13 +170,13 @@ export default function TeamPage() {
                   {s.icon && (
                     <Star
                       className="inline w-5 h-5 ml-1 mb-1"
-                      style={{ color: "#C9A84C" }}
+                      style={{ color: "#D4A843" }}
                     />
                   )}
                 </div>
                 <div
                   style={{
-                    color: "#FAD4D8",
+                    color: "#1A1A1A",
                     fontFamily: "var(--font-body)",
                     fontSize: "0.875rem",
                     opacity: 0.85,
@@ -204,7 +204,7 @@ export default function TeamPage() {
                 variants={cardVariants}
                 className="group relative rounded-2xl overflow-hidden"
                 style={{
-                  background: "#1A0E10",
+                  background: "#E6D8C4",
                   border: "1px solid rgba(232,160,170,0.15)",
                 }}
               >
@@ -215,12 +215,12 @@ export default function TeamPage() {
                       width: 10,
                       height: 10,
                       borderRadius: "50%",
-                      background: guide.available ? "#4ade80" : "#C9A84C",
+                      background: guide.available ? "#4ade80" : "#D4A843",
                     }}
                   />
                   <span
                     style={{
-                      color: guide.available ? "#4ade80" : "#C9A84C",
+                      color: guide.available ? "#4ade80" : "#D4A843",
                       fontSize: "0.7rem",
                       fontFamily: "var(--font-body)",
                     }}
@@ -237,9 +237,9 @@ export default function TeamPage() {
                         width: 100,
                         height: 100,
                         borderRadius: "50%",
-                        border: "3px solid #B5525E",
+                        border: "3px solid #F88379",
                         overflow: "hidden",
-                        boxShadow: "0 0 0 4px rgba(181,82,94,0.2)",
+                        boxShadow: "0 0 0 4px rgba(248,131,121,0.2)",
                       }}
                     >
                       <img
@@ -260,7 +260,7 @@ export default function TeamPage() {
                     style={{
                       fontFamily: "var(--font-display)",
                       fontSize: "1.375rem",
-                      color: "#FAD4D8",
+                      color: "#1A1A1A",
                       fontWeight: 700,
                       marginBottom: "0.25rem",
                     }}
@@ -270,7 +270,7 @@ export default function TeamPage() {
                   <p
                     style={{
                       fontFamily: "var(--font-body)",
-                      color: "#E8A0AA",
+                      color: "#4A4A4A",
                       fontSize: "0.875rem",
                       marginBottom: "0.5rem",
                     }}
@@ -281,9 +281,9 @@ export default function TeamPage() {
                   {/* Years badge */}
                   <span
                     style={{
-                      background: "rgba(181,82,94,0.18)",
-                      border: "1px solid rgba(181,82,94,0.35)",
-                      color: "#FAD4D8",
+                      background: "rgba(248,131,121,0.18)",
+                      border: "1px solid rgba(248,131,121,0.35)",
+                      color: "#1A1A1A",
                       borderRadius: 999,
                       padding: "2px 12px",
                       fontSize: "0.75rem",
@@ -298,11 +298,11 @@ export default function TeamPage() {
                   <div className="flex items-center gap-1 mb-3">
                     <MapPin
                       className="w-3.5 h-3.5"
-                      style={{ color: "#C9A84C" }}
+                      style={{ color: "#D4A843" }}
                     />
                     <span
                       style={{
-                        color: "#C9A84C",
+                        color: "#D4A843",
                         fontSize: "0.78rem",
                         fontFamily: "var(--font-body)",
                         fontWeight: 600,
@@ -318,9 +318,9 @@ export default function TeamPage() {
                       <span
                         key={c}
                         style={{
-                          background: "#1A0E10",
+                          background: "#E6D8C4",
                           border: "1px solid rgba(232,160,170,0.3)",
-                          color: "#E8A0AA",
+                          color: "#4A4A4A",
                           borderRadius: 999,
                           padding: "2px 10px",
                           fontSize: "0.7rem",
@@ -329,7 +329,7 @@ export default function TeamPage() {
                       >
                         <CheckCircle
                           className="inline w-3 h-3 mr-1"
-                          style={{ color: "#B5525E" }}
+                          style={{ color: "#F88379" }}
                         />
                         {c}
                       </span>
@@ -347,11 +347,11 @@ export default function TeamPage() {
                     <div className="text-center">
                       <Award
                         className="w-5 h-5 mx-auto mb-2"
-                        style={{ color: "#C9A84C" }}
+                        style={{ color: "#D4A843" }}
                       />
                       <p
                         style={{
-                          color: "#FAD4D8",
+                          color: "#1A1A1A",
                           fontFamily: "var(--font-body)",
                           fontSize: "0.85rem",
                           lineHeight: 1.5,
@@ -375,8 +375,8 @@ export default function TeamPage() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
             style={{
-              background: "#1A0E10",
-              border: "1px solid rgba(181,82,94,0.3)",
+              background: "#E6D8C4",
+              border: "1px solid rgba(248,131,121,0.3)",
               borderRadius: 16,
               padding: "2.5rem",
               maxWidth: 600,
@@ -387,7 +387,7 @@ export default function TeamPage() {
               style={{
                 fontFamily: "var(--font-display)",
                 fontSize: "1.875rem",
-                color: "#FAD4D8",
+                color: "#1A1A1A",
                 marginBottom: "0.75rem",
               }}
             >
@@ -395,7 +395,7 @@ export default function TeamPage() {
             </h2>
             <p
               style={{
-                color: "#E8A0AA",
+                color: "#4A4A4A",
                 fontFamily: "var(--font-body)",
                 marginBottom: "1.5rem",
                 fontSize: "0.95rem",
@@ -408,8 +408,8 @@ export default function TeamPage() {
               href="/treks"
               style={{
                 display: "inline-block",
-                background: "#B5525E",
-                color: "#FAD4D8",
+                background: "#F88379",
+                color: "#1A1A1A",
                 padding: "0.75rem 2rem",
                 borderRadius: 999,
                 fontFamily: "var(--font-body)",

@@ -27,7 +27,7 @@ export function NewsletterSection() {
   return (
     <section
       data-ocid="newsletter.section"
-      style={{ background: "#B5525E" }}
+      style={{ background: "#F88379" }}
       className="py-16"
     >
       <div className="max-w-2xl mx-auto px-4 text-center">
@@ -46,7 +46,7 @@ export function NewsletterSection() {
           viewport={{ once: true }}
           transition={{ delay: 0.1 }}
           className="text-3xl md:text-5xl font-semibold mb-2"
-          style={{ fontFamily: "var(--font-display)", color: "#FAD4D8" }}
+          style={{ fontFamily: "var(--font-display)", color: "#1A1A1A" }}
         >
           JOIN THE TRIBE
         </motion.h2>
@@ -81,18 +81,18 @@ export function NewsletterSection() {
                     className="w-4 h-4 rounded flex items-center justify-center flex-shrink-0"
                     style={{
                       background: prefs.includes(p.id)
-                        ? "#FAD4D8"
+                        ? "#1A1A1A"
                         : "transparent",
                       border: "1.5px solid rgba(250,212,216,0.6)",
                     }}
                   >
                     {prefs.includes(p.id) && (
-                      <Check size={10} style={{ color: "#B5525E" }} />
+                      <Check size={10} style={{ color: "#F88379" }} />
                     )}
                   </span>
                   <span
                     className="text-xs font-medium"
-                    style={{ color: "#FAD4D8" }}
+                    style={{ color: "#1A1A1A" }}
                   >
                     {p.label}
                   </span>
@@ -110,16 +110,16 @@ export function NewsletterSection() {
                 onChange={(e) => setEmail(e.target.value)}
                 className="flex-1 px-4 py-3 rounded-xl text-sm outline-none"
                 style={{
-                  background: "rgba(26,14,16,0.4)",
+                  background: "rgba(255,255,255,0.5)",
                   border: "1px solid rgba(250,212,216,0.3)",
-                  color: "#FAD4D8",
+                  color: "#1A1A1A",
                 }}
               />
               <button
                 type="submit"
                 data-ocid="newsletter.submit_button"
                 className="px-5 py-3 rounded-xl font-semibold text-sm transition-all hover:opacity-90 flex items-center gap-2"
-                style={{ background: "#1A0E10", color: "#FAD4D8" }}
+                style={{ background: "#E6D8C4", color: "#1A1A1A" }}
               >
                 <Send size={14} /> Subscribe
               </button>
@@ -129,11 +129,11 @@ export function NewsletterSection() {
           <div className="py-4">
             <div
               className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4"
-              style={{ background: "rgba(26,14,16,0.3)" }}
+              style={{ background: "rgba(255,255,255,0.4)" }}
             >
-              <Check size={24} style={{ color: "#FAD4D8" }} />
+              <Check size={24} style={{ color: "#1A1A1A" }} />
             </div>
-            <p className="text-base font-semibold" style={{ color: "#FAD4D8" }}>
+            <p className="text-base font-semibold" style={{ color: "#1A1A1A" }}>
               You're subscribed!
             </p>
             <p

@@ -15,10 +15,10 @@ export interface BlogPost {
 }
 
 export const CATEGORY_COLORS: Record<BlogPost["category"], string> = {
-  "Trek Tips": "#B5525E",
-  "Yatra Guides": "#C9A84C",
-  Gear: "#A8C5DA",
-  Stories: "#2D5016",
+  "Trek Tips": "#F88379",
+  "Yatra Guides": "#D4A843",
+  Gear: "#82C8E5",
+  Stories: "#2D6A4F",
 };
 
 export const BLOG_POSTS: BlogPost[] = [

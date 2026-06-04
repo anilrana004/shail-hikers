@@ -102,7 +102,7 @@ export function BatchCalendarSection() {
   return (
     <section
       data-ocid="batch_calendar.section"
-      style={{ background: "#1A0E10" }}
+      style={{ background: "#E6D8C4" }}
       className="py-20"
     >
       <div className="max-w-7xl mx-auto px-4">
@@ -112,7 +112,7 @@ export function BatchCalendarSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="text-xs uppercase tracking-[0.4em] mb-3"
-            style={{ color: "#B5525E" }}
+            style={{ color: "#F88379" }}
           >
             Upcoming Departures
           </motion.p>
@@ -122,7 +122,7 @@ export function BatchCalendarSection() {
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
             className="text-4xl md:text-6xl font-semibold"
-            style={{ fontFamily: "var(--font-display)", color: "#FAD4D8" }}
+            style={{ fontFamily: "var(--font-display)", color: "#1A1A1A" }}
           >
             BATCH CALENDAR
           </motion.h2>
@@ -137,13 +137,13 @@ export function BatchCalendarSection() {
                 key={label}
                 className="rounded-2xl p-5"
                 style={{
-                  background: "#2D1B1E",
-                  border: "1px solid rgba(181,82,94,0.2)",
+                  background: "#FFFFFF",
+                  border: "1px solid rgba(248,131,121,0.2)",
                 }}
               >
                 <h3
                   className="text-sm font-bold mb-4 text-center uppercase tracking-widest"
-                  style={{ color: "#FAD4D8" }}
+                  style={{ color: "#1A1A1A" }}
                 >
                   {label}
                 </h3>
@@ -152,7 +152,7 @@ export function BatchCalendarSection() {
                     <div
                       key={d}
                       className="text-center text-[10px] font-semibold uppercase"
-                      style={{ color: "#E8A0AA50" }}
+                      style={{ color: "#4A4A4A50" }}
                     >
                       {d}
                     </div>
@@ -169,10 +169,10 @@ export function BatchCalendarSection() {
                     const batch = batchByDate.get(dateStr);
                     const seatsColor = batch
                       ? batch.seats <= 3
-                        ? "#B5525E"
+                        ? "#F88379"
                         : batch.seats <= 7
-                          ? "#C9A84C"
-                          : "#2D5016"
+                          ? "#D4A843"
+                          : "#2D6A4F"
                       : null;
                     return (
                       <div
@@ -184,7 +184,7 @@ export function BatchCalendarSection() {
                         <div
                           className="w-full aspect-square flex items-center justify-center rounded text-xs font-medium transition-all cursor-default"
                           style={{
-                            color: batch ? "#FAD4D8" : "#E8A0AA60",
+                            color: batch ? "#1A1A1A" : "#4A4A4A60",
                             background: batch
                               ? `${seatsColor}22`
                               : "transparent",
@@ -197,7 +197,7 @@ export function BatchCalendarSection() {
                           {batch && (
                             <span
                               className="absolute bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full"
-                              style={{ background: seatsColor ?? "#B5525E" }}
+                              style={{ background: seatsColor ?? "#F88379" }}
                             />
                           )}
                         </div>
@@ -207,14 +207,14 @@ export function BatchCalendarSection() {
                           <div
                             className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 z-20 w-44 p-3 rounded-xl text-xs shadow-2xl"
                             style={{
-                              background: "#1A0E10",
-                              border: "1px solid rgba(181,82,94,0.4)",
-                              color: "#E8A0AA",
+                              background: "#E6D8C4",
+                              border: "1px solid rgba(248,131,121,0.4)",
+                              color: "#4A4A4A",
                             }}
                           >
                             <p
                               className="font-bold mb-1"
-                              style={{ color: "#FAD4D8" }}
+                              style={{ color: "#1A1A1A" }}
                             >
                               {batch.trek}
                             </p>
@@ -241,16 +241,16 @@ export function BatchCalendarSection() {
 
         <div className="mt-8 flex flex-wrap justify-center gap-4">
           {[
-            { color: "#2D5016", label: "Available" },
-            { color: "#C9A84C", label: "Filling Fast" },
-            { color: "#B5525E", label: "Almost Full" },
+            { color: "#2D6A4F", label: "Available" },
+            { color: "#D4A843", label: "Filling Fast" },
+            { color: "#F88379", label: "Almost Full" },
           ].map((item) => (
             <div key={item.label} className="flex items-center gap-2">
               <span
                 className="w-3 h-3 rounded-full"
                 style={{ background: item.color }}
               />
-              <span className="text-xs" style={{ color: "#E8A0AA" }}>
+              <span className="text-xs" style={{ color: "#4A4A4A" }}>
                 {item.label}
               </span>
             </div>

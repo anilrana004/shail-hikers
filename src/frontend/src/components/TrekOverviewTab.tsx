@@ -144,10 +144,10 @@ export default function TrekOverviewTab({ trek }: Props) {
     <div className="space-y-12 py-8">
       {/* Story */}
       <section>
-        <h2 className="font-display text-3xl mb-6" style={{ color: "#FAD4D8" }}>
+        <h2 className="font-display text-3xl mb-6" style={{ color: "#1A1A1A" }}>
           About This Trek
         </h2>
-        <div className="space-y-4 leading-relaxed" style={{ color: "#E8A0AA" }}>
+        <div className="space-y-4 leading-relaxed" style={{ color: "#4A4A4A" }}>
           <p>
             Nestled in the heart of {trek.region}, the {trek.name} trek is one
             of Uttarakhand's most treasured Himalayan journeys. Starting from{" "}
@@ -191,7 +191,7 @@ export default function TrekOverviewTab({ trek }: Props) {
 
       {/* Highlights */}
       <section>
-        <h2 className="font-display text-3xl mb-6" style={{ color: "#FAD4D8" }}>
+        <h2 className="font-display text-3xl mb-6" style={{ color: "#1A1A1A" }}>
           Trek Highlights
         </h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -204,18 +204,18 @@ export default function TrekOverviewTab({ trek }: Props) {
               transition={{ delay: i * 0.05 }}
               className="rounded-xl p-4 border"
               style={{
-                background: "rgba(45,27,30,0.8)",
-                borderColor: "#E8A0AA33",
+                background: "rgba(255,255,255,0.9)",
+                borderColor: "#4A4A4A33",
               }}
             >
               <div className="text-2xl mb-2">{h.icon}</div>
               <div
                 className="font-semibold text-sm mb-1"
-                style={{ color: "#FAD4D8" }}
+                style={{ color: "#1A1A1A" }}
               >
                 {h.title}
               </div>
-              <div className="text-xs" style={{ color: "#E8A0AA" }}>
+              <div className="text-xs" style={{ color: "#4A4A4A" }}>
                 {h.description}
               </div>
             </motion.div>
@@ -225,12 +225,12 @@ export default function TrekOverviewTab({ trek }: Props) {
 
       {/* Reference Table */}
       <section>
-        <h2 className="font-display text-3xl mb-6" style={{ color: "#FAD4D8" }}>
+        <h2 className="font-display text-3xl mb-6" style={{ color: "#1A1A1A" }}>
           Trek at a Glance
         </h2>
         <div
           className="rounded-2xl overflow-hidden border"
-          style={{ borderColor: "#E8A0AA33" }}
+          style={{ borderColor: "#4A4A4A33" }}
         >
           <table className="w-full">
             <tbody>
@@ -239,18 +239,20 @@ export default function TrekOverviewTab({ trek }: Props) {
                   key={label}
                   style={{
                     background:
-                      i % 2 === 0 ? "rgba(45,27,30,0.8)" : "rgba(26,14,16,0.8)",
+                      i % 2 === 0
+                        ? "rgba(255,255,255,0.9)"
+                        : "rgba(255,255,255,0.9)",
                   }}
                 >
                   <td
                     className="px-5 py-3 text-sm font-semibold w-1/2"
-                    style={{ color: "#E8A0AA" }}
+                    style={{ color: "#4A4A4A" }}
                   >
                     {label}
                   </td>
                   <td
                     className="px-5 py-3 text-sm"
-                    style={{ color: "#FAD4D8" }}
+                    style={{ color: "#1A1A1A" }}
                   >
                     {value}
                   </td>
@@ -263,28 +265,28 @@ export default function TrekOverviewTab({ trek }: Props) {
 
       {/* Fitness */}
       <section>
-        <h2 className="font-display text-3xl mb-6" style={{ color: "#FAD4D8" }}>
+        <h2 className="font-display text-3xl mb-6" style={{ color: "#1A1A1A" }}>
           Fitness & Training
         </h2>
         <div className="grid md:grid-cols-2 gap-8">
           <div>
-            <div className="mb-2 text-sm" style={{ color: "#E8A0AA" }}>
+            <div className="mb-2 text-sm" style={{ color: "#4A4A4A" }}>
               Fitness Level Required
             </div>
             <div
               className="rounded-full h-4 mb-4"
-              style={{ background: "#2D1B1E" }}
+              style={{ background: "#FFFFFF" }}
             >
               <motion.div
                 className="h-4 rounded-full"
-                style={{ background: "#B5525E" }}
+                style={{ background: "#F88379" }}
                 initial={{ width: 0 }}
                 whileInView={{ width: `${(trek.fitnessLevel / 10) * 100}%` }}
                 viewport={{ once: true }}
                 transition={{ duration: 1 }}
               />
             </div>
-            <div className="text-xs" style={{ color: "#E8A0AA" }}>
+            <div className="text-xs" style={{ color: "#4A4A4A" }}>
               {trek.fitnessLevel}/10 —{" "}
               {trek.fitnessLevel <= 3
                 ? "Beginner friendly"
@@ -294,7 +296,7 @@ export default function TrekOverviewTab({ trek }: Props) {
             </div>
             <div
               className="mt-4 space-y-2 text-sm"
-              style={{ color: "#FAD4D8" }}
+              style={{ color: "#1A1A1A" }}
             >
               <div>
                 Min age: <b>{trek.minAge} years</b>
@@ -302,30 +304,30 @@ export default function TrekOverviewTab({ trek }: Props) {
               <div>
                 Max recommended: <b>{trek.maxAge} years</b>
               </div>
-              <div className="text-xs" style={{ color: "#E8A0AA" }}>
+              <div className="text-xs" style={{ color: "#4A4A4A" }}>
                 Medical conditions that disqualify: heart disease, severe
                 asthma, recent surgeries, uncontrolled hypertension
               </div>
             </div>
           </div>
           <div>
-            <div className="font-semibold mb-3" style={{ color: "#FAD4D8" }}>
+            <div className="font-semibold mb-3" style={{ color: "#1A1A1A" }}>
               Am I Fit Enough?
             </div>
             {!quizDone ? (
               <div
                 className="rounded-xl p-5 border"
                 style={{
-                  background: "rgba(45,27,30,0.8)",
-                  borderColor: "#E8A0AA33",
+                  background: "rgba(255,255,255,0.9)",
+                  borderColor: "#4A4A4A33",
                 }}
               >
-                <div className="text-xs mb-3" style={{ color: "#E8A0AA" }}>
+                <div className="text-xs mb-3" style={{ color: "#4A4A4A" }}>
                   Question {quizStep + 1} of {QUIZ_QUESTIONS.length}
                 </div>
                 <div
                   className="text-sm font-medium mb-4"
-                  style={{ color: "#FAD4D8" }}
+                  style={{ color: "#1A1A1A" }}
                 >
                   {QUIZ_QUESTIONS[quizStep].q}
                 </div>
@@ -337,9 +339,9 @@ export default function TrekOverviewTab({ trek }: Props) {
                       onClick={() => handleQuizAnswer(i)}
                       className="w-full text-left px-4 py-2 rounded-lg text-sm transition-colors"
                       style={{
-                        background: "rgba(181,82,94,0.15)",
-                        color: "#FAD4D8",
-                        border: "1px solid #B5525E66",
+                        background: "rgba(248,131,121,0.15)",
+                        color: "#1A1A1A",
+                        border: "1px solid #F8837966",
                       }}
                     >
                       {opt}
@@ -356,13 +358,13 @@ export default function TrekOverviewTab({ trek }: Props) {
                       ? "rgba(45,80,22,0.3)"
                       : fitnessResult === "almost"
                         ? "rgba(201,168,76,0.2)"
-                        : "rgba(181,82,94,0.2)",
+                        : "rgba(248,131,121,0.2)",
                   borderColor:
                     fitnessResult === "ready"
-                      ? "#2D5016"
+                      ? "#2D6A4F"
                       : fitnessResult === "almost"
-                        ? "#C9A84C"
-                        : "#B5525E",
+                        ? "#D4A843"
+                        : "#F88379",
                 }}
               >
                 <div
@@ -372,8 +374,8 @@ export default function TrekOverviewTab({ trek }: Props) {
                       fitnessResult === "ready"
                         ? "#90EE90"
                         : fitnessResult === "almost"
-                          ? "#C9A84C"
-                          : "#FAD4D8",
+                          ? "#D4A843"
+                          : "#1A1A1A",
                   }}
                 >
                   {fitnessResult === "ready"
@@ -382,7 +384,7 @@ export default function TrekOverviewTab({ trek }: Props) {
                       ? "Almost There"
                       : "More Training Needed"}
                 </div>
-                <div className="text-sm" style={{ color: "#E8A0AA" }}>
+                <div className="text-sm" style={{ color: "#4A4A4A" }}>
                   {fitnessResult === "ready"
                     ? "Great fitness level! Book your spot with confidence."
                     : fitnessResult === "almost"
@@ -397,7 +399,7 @@ export default function TrekOverviewTab({ trek }: Props) {
                     setQuizDone(false);
                   }}
                   className="mt-3 text-xs underline"
-                  style={{ color: "#E8A0AA" }}
+                  style={{ color: "#4A4A4A" }}
                 >
                   Retake Quiz
                 </button>
@@ -409,7 +411,7 @@ export default function TrekOverviewTab({ trek }: Props) {
 
       {/* Unique Features */}
       <section>
-        <h2 className="font-display text-3xl mb-6" style={{ color: "#FAD4D8" }}>
+        <h2 className="font-display text-3xl mb-6" style={{ color: "#1A1A1A" }}>
           What Makes This Trek Unique
         </h2>
         <div className="grid md:grid-cols-3 gap-6">
@@ -418,20 +420,20 @@ export default function TrekOverviewTab({ trek }: Props) {
               key={f.title}
               className="rounded-xl p-6 border"
               style={{
-                background: "rgba(26,14,16,0.8)",
-                borderColor: "#B5525E66",
+                background: "rgba(255,255,255,0.9)",
+                borderColor: "#F8837966",
               }}
             >
               <div
                 className="font-display text-lg font-semibold mb-2"
-                style={{ color: "#B5525E" }}
+                style={{ color: "#F88379" }}
               >
                 Only on this trek
               </div>
-              <div className="font-semibold mb-1" style={{ color: "#FAD4D8" }}>
+              <div className="font-semibold mb-1" style={{ color: "#1A1A1A" }}>
                 {f.title}
               </div>
-              <div className="text-sm" style={{ color: "#E8A0AA" }}>
+              <div className="text-sm" style={{ color: "#4A4A4A" }}>
                 {f.description}
               </div>
             </div>
@@ -440,14 +442,14 @@ export default function TrekOverviewTab({ trek }: Props) {
         <div
           className="mt-6 rounded-xl p-5 border-l-4"
           style={{
-            background: "rgba(45,27,30,0.8)",
-            borderLeftColor: "#C9A84C",
+            background: "rgba(255,255,255,0.9)",
+            borderLeftColor: "#D4A843",
           }}
         >
-          <div className="font-semibold mb-1" style={{ color: "#C9A84C" }}>
+          <div className="font-semibold mb-1" style={{ color: "#D4A843" }}>
             Did You Know?
           </div>
-          <div className="text-sm" style={{ color: "#FAD4D8" }}>
+          <div className="text-sm" style={{ color: "#1A1A1A" }}>
             {trek.didYouKnow}
           </div>
         </div>
@@ -455,7 +457,7 @@ export default function TrekOverviewTab({ trek }: Props) {
 
       {/* Flora & Fauna */}
       <section>
-        <h2 className="font-display text-3xl mb-6" style={{ color: "#FAD4D8" }}>
+        <h2 className="font-display text-3xl mb-6" style={{ color: "#1A1A1A" }}>
           Flora & Fauna
         </h2>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
@@ -465,18 +467,18 @@ export default function TrekOverviewTab({ trek }: Props) {
               className="flex items-center gap-3 rounded-xl p-4 border"
               style={{
                 background: "rgba(45,27,30,0.6)",
-                borderColor: "#E8A0AA22",
+                borderColor: "#4A4A4A22",
               }}
             >
               <div className="text-2xl">{s.type === "flora" ? "🌿" : "🦅"}</div>
               <div>
                 <div
                   className="text-sm font-semibold"
-                  style={{ color: "#FAD4D8" }}
+                  style={{ color: "#1A1A1A" }}
                 >
                   {s.name}
                 </div>
-                <div className="text-xs" style={{ color: "#E8A0AA" }}>
+                <div className="text-xs" style={{ color: "#4A4A4A" }}>
                   {s.description}
                 </div>
               </div>
@@ -488,21 +490,21 @@ export default function TrekOverviewTab({ trek }: Props) {
       {/* Packing Checklist */}
       <section>
         <div className="flex items-center justify-between mb-6">
-          <h2 className="font-display text-3xl" style={{ color: "#FAD4D8" }}>
+          <h2 className="font-display text-3xl" style={{ color: "#1A1A1A" }}>
             Packing Checklist
           </h2>
-          <div className="text-sm" style={{ color: "#E8A0AA" }}>
+          <div className="text-sm" style={{ color: "#4A4A4A" }}>
             {packedCount}/{totalItems} packed
           </div>
         </div>
         <div
           className="rounded-full h-2 mb-6"
-          style={{ background: "#2D1B1E" }}
+          style={{ background: "#FFFFFF" }}
         >
           <div
             className="h-2 rounded-full transition-all duration-300"
             style={{
-              background: "#B5525E",
+              background: "#F88379",
               width: `${totalItems > 0 ? (packedCount / totalItems) * 100 : 0}%`,
             }}
           />
@@ -512,13 +514,13 @@ export default function TrekOverviewTab({ trek }: Props) {
             <div
               key={cat}
               className="rounded-xl border"
-              style={{ borderColor: "#E8A0AA22" }}
+              style={{ borderColor: "#4A4A4A22" }}
             >
               <button
                 type="button"
                 onClick={() => setOpenPack(openPack === cat ? null : cat)}
                 className="w-full flex items-center justify-between px-5 py-4"
-                style={{ color: "#FAD4D8" }}
+                style={{ color: "#1A1A1A" }}
               >
                 <span className="font-semibold">
                   {cat} ({items.length})
@@ -530,9 +532,9 @@ export default function TrekOverviewTab({ trek }: Props) {
                   {items.map((item: PackItem) => {
                     const key = `${cat}-${item.name}`;
                     const badgeBg = item.essential
-                      ? "rgba(181,82,94,0.2)"
+                      ? "rgba(248,131,121,0.2)"
                       : "rgba(45,27,30,0.6)";
-                    const badgeColor = item.essential ? "#B5525E" : "#E8A0AA";
+                    const badgeColor = item.essential ? "#F88379" : "#4A4A4A";
                     return (
                       <label
                         key={key}
@@ -542,11 +544,11 @@ export default function TrekOverviewTab({ trek }: Props) {
                           type="checkbox"
                           checked={!!packed[key]}
                           onChange={() => togglePacked(key)}
-                          className="accent-[#B5525E] w-4 h-4"
+                          className="accent-[#F88379] w-4 h-4"
                         />
                         <span
                           className="text-sm flex-1"
-                          style={{ color: packed[key] ? "#2D5016" : "#FAD4D8" }}
+                          style={{ color: packed[key] ? "#2D6A4F" : "#1A1A1A" }}
                         >
                           {item.name}
                         </span>
@@ -572,7 +574,7 @@ export default function TrekOverviewTab({ trek }: Props) {
 
       {/* Nearby Attractions */}
       <section>
-        <h2 className="font-display text-3xl mb-6" style={{ color: "#FAD4D8" }}>
+        <h2 className="font-display text-3xl mb-6" style={{ color: "#1A1A1A" }}>
           Nearby Attractions
         </h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -580,7 +582,7 @@ export default function TrekOverviewTab({ trek }: Props) {
             <div
               key={a.name}
               className="rounded-xl overflow-hidden border"
-              style={{ borderColor: "#E8A0AA22" }}
+              style={{ borderColor: "#4A4A4A22" }}
             >
               <img
                 src={NEARBY_IMAGES[i % NEARBY_IMAGES.length]}
@@ -590,11 +592,11 @@ export default function TrekOverviewTab({ trek }: Props) {
               <div className="p-3">
                 <div
                   className="text-sm font-semibold mb-1"
-                  style={{ color: "#FAD4D8" }}
+                  style={{ color: "#1A1A1A" }}
                 >
                   {a.name}
                 </div>
-                <div className="text-xs" style={{ color: "#E8A0AA" }}>
+                <div className="text-xs" style={{ color: "#4A4A4A" }}>
                   {a.distance} km · {a.type}
                 </div>
               </div>

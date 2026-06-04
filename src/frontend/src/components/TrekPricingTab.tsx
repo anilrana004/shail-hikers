@@ -1,3 +1,4 @@
+import { useJoinWaitlist, useWaitlistPosition } from "@/hooks/useWaitlist";
 import type { TrekData } from "@/types";
 import { useState } from "react";
 
@@ -15,18 +16,32 @@ const BATCHES = [
 ];
 
 const PRICE_BREAKDOWN = [
-  { label: "Expert Guides", pct: 30, color: "#B5525E" },
-  { label: "Permits & Fees", pct: 10, color: "#C9A84C" },
-  { label: "Meals", pct: 25, color: "#2D5016" },
-  { label: "Transport", pct: 20, color: "#A8C5DA" },
-  { label: "Gear & Equipment", pct: 15, color: "#E8A0AA" },
+  { label: "Expert Guides", pct: 30, color: "#F88379" },
+  { label: "Permits & Fees", pct: 10, color: "#D4A843" },
+  { label: "Meals", pct: 25, color: "#2D6A4F" },
+  { label: "Transport", pct: 20, color: "#82C8E5" },
+  { label: "Gear & Equipment", pct: 15, color: "#4A4A4A" },
 ];
 
 export default function TrekPricingTab({ trek }: Props) {
   const [groupSize, setGroupSize] = useState(2);
   const [showBreakdown, setShowBreakdown] = useState(false);
   const [selectedBatch, setSelectedBatch] = useState<number | null>(null);
-  const [alertEmail, setAlertEmail] = useState("");
+
+  // Waitlist inline form state
+  const [wlName, setWlName] = useState("");
+  const [wlEmail, setWlEmail] = useState("");
+  const [wlPhone, setWlPhone] = useState("");
+  const [wlSubmitted, setWlSubmitted] = useState(false);
+  const [wlError, setWlError] = useState("");
+
+  const joinWaitlistMutation = useJoinWaitlist();
+  const [submittedBatchId, setSubmittedBatchId] = useState<string | null>(null);
+  const [submittedEmail, setSubmittedEmail] = useState<string | null>(null);
+  const { data: waitlistPosition } = useWaitlistPosition(
+    submittedBatchId ?? "",
+    submittedEmail ?? "",
+  );
 
   const getDiscount = () => {
     if (groupSize === 1) return -0.15;
@@ -47,48 +62,80 @@ export default function TrekPricingTab({ trek }: Props) {
   const getBatchStatus = (booked: number, seats: number) => {
     const pct = booked / seats;
     if (booked >= seats)
-      return { label: "Full", color: "#B5525E", dot: "#B5525E" };
+      return { label: "Sold Out", color: "#F88379", dot: "#F88379" };
     if (pct >= 0.7)
-      return { label: "Filling Fast", color: "#C9A84C", dot: "#C9A84C" };
+      return { label: "Filling Fast", color: "#D4A843", dot: "#D4A843" };
     return { label: "Available", color: "#4A7C2F", dot: "#4A7C2F" };
+  };
+
+  const isBatchFull = (booked: number, seats: number) => booked >= seats;
+
+  const seatsLeft = (booked: number, seats: number) => seats - booked;
+
+  const handleJoinWaitlist = async (batchId: string) => {
+    setWlError("");
+    if (!wlName.trim() || !wlEmail.trim() || !wlPhone.trim()) {
+      setWlError("Please fill in all fields.");
+      return;
+    }
+    try {
+      await joinWaitlistMutation.mutateAsync({
+        batchId,
+        name: wlName.trim(),
+        email: wlEmail.trim(),
+        phone: wlPhone.trim(),
+      });
+      setWlSubmitted(true);
+      setSubmittedBatchId(batchId);
+      setSubmittedEmail(wlEmail.trim());
+      setWlName("");
+      setWlEmail("");
+      setWlPhone("");
+    } catch (e) {
+      setWlError(
+        e instanceof Error
+          ? e.message
+          : "Failed to join waitlist. Please try again.",
+      );
+    }
   };
 
   return (
     <div className="py-8 space-y-10">
       <section>
         <div className="flex items-center justify-between mb-6">
-          <h2 className="font-display text-3xl" style={{ color: "#FAD4D8" }}>
+          <h2 className="font-display text-3xl" style={{ color: "#1A1A1A" }}>
             Pricing
           </h2>
           <span
             className="text-sm px-3 py-1.5 rounded-full border"
-            style={{ borderColor: "#C9A84C", color: "#C9A84C" }}
+            style={{ borderColor: "#D4A843", color: "#D4A843" }}
           >
             Price Match Guarantee
           </span>
         </div>
         <div
           className="rounded-2xl overflow-hidden border"
-          style={{ borderColor: "#E8A0AA33" }}
+          style={{ borderColor: "#4A4A4A33" }}
         >
           <table className="w-full text-sm">
             <thead>
-              <tr style={{ background: "rgba(181,82,94,0.2)" }}>
+              <tr style={{ background: "rgba(248,131,121,0.2)" }}>
                 <th
                   className="px-5 py-3 text-left"
-                  style={{ color: "#FAD4D8" }}
+                  style={{ color: "#1A1A1A" }}
                 >
                   Group Size
                 </th>
                 <th
                   className="px-5 py-3 text-right"
-                  style={{ color: "#FAD4D8" }}
+                  style={{ color: "#1A1A1A" }}
                 >
                   Price/Person
                 </th>
                 <th
                   className="px-5 py-3 text-right"
-                  style={{ color: "#FAD4D8" }}
+                  style={{ color: "#1A1A1A" }}
                 >
                   Savings
                 </th>
@@ -127,16 +174,16 @@ export default function TrekPricingTab({ trek }: Props) {
                   style={{
                     background:
                       row.label.startsWith("2") || row.label.startsWith("9")
-                        ? "rgba(26,14,16,0.8)"
-                        : "rgba(45,27,30,0.8)",
+                        ? "rgba(255,255,255,0.9)"
+                        : "rgba(255,255,255,0.9)",
                   }}
                 >
-                  <td className="px-5 py-3" style={{ color: "#FAD4D8" }}>
+                  <td className="px-5 py-3" style={{ color: "#1A1A1A" }}>
                     {row.label}
                   </td>
                   <td
                     className="px-5 py-3 text-right font-semibold"
-                    style={{ color: "#C9A84C" }}
+                    style={{ color: "#D4A843" }}
                   >
                     Rs.{row.price.toLocaleString()}
                   </td>
@@ -151,25 +198,28 @@ export default function TrekPricingTab({ trek }: Props) {
             </tbody>
           </table>
         </div>
-        <div className="mt-4 text-xs" style={{ color: "#E8A0AA" }}>
+        <div className="mt-4 text-xs" style={{ color: "#4A4A4A" }}>
           All prices include 5% GST. Early bird: 10% off if booked 60+ days
           ahead.
         </div>
       </section>
 
       <section>
-        <h2 className="font-display text-2xl mb-5" style={{ color: "#FAD4D8" }}>
+        <h2 className="font-display text-2xl mb-5" style={{ color: "#1A1A1A" }}>
           Group Price Calculator
         </h2>
         <div
           className="rounded-2xl p-6 border"
-          style={{ background: "rgba(45,27,30,0.8)", borderColor: "#E8A0AA33" }}
+          style={{
+            background: "rgba(255,255,255,0.9)",
+            borderColor: "#4A4A4A33",
+          }}
         >
           <div className="flex items-center gap-4 mb-5">
             <label
               htmlFor="group-size-range"
               className="text-sm"
-              style={{ color: "#E8A0AA" }}
+              style={{ color: "#4A4A4A" }}
             >
               Group Size:
             </label>
@@ -180,11 +230,11 @@ export default function TrekPricingTab({ trek }: Props) {
               max={20}
               value={groupSize}
               onChange={(e) => setGroupSize(Number(e.target.value))}
-              className="flex-1 accent-[#B5525E]"
+              className="flex-1 accent-[#F88379]"
             />
             <span
               className="font-bold text-lg w-12 text-center"
-              style={{ color: "#FAD4D8" }}
+              style={{ color: "#1A1A1A" }}
             >
               {groupSize}
             </span>
@@ -192,37 +242,37 @@ export default function TrekPricingTab({ trek }: Props) {
           <div className="grid grid-cols-3 gap-4">
             <div
               className="text-center rounded-xl p-4"
-              style={{ background: "rgba(26,14,16,0.8)" }}
+              style={{ background: "rgba(255,255,255,0.9)" }}
             >
-              <div className="text-xs mb-1" style={{ color: "#E8A0AA" }}>
+              <div className="text-xs mb-1" style={{ color: "#4A4A4A" }}>
                 Per Person
               </div>
-              <div className="font-bold text-xl" style={{ color: "#C9A84C" }}>
+              <div className="font-bold text-xl" style={{ color: "#D4A843" }}>
                 Rs.{pricePerPerson.toLocaleString()}
               </div>
             </div>
             <div
               className="text-center rounded-xl p-4"
-              style={{ background: "rgba(26,14,16,0.8)" }}
+              style={{ background: "rgba(255,255,255,0.9)" }}
             >
-              <div className="text-xs mb-1" style={{ color: "#E8A0AA" }}>
+              <div className="text-xs mb-1" style={{ color: "#4A4A4A" }}>
                 Group Discount
               </div>
               <div
                 className="font-bold text-xl"
-                style={{ color: discount > 0 ? "#4A7C2F" : "#E8A0AA" }}
+                style={{ color: discount > 0 ? "#4A7C2F" : "#4A4A4A" }}
               >
                 {discount > 0 ? `${(discount * 100).toFixed(0)}%` : "--"}
               </div>
             </div>
             <div
               className="text-center rounded-xl p-4"
-              style={{ background: "rgba(181,82,94,0.15)" }}
+              style={{ background: "rgba(248,131,121,0.15)" }}
             >
-              <div className="text-xs mb-1" style={{ color: "#E8A0AA" }}>
+              <div className="text-xs mb-1" style={{ color: "#4A4A4A" }}>
                 Total
               </div>
-              <div className="font-bold text-xl" style={{ color: "#B5525E" }}>
+              <div className="font-bold text-xl" style={{ color: "#F88379" }}>
                 Rs.{totalPrice.toLocaleString()}
               </div>
             </div>
@@ -235,7 +285,7 @@ export default function TrekPricingTab({ trek }: Props) {
           type="button"
           onClick={() => setShowBreakdown(!showBreakdown)}
           className="text-sm underline mb-4"
-          style={{ color: "#E8A0AA" }}
+          style={{ color: "#4A4A4A" }}
         >
           {showBreakdown ? "Hide" : "Show"} where your money goes
         </button>
@@ -243,18 +293,18 @@ export default function TrekPricingTab({ trek }: Props) {
           <div
             className="rounded-2xl p-6 border"
             style={{
-              background: "rgba(45,27,30,0.8)",
-              borderColor: "#E8A0AA33",
+              background: "rgba(255,255,255,0.9)",
+              borderColor: "#4A4A4A33",
             }}
           >
             {PRICE_BREAKDOWN.map((item) => (
               <div key={item.label} className="flex items-center gap-4 mb-3">
-                <div className="w-32 text-sm" style={{ color: "#FAD4D8" }}>
+                <div className="w-32 text-sm" style={{ color: "#1A1A1A" }}>
                   {item.label}
                 </div>
                 <div
                   className="flex-1 h-3 rounded-full"
-                  style={{ background: "rgba(26,14,16,0.8)" }}
+                  style={{ background: "rgba(255,255,255,0.9)" }}
                 >
                   <div
                     className="h-3 rounded-full"
@@ -274,7 +324,7 @@ export default function TrekPricingTab({ trek }: Props) {
       </section>
 
       <section>
-        <h2 className="font-display text-2xl mb-5" style={{ color: "#FAD4D8" }}>
+        <h2 className="font-display text-2xl mb-5" style={{ color: "#1A1A1A" }}>
           Upcoming Batches
         </h2>
         <div className="space-y-3">
@@ -289,23 +339,23 @@ export default function TrekPricingTab({ trek }: Props) {
                 style={{
                   background:
                     selectedBatch === i
-                      ? "rgba(181,82,94,0.15)"
-                      : "rgba(45,27,30,0.8)",
-                  borderColor: selectedBatch === i ? "#B5525E" : "#E8A0AA22",
+                      ? "rgba(248,131,121,0.15)"
+                      : "rgba(255,255,255,0.9)",
+                  borderColor: selectedBatch === i ? "#F88379" : "#4A4A4A22",
                 }}
                 onClick={() => setSelectedBatch(selectedBatch === i ? null : i)}
               >
                 <div className="flex items-center gap-4 px-5 py-4">
                   <div
                     className="w-14 h-14 rounded-xl flex flex-col items-center justify-center flex-shrink-0"
-                    style={{ background: "rgba(181,82,94,0.2)" }}
+                    style={{ background: "rgba(248,131,121,0.2)" }}
                   >
-                    <div className="text-xs" style={{ color: "#E8A0AA" }}>
+                    <div className="text-xs" style={{ color: "#4A4A4A" }}>
                       {date.toLocaleString("default", { month: "short" })}
                     </div>
                     <div
                       className="text-xl font-bold"
-                      style={{ color: "#FAD4D8" }}
+                      style={{ color: "#1A1A1A" }}
                     >
                       {date.getDate()}
                     </div>
@@ -313,16 +363,37 @@ export default function TrekPricingTab({ trek }: Props) {
                   <div className="flex-1">
                     <div
                       className="font-semibold text-sm"
-                      style={{ color: "#FAD4D8" }}
+                      style={{ color: "#1A1A1A" }}
                     >
                       Guide: {batch.guide}
                     </div>
-                    <div className="text-xs mt-1" style={{ color: "#E8A0AA" }}>
-                      {batch.seats - batch.booked} of {batch.seats} seats left
+                    <div className="text-xs mt-1" style={{ color: "#4A4A4A" }}>
+                      {isBatchFull(batch.booked, batch.seats) ? (
+                        <span
+                          className="inline-flex items-center gap-1"
+                          style={{ color: "#F88379" }}
+                        >
+                          <span
+                            className="w-2 h-2 rounded-full inline-block animate-pulse"
+                            style={{ background: "#F88379" }}
+                          />
+                          Sold Out
+                        </span>
+                      ) : seatsLeft(batch.booked, batch.seats) <= 3 ? (
+                        <span style={{ color: "#F88379" }}>
+                          Only {seatsLeft(batch.booked, batch.seats)} seats
+                          left!
+                        </span>
+                      ) : (
+                        <span>
+                          {seatsLeft(batch.booked, batch.seats)} of{" "}
+                          {batch.seats} seats left
+                        </span>
+                      )}
                     </div>
                   </div>
                   <div className="text-right">
-                    <div className="font-bold" style={{ color: "#C9A84C" }}>
+                    <div className="font-bold" style={{ color: "#D4A843" }}>
                       Rs.{trek.basePrice.toLocaleString()}
                     </div>
                     <div className="text-xs mt-1 flex items-center gap-1 justify-end">
@@ -339,9 +410,9 @@ export default function TrekPricingTab({ trek }: Props) {
                 {selectedBatch === i && (
                   <div
                     className="border-t px-5 py-4 space-y-3"
-                    style={{ borderColor: "#E8A0AA22" }}
+                    style={{ borderColor: "#4A4A4A22" }}
                   >
-                    <div className="text-sm" style={{ color: "#E8A0AA" }}>
+                    <div className="text-sm" style={{ color: "#4A4A4A" }}>
                       Trek duration: {trek.durationDays} days /{" "}
                       {trek.durationNights} nights
                     </div>
@@ -350,30 +421,128 @@ export default function TrekPricingTab({ trek }: Props) {
                         <a
                           href={`/book/${trek.slug}`}
                           className="px-5 py-2 rounded-lg text-sm font-semibold"
-                          style={{ background: "#B5525E", color: "#FAD4D8" }}
+                          style={{ background: "#F88379", color: "#1A1A1A" }}
+                          data-ocid="trek.reserve_batch_button"
                         >
                           Reserve This Batch
                         </a>
                       ) : (
-                        <div className="flex gap-2 w-full">
-                          <input
-                            type="email"
-                            placeholder="Your email for waitlist"
-                            value={alertEmail}
-                            onChange={(e) => setAlertEmail(e.target.value)}
-                            className="flex-1 px-3 py-2 rounded-lg text-sm border bg-transparent"
-                            style={{
-                              borderColor: "#E8A0AA44",
-                              color: "#FAD4D8",
-                            }}
-                          />
-                          <button
-                            type="button"
-                            className="px-4 py-2 rounded-lg text-sm"
-                            style={{ background: "#B5525E", color: "#FAD4D8" }}
-                          >
-                            Alert Me
-                          </button>
+                        <div className="w-full space-y-3">
+                          {!wlSubmitted ? (
+                            <>
+                              <button
+                                type="button"
+                                className="px-5 py-2 rounded-lg text-sm font-semibold border-2"
+                                style={{
+                                  borderColor: "#F88379",
+                                  color: "#F88379",
+                                  background: "transparent",
+                                }}
+                                data-ocid="trek.join_waitlist_button"
+                              >
+                                Join Waitlist
+                              </button>
+                              <div className="space-y-2">
+                                <input
+                                  type="text"
+                                  placeholder="Full Name"
+                                  value={wlName}
+                                  onChange={(e) => setWlName(e.target.value)}
+                                  className="w-full px-3 py-2 rounded-lg text-sm border bg-transparent"
+                                  style={{
+                                    borderColor: "#4A4A4A44",
+                                    color: "#1A1A1A",
+                                  }}
+                                  data-ocid="trek.waitlist_name_input"
+                                />
+                                <input
+                                  type="email"
+                                  placeholder="Email"
+                                  value={wlEmail}
+                                  onChange={(e) => setWlEmail(e.target.value)}
+                                  className="w-full px-3 py-2 rounded-lg text-sm border bg-transparent"
+                                  style={{
+                                    borderColor: "#4A4A4A44",
+                                    color: "#1A1A1A",
+                                  }}
+                                  data-ocid="trek.waitlist_email_input"
+                                />
+                                <input
+                                  type="tel"
+                                  placeholder="Phone"
+                                  value={wlPhone}
+                                  onChange={(e) => setWlPhone(e.target.value)}
+                                  className="w-full px-3 py-2 rounded-lg text-sm border bg-transparent"
+                                  style={{
+                                    borderColor: "#4A4A4A44",
+                                    color: "#1A1A1A",
+                                  }}
+                                  data-ocid="trek.waitlist_phone_input"
+                                />
+                                <button
+                                  type="button"
+                                  onClick={() => handleJoinWaitlist(batch.date)}
+                                  disabled={joinWaitlistMutation.isPending}
+                                  className="w-full px-5 py-2 rounded-lg text-sm font-semibold"
+                                  style={{
+                                    background: "#F88379",
+                                    color: "#1A1A1A",
+                                  }}
+                                  data-ocid="trek.waitlist_submit_button"
+                                >
+                                  {joinWaitlistMutation.isPending
+                                    ? "Joining..."
+                                    : "Join Waitlist"}
+                                </button>
+                                {wlError && (
+                                  <div
+                                    className="text-sm px-3 py-2 rounded-lg"
+                                    style={{
+                                      background: "rgba(248,131,121,0.15)",
+                                      color: "#B84030",
+                                    }}
+                                    data-ocid="trek.waitlist_error"
+                                  >
+                                    {wlError}
+                                  </div>
+                                )}
+                              </div>
+                            </>
+                          ) : (
+                            <div
+                              className="rounded-xl p-4 border"
+                              style={{
+                                background: "#E6D8C4",
+                                borderColor: "#C9B99A",
+                              }}
+                              data-ocid="trek.waitlist_success_card"
+                            >
+                              <div
+                                className="font-semibold text-sm mb-1"
+                                style={{ color: "#1A1A1A" }}
+                              >
+                                You are on the waitlist!
+                              </div>
+                              <div
+                                className="text-sm"
+                                style={{ color: "#4A4A4A" }}
+                              >
+                                We will email you at{" "}
+                                <span
+                                  className="font-semibold"
+                                  style={{ color: "#1A1A1A" }}
+                                >
+                                  {submittedEmail}
+                                </span>{" "}
+                                if a seat opens.
+                                {waitlistPosition != null && (
+                                  <span className="block mt-1">
+                                    Your position: #{Number(waitlistPosition)}
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+                          )}
                         </div>
                       )}
                     </div>
@@ -386,7 +555,7 @@ export default function TrekPricingTab({ trek }: Props) {
       </section>
 
       <section>
-        <h2 className="font-display text-2xl mb-5" style={{ color: "#FAD4D8" }}>
+        <h2 className="font-display text-2xl mb-5" style={{ color: "#1A1A1A" }}>
           Payment Options
         </h2>
         <div className="grid md:grid-cols-3 gap-4">
@@ -414,26 +583,26 @@ export default function TrekPricingTab({ trek }: Props) {
               key={opt.title}
               className="rounded-2xl p-5 border flex flex-col"
               style={{
-                background: "rgba(45,27,30,0.8)",
-                borderColor: opt.title === "Pay Full" ? "#C9A84C" : "#E8A0AA33",
+                background: "rgba(255,255,255,0.9)",
+                borderColor: opt.title === "Pay Full" ? "#D4A843" : "#4A4A4A33",
               }}
             >
               <div className="flex items-center justify-between mb-3">
-                <div className="font-semibold" style={{ color: "#FAD4D8" }}>
+                <div className="font-semibold" style={{ color: "#1A1A1A" }}>
                   {opt.title}
                 </div>
                 <span
                   className="text-xs px-2 py-0.5 rounded-full"
                   style={{
                     background: "rgba(201,168,76,0.2)",
-                    color: "#C9A84C",
-                    border: "1px solid #C9A84C66",
+                    color: "#D4A843",
+                    border: "1px solid #D4A84366",
                   }}
                 >
                   {opt.badge}
                 </span>
               </div>
-              <div className="text-sm flex-1 mb-4" style={{ color: "#E8A0AA" }}>
+              <div className="text-sm flex-1 mb-4" style={{ color: "#4A4A4A" }}>
                 {opt.desc}
               </div>
               <button
@@ -442,12 +611,12 @@ export default function TrekPricingTab({ trek }: Props) {
                 style={{
                   background:
                     opt.title === "Pay Full"
-                      ? "#B5525E"
-                      : "rgba(181,82,94,0.2)",
-                  color: "#FAD4D8",
+                      ? "#F88379"
+                      : "rgba(248,131,121,0.2)",
+                  color: "#1A1A1A",
                   border:
                     opt.title !== "Pay Full"
-                      ? "1px solid #B5525E66"
+                      ? "1px solid #F8837966"
                       : undefined,
                 }}
               >
@@ -460,12 +629,12 @@ export default function TrekPricingTab({ trek }: Props) {
 
       <div
         className="rounded-2xl p-5 border"
-        style={{ background: "rgba(201,168,76,0.1)", borderColor: "#C9A84C66" }}
+        style={{ background: "rgba(201,168,76,0.1)", borderColor: "#D4A84366" }}
       >
-        <div className="font-semibold mb-2" style={{ color: "#C9A84C" }}>
+        <div className="font-semibold mb-2" style={{ color: "#D4A843" }}>
           Early Bird - 10% Off
         </div>
-        <div className="text-sm" style={{ color: "#FAD4D8" }}>
+        <div className="text-sm" style={{ color: "#1A1A1A" }}>
           Book 60+ days ahead to unlock 10% savings. Refer a friend and both get
           Rs.500 off your next trek.
         </div>

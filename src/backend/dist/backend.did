@@ -11,6 +11,34 @@ type Yatra =
    slug: Slug;
    tagline: text;
  };
+type WaitlistStatus = 
+ variant {
+   Booked;
+   Expired;
+   Notified;
+   Waiting;
+ };
+type WaitlistResult = 
+ variant {
+   err: text;
+   ok: record {
+         position: nat;
+         waitlistId: text;
+       };
+ };
+type WaitlistEntryPublic = 
+ record {
+   batchId: text;
+   createdAt: int;
+   email: text;
+   id: text;
+   name: text;
+   notifiedAt: opt int;
+   numPeople: nat;
+   phone: text;
+   position: nat;
+   status: WaitlistStatus;
+ };
 type UserProfilePublic = 
  record {
    city: text;
@@ -98,6 +126,27 @@ type LoyaltyTier =
    Explorer;
    SummitMaster;
    Trailblazer;
+ };
+type GuidePublic = 
+ record {
+   availability: GuideAvailability;
+   bio: text;
+   certifications: vec text;
+   currentAssignment: opt text;
+   designation: text;
+   favoriteTrek: text;
+   id: text;
+   name: text;
+   photo: text;
+   rating: float64;
+   totalTreksLed: nat;
+   yearsExperience: nat;
+ };
+type GuideAvailability = 
+ variant {
+   Available;
+   OnLeave;
+   OnTrek;
  };
 type FaqVotesPublic = 
  record {
@@ -193,6 +242,11 @@ type AddOn =
  };
 service : {
   addToWishlist: (slug: text) -> (bool);
+  assignGuideToBatch: (batchId: text, guideId: text) ->
+   (variant {
+      err: text;
+      ok;
+    });
   calculateGroupPrice: (trekSlug: text, groupSize: nat, addOns: vec AddOn,
    batchId: nat) -> (nat) query;
   cancelBooking: (id: nat) -> (variant {
@@ -216,6 +270,8 @@ service : {
     });
   createOrUpdateProfile: (name: text, email: text, phone: text, city:
    text) -> (UserProfilePublic);
+  getAdminPrincipal: () -> (opt principal) query;
+  getAllGuides: () -> (vec GuidePublic) query;
   getAllTreks: () -> (vec Trek) query;
   getAllYatras: () -> (vec Yatra) query;
   getAvailability: (batchId: nat) ->
@@ -239,15 +295,32 @@ service : {
   getCorporateLeads: () -> (vec CorporateLead);
   getFaqVotes: (trekSlug: text, faqIndex: nat) -> (FaqVotesPublic) query;
   getFeaturedTreks: () -> (vec Trek) query;
+  getGuideById: (id: text) -> (opt GuidePublic) query;
   getReviewsByTrek: (trekSlug: text) -> (vec ReviewPublic) query;
   getStripePublicKey: () -> (text) query;
   getSubscriberCount: () -> (nat) query;
   getTrekBySlug: (slug: text) -> (opt Trek) query;
   getTreksByDifficulty: (difficulty: Difficulty) -> (vec Trek) query;
   getUserProfile: () -> (opt UserProfilePublic) query;
+  getWaitlistByBatch: (batchId: text) -> (vec WaitlistEntryPublic) query;
+  getWaitlistPosition: (batchId: text, email: text) -> (opt nat) query;
   getYatraBySlug: (slug: text) -> (opt Yatra) query;
   incrementBlogViews: (slug: text) -> (bool);
+  initAdmin: () -> (variant {
+                      err: text;
+                      ok;
+                    });
+  joinWaitlist: (batchId: text, name: text, email: text, phone: text,
+   numPeople: nat) -> (WaitlistResult);
+  notifyNextOnWaitlist: (batchId: text) -> (bool);
+  promoteFromWaitlist: (batchId: text, waitlistId: text) ->
+   (variant {
+      err: text;
+      ok;
+    });
   removeFromWishlist: (slug: text) -> (bool);
+  sendManualWaitlistNotification: (batchId: text, waitlistId: text, message:
+   text) -> (bool);
   setStripeSecretKey: (secretKey: text, publicKey: text) -> ();
   submitCorporateLead: (companyName: text, contactName: text, email: 
    text, phone: text, headcount: nat, preferredDates: text, preferredTrek:
@@ -257,7 +330,16 @@ service : {
    text) -> (ReviewPublic);
   subscribe: (email: text, preferences: vec NewsletterPreference) -> (bool);
   unsubscribe: (email: text) -> (bool);
+  updateGuideAvailability: (guideId: text, availability:
+   GuideAvailability) -> (variant {
+                            err: text;
+                            ok;
+                          });
   updatePaymentStatus: (id: nat, status: PaymentStatus) -> (bool);
+  upsertGuide: (guide: GuidePublic) -> (variant {
+                                          err: text;
+                                          ok;
+                                        });
   voteFaq: (trekSlug: text, faqIndex: nat, isHelpful: bool) -> (bool);
   voteHelpful: (reviewId: nat) -> (bool);
 }

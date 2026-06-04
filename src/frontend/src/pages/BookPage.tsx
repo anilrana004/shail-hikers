@@ -211,21 +211,21 @@ const formatDate = (d: string) =>
 const statusConfig = {
   open: {
     label: "Available",
-    color: "#2D5016",
+    color: "#2D6A4F",
     bg: "rgba(45,80,22,0.2)",
     dot: "#4ade80",
   },
   filling_fast: {
     label: "Limited",
-    color: "#C9A84C",
+    color: "#D4A843",
     bg: "rgba(201,168,76,0.15)",
-    dot: "#C9A84C",
+    dot: "#D4A843",
   },
   full: {
     label: "Full",
-    color: "#B5525E",
-    bg: "rgba(181,82,94,0.15)",
-    dot: "#B5525E",
+    color: "#F88379",
+    bg: "rgba(248,131,121,0.15)",
+    dot: "#F88379",
   },
   cancelled: {
     label: "Cancelled",
@@ -251,15 +251,15 @@ function StepIndicator({ current }: { current: number }) {
               className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold transition-all duration-300"
               style={{
                 background:
-                  current >= step.num ? "#B5525E" : "rgba(181,82,94,0.15)",
-                color: current >= step.num ? "#FAD4D8" : "#E8A0AA",
+                  current >= step.num ? "#F88379" : "rgba(248,131,121,0.15)",
+                color: current >= step.num ? "#1A1A1A" : "#4A4A4A",
                 border:
                   current === step.num
-                    ? "2px solid #E8A0AA"
+                    ? "2px solid #4A4A4A"
                     : "2px solid transparent",
                 boxShadow:
                   current === step.num
-                    ? "0 0 16px rgba(181,82,94,0.4)"
+                    ? "0 0 16px rgba(248,131,121,0.4)"
                     : "none",
               }}
             >
@@ -268,7 +268,7 @@ function StepIndicator({ current }: { current: number }) {
             <span
               className="text-xs hidden sm:block"
               style={{
-                color: current === step.num ? "#FAD4D8" : "#E8A0AA",
+                color: current === step.num ? "#1A1A1A" : "#4A4A4A",
                 opacity: current === step.num ? 1 : 0.6,
               }}
             >
@@ -280,7 +280,7 @@ function StepIndicator({ current }: { current: number }) {
               className="w-16 sm:w-24 h-px mx-2 mb-4"
               style={{
                 background:
-                  current > step.num ? "#B5525E" : "rgba(181,82,94,0.25)",
+                  current > step.num ? "#F88379" : "rgba(248,131,121,0.25)",
               }}
             />
           )}
@@ -305,10 +305,10 @@ function Step1BatchSelector({
 }) {
   return (
     <div>
-      <h2 className="font-display text-3xl mb-2" style={{ color: "#FAD4D8" }}>
+      <h2 className="font-display text-3xl mb-2" style={{ color: "#1A1A1A" }}>
         Select Your Batch
       </h2>
-      <p className="mb-8 text-sm" style={{ color: "#E8A0AA" }}>
+      <p className="mb-8 text-sm" style={{ color: "#4A4A4A" }}>
         Choose from available departure dates for {trek.name}
       </p>
       <div className="grid gap-4">
@@ -327,11 +327,11 @@ function Step1BatchSelector({
               className="w-full text-left p-4 rounded-xl transition-all duration-200"
               style={{
                 background: isSelected
-                  ? "rgba(181,82,94,0.15)"
-                  : "rgba(26,14,16,0.8)",
+                  ? "rgba(248,131,121,0.15)"
+                  : "rgba(255,255,255,0.9)",
                 border: isSelected
-                  ? "2px solid #B5525E"
-                  : "2px solid rgba(181,82,94,0.25)",
+                  ? "2px solid #F88379"
+                  : "2px solid rgba(248,131,121,0.25)",
                 opacity: isDisabled ? 0.55 : 1,
                 cursor: isDisabled ? "not-allowed" : "pointer",
               }}
@@ -341,22 +341,22 @@ function Step1BatchSelector({
                   <div className="flex items-center gap-2 mb-1">
                     <span
                       className="font-display text-xl"
-                      style={{ color: "#FAD4D8" }}
+                      style={{ color: "#1A1A1A" }}
                     >
                       {formatDate(b.startDate)}
                     </span>
-                    <span className="text-sm" style={{ color: "#E8A0AA" }}>
+                    <span className="text-sm" style={{ color: "#4A4A4A" }}>
                       → {formatDate(b.endDate)}
                     </span>
                   </div>
                   <div className="flex items-center gap-4 text-sm">
-                    <span style={{ color: "#E8A0AA" }}>
+                    <span style={{ color: "#4A4A4A" }}>
                       🧭 Guide:{" "}
-                      <strong style={{ color: "#FAD4D8" }}>
+                      <strong style={{ color: "#1A1A1A" }}>
                         {b.guideName}
                       </strong>
                     </span>
-                    <span style={{ color: "#E8A0AA" }}>
+                    <span style={{ color: "#4A4A4A" }}>
                       👥 {seatsLeft} seats left
                     </span>
                   </div>
@@ -374,7 +374,7 @@ function Step1BatchSelector({
                   </div>
                   <span
                     className="font-display text-lg"
-                    style={{ color: "#C9A84C" }}
+                    style={{ color: "#D4A843" }}
                   >
                     ₹{trek.basePrice.toLocaleString("en-IN")}
                   </span>
@@ -385,24 +385,24 @@ function Step1BatchSelector({
                   initial={{ opacity: 0, height: 0 }}
                   animate={{ opacity: 1, height: "auto" }}
                   className="mt-4 pt-4 border-t"
-                  style={{ borderColor: "rgba(181,82,94,0.3)" }}
+                  style={{ borderColor: "rgba(248,131,121,0.3)" }}
                 >
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-3 text-sm">
-                    <div style={{ color: "#E8A0AA" }}>
+                    <div style={{ color: "#4A4A4A" }}>
                       🌤️ Forecast:{" "}
-                      <span style={{ color: "#FAD4D8" }}>
+                      <span style={{ color: "#1A1A1A" }}>
                         Clear skies, -8°C nights
                       </span>
                     </div>
-                    <div style={{ color: "#E8A0AA" }}>
+                    <div style={{ color: "#4A4A4A" }}>
                       👫 Group:{" "}
-                      <span style={{ color: "#FAD4D8" }}>
+                      <span style={{ color: "#1A1A1A" }}>
                         Mix of 4M+3F, avg age 27
                       </span>
                     </div>
-                    <div style={{ color: "#E8A0AA" }}>
+                    <div style={{ color: "#4A4A4A" }}>
                       📊 Experience:{" "}
-                      <span style={{ color: "#FAD4D8" }}>70% intermediate</span>
+                      <span style={{ color: "#1A1A1A" }}>70% intermediate</span>
                     </div>
                   </div>
                 </motion.div>
@@ -421,8 +421,8 @@ function Step1BatchSelector({
           data-ocid="book.next_button"
           className="px-8 py-3 rounded-xl font-semibold text-sm flex items-center gap-2 transition-all duration-200"
           style={{
-            background: selected ? "#B5525E" : "rgba(181,82,94,0.3)",
-            color: selected ? "#FAD4D8" : "rgba(250,212,216,0.4)",
+            background: selected ? "#F88379" : "rgba(248,131,121,0.3)",
+            color: selected ? "#1A1A1A" : "rgba(250,212,216,0.4)",
             cursor: selected ? "pointer" : "not-allowed",
           }}
         >
@@ -473,27 +473,27 @@ function TravelerFormCard({
   const inputClass =
     "w-full px-3 py-2 rounded-lg text-sm bg-transparent border outline-none transition-all duration-200";
   const inputStyle = {
-    borderColor: "rgba(181,82,94,0.4)",
-    color: "#FAD4D8",
-    background: "rgba(26,14,16,0.6)",
+    borderColor: "rgba(248,131,121,0.4)",
+    color: "#1A1A1A",
+    background: "rgba(255,255,255,0.8)",
   };
-  const labelStyle = { color: "#E8A0AA" };
+  const labelStyle = { color: "#4A4A4A" };
 
   return (
     <div
       className="p-5 rounded-xl mb-4"
       style={{
-        background: "rgba(26,14,16,0.7)",
-        border: "1px solid rgba(181,82,94,0.25)",
+        background: "rgba(255,255,255,0.85)",
+        border: "1px solid rgba(248,131,121,0.25)",
       }}
     >
       <h3
         className="font-display text-lg mb-4 flex items-center gap-2"
-        style={{ color: "#FAD4D8" }}
+        style={{ color: "#1A1A1A" }}
       >
         <span
           className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold"
-          style={{ background: "#B5525E", color: "#FAD4D8" }}
+          style={{ background: "#F88379", color: "#1A1A1A" }}
         >
           {idx + 1}
         </span>
@@ -678,12 +678,12 @@ function TravelerFormCard({
             id={`first_trek_${idx}`}
             checked={data.isFirstHimalayanTrek}
             onChange={(e) => onChange("isFirstHimalayanTrek", e.target.checked)}
-            className="w-4 h-4 accent-[#B5525E]"
+            className="w-4 h-4 accent-[#F88379]"
           />
           <label
             htmlFor={`first_trek_${idx}`}
             className="text-sm"
-            style={{ color: "#E8A0AA" }}
+            style={{ color: "#4A4A4A" }}
           >
             This is my first Himalayan trek
           </label>
@@ -728,29 +728,29 @@ function Step2TravelerDetails({
   const isExtreme =
     trek.difficulty === "Extreme" || trek.difficulty === "Difficult";
   const inputStyle = {
-    borderColor: "rgba(181,82,94,0.4)",
-    color: "#FAD4D8",
-    background: "rgba(26,14,16,0.6)",
+    borderColor: "rgba(248,131,121,0.4)",
+    color: "#1A1A1A",
+    background: "rgba(255,255,255,0.8)",
   };
   const inputClass =
     "w-full px-3 py-2 rounded-lg text-sm bg-transparent border outline-none";
 
   return (
     <div>
-      <h2 className="font-display text-3xl mb-2" style={{ color: "#FAD4D8" }}>
+      <h2 className="font-display text-3xl mb-2" style={{ color: "#1A1A1A" }}>
         Traveler Details
       </h2>
-      <p className="mb-6 text-sm" style={{ color: "#E8A0AA" }}>
+      <p className="mb-6 text-sm" style={{ color: "#4A4A4A" }}>
         Tell us who's going on this incredible journey
       </p>
       <div
         className="mb-6 p-4 rounded-xl"
         style={{
-          background: "rgba(26,14,16,0.7)",
-          border: "1px solid rgba(181,82,94,0.25)",
+          background: "rgba(255,255,255,0.85)",
+          border: "1px solid rgba(248,131,121,0.25)",
         }}
       >
-        <h3 className="font-display text-lg mb-4" style={{ color: "#FAD4D8" }}>
+        <h3 className="font-display text-lg mb-4" style={{ color: "#1A1A1A" }}>
           Lead Contact
         </h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -758,12 +758,12 @@ function Step2TravelerDetails({
             <label
               htmlFor="lead_phone"
               className="block text-xs mb-1.5"
-              style={{ color: "#E8A0AA" }}
+              style={{ color: "#4A4A4A" }}
             >
               Phone *
             </label>
             <div className="flex items-center gap-2">
-              <Phone size={14} style={{ color: "#B5525E" }} />
+              <Phone size={14} style={{ color: "#F88379" }} />
               <input
                 id="lead_phone"
                 className={inputClass}
@@ -778,12 +778,12 @@ function Step2TravelerDetails({
             <label
               htmlFor="lead_email"
               className="block text-xs mb-1.5"
-              style={{ color: "#E8A0AA" }}
+              style={{ color: "#4A4A4A" }}
             >
               Email *
             </label>
             <div className="flex items-center gap-2">
-              <Mail size={14} style={{ color: "#B5525E" }} />
+              <Mail size={14} style={{ color: "#F88379" }} />
               <input
                 id="lead_email"
                 className={inputClass}
@@ -798,7 +798,7 @@ function Step2TravelerDetails({
             <label
               htmlFor="lead_city"
               className="block text-xs mb-1.5"
-              style={{ color: "#E8A0AA" }}
+              style={{ color: "#4A4A4A" }}
             >
               City *
             </label>
@@ -815,7 +815,7 @@ function Step2TravelerDetails({
             <label
               htmlFor="lead_source"
               className="block text-xs mb-1.5"
-              style={{ color: "#E8A0AA" }}
+              style={{ color: "#4A4A4A" }}
             >
               How did you hear about us?
             </label>
@@ -837,7 +837,7 @@ function Step2TravelerDetails({
         </div>
       </div>
       <div className="mb-6 flex items-center gap-4">
-        <span className="text-sm" style={{ color: "#E8A0AA" }}>
+        <span className="text-sm" style={{ color: "#4A4A4A" }}>
           Number of trekkers:
         </span>
         <div className="flex items-center gap-2">
@@ -849,8 +849,8 @@ function Step2TravelerDetails({
               className="w-9 h-9 rounded-lg text-sm font-semibold transition-all duration-200"
               style={{
                 background:
-                  trekkerCount === n ? "#B5525E" : "rgba(181,82,94,0.15)",
-                color: trekkerCount === n ? "#FAD4D8" : "#E8A0AA",
+                  trekkerCount === n ? "#F88379" : "rgba(248,131,121,0.15)",
+                color: trekkerCount === n ? "#1A1A1A" : "#4A4A4A",
                 border: "none",
               }}
             >
@@ -874,9 +874,9 @@ function Step2TravelerDetails({
           onClick={onBack}
           className="flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold transition-all duration-200"
           style={{
-            background: "rgba(181,82,94,0.15)",
-            color: "#E8A0AA",
-            border: "1px solid rgba(181,82,94,0.3)",
+            background: "rgba(248,131,121,0.15)",
+            color: "#4A4A4A",
+            border: "1px solid rgba(248,131,121,0.3)",
           }}
         >
           <ChevronLeft size={16} /> Back
@@ -888,7 +888,7 @@ function Step2TravelerDetails({
           onClick={onNext}
           data-ocid="book.traveler_next_button"
           className="px-8 py-3 rounded-xl font-semibold text-sm flex items-center gap-2"
-          style={{ background: "#B5525E", color: "#FAD4D8" }}
+          style={{ background: "#F88379", color: "#1A1A1A" }}
         >
           Continue to Add-ons <ChevronRight size={16} />
         </motion.button>
@@ -928,10 +928,10 @@ function Step3AddOns({
 
   return (
     <div>
-      <h2 className="font-display text-3xl mb-2" style={{ color: "#FAD4D8" }}>
+      <h2 className="font-display text-3xl mb-2" style={{ color: "#1A1A1A" }}>
         Enhance Your Trek
       </h2>
-      <p className="mb-8 text-sm" style={{ color: "#E8A0AA" }}>
+      <p className="mb-8 text-sm" style={{ color: "#4A4A4A" }}>
         Optional add-ons to make your experience extraordinary
       </p>
       <div className="grid gap-3 mb-8">
@@ -951,52 +951,54 @@ function Step3AddOns({
               className="w-full text-left p-4 rounded-xl flex items-center gap-4 transition-all duration-200"
               style={{
                 background: isSelected
-                  ? "rgba(181,82,94,0.15)"
-                  : "rgba(26,14,16,0.8)",
+                  ? "rgba(248,131,121,0.15)"
+                  : "rgba(255,255,255,0.9)",
                 border: isSelected
-                  ? "2px solid #B5525E"
-                  : "2px solid rgba(181,82,94,0.2)",
+                  ? "2px solid #F88379"
+                  : "2px solid rgba(248,131,121,0.2)",
               }}
             >
               <div
                 className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0"
                 style={{
-                  background: isSelected ? "#B5525E" : "rgba(181,82,94,0.2)",
+                  background: isSelected ? "#F88379" : "rgba(248,131,121,0.2)",
                 }}
               >
                 <Icon
                   size={18}
-                  style={{ color: isSelected ? "#FAD4D8" : "#B5525E" }}
+                  style={{ color: isSelected ? "#1A1A1A" : "#F88379" }}
                 />
               </div>
               <div className="flex-1 min-w-0">
                 <div
                   className="font-semibold text-sm"
-                  style={{ color: "#FAD4D8" }}
+                  style={{ color: "#1A1A1A" }}
                 >
                   {addon.name}
                 </div>
-                <div className="text-xs mt-0.5" style={{ color: "#E8A0AA" }}>
+                <div className="text-xs mt-0.5" style={{ color: "#4A4A4A" }}>
                   {addon.description}
                 </div>
               </div>
               <div className="flex items-center gap-3 flex-shrink-0">
                 <span
                   className="font-display text-base"
-                  style={{ color: "#C9A84C" }}
+                  style={{ color: "#D4A843" }}
                 >
                   ₹{costPerUnit.toLocaleString("en-IN")}
                 </span>
                 <div
                   className="w-6 h-6 rounded-md flex items-center justify-center"
                   style={{
-                    background: isSelected ? "#B5525E" : "rgba(181,82,94,0.2)",
+                    background: isSelected
+                      ? "#F88379"
+                      : "rgba(248,131,121,0.2)",
                   }}
                 >
                   {isSelected ? (
-                    <Check size={14} style={{ color: "#FAD4D8" }} />
+                    <Check size={14} style={{ color: "#1A1A1A" }} />
                   ) : (
-                    <span style={{ color: "#E8A0AA", fontSize: 18 }}>+</span>
+                    <span style={{ color: "#4A4A4A", fontSize: 18 }}>+</span>
                   )}
                 </div>
               </div>
@@ -1012,17 +1014,17 @@ function Step3AddOns({
         }}
       >
         <div className="flex justify-between items-center">
-          <span style={{ color: "#E8A0AA" }}>
+          <span style={{ color: "#4A4A4A" }}>
             Trek cost ({trekkerCount} person{trekkerCount > 1 ? "s" : ""})
           </span>
-          <span style={{ color: "#FAD4D8" }}>
+          <span style={{ color: "#1A1A1A" }}>
             ₹{totalBase.toLocaleString("en-IN")}
           </span>
         </div>
         {addOnTotal > 0 && (
           <div className="flex justify-between items-center mt-2">
-            <span style={{ color: "#E8A0AA" }}>Add-ons total</span>
-            <span style={{ color: "#FAD4D8" }}>
+            <span style={{ color: "#4A4A4A" }}>Add-ons total</span>
+            <span style={{ color: "#1A1A1A" }}>
               ₹{addOnTotal.toLocaleString("en-IN")}
             </span>
           </div>
@@ -1031,10 +1033,10 @@ function Step3AddOns({
           className="flex justify-between items-center mt-3 pt-3 border-t"
           style={{ borderColor: "rgba(201,168,76,0.3)" }}
         >
-          <span className="font-semibold" style={{ color: "#C9A84C" }}>
+          <span className="font-semibold" style={{ color: "#D4A843" }}>
             Total (before discount)
           </span>
-          <span className="font-display text-xl" style={{ color: "#C9A84C" }}>
+          <span className="font-display text-xl" style={{ color: "#D4A843" }}>
             ₹{grandTotal.toLocaleString("en-IN")}
           </span>
         </div>
@@ -1045,9 +1047,9 @@ function Step3AddOns({
           onClick={onBack}
           className="flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold"
           style={{
-            background: "rgba(181,82,94,0.15)",
-            color: "#E8A0AA",
-            border: "1px solid rgba(181,82,94,0.3)",
+            background: "rgba(248,131,121,0.15)",
+            color: "#4A4A4A",
+            border: "1px solid rgba(248,131,121,0.3)",
           }}
         >
           <ChevronLeft size={16} /> Back
@@ -1059,7 +1061,7 @@ function Step3AddOns({
           onClick={onNext}
           data-ocid="book.addons_next_button"
           className="px-8 py-3 rounded-xl font-semibold text-sm flex items-center gap-2"
-          style={{ background: "#B5525E", color: "#FAD4D8" }}
+          style={{ background: "#F88379", color: "#1A1A1A" }}
         >
           Review & Pay <ChevronRight size={16} />
         </motion.button>
@@ -1113,10 +1115,10 @@ function SuccessScreen({
               style={{
                 background:
                   petIdx % 3 === 0
-                    ? "#B5525E"
+                    ? "#F88379"
                     : petIdx % 3 === 1
-                      ? "#FAD4D8"
-                      : "#C9A84C",
+                      ? "#1A1A1A"
+                      : "#D4A843",
               }}
             />
           ))}
@@ -1125,29 +1127,29 @@ function SuccessScreen({
       <div
         className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6"
         style={{
-          background: "rgba(181,82,94,0.2)",
-          border: "3px solid #B5525E",
+          background: "rgba(248,131,121,0.2)",
+          border: "3px solid #F88379",
         }}
       >
-        <Check size={40} style={{ color: "#B5525E" }} />
+        <Check size={40} style={{ color: "#F88379" }} />
       </div>
-      <h2 className="font-display text-4xl mb-3" style={{ color: "#FAD4D8" }}>
+      <h2 className="font-display text-4xl mb-3" style={{ color: "#1A1A1A" }}>
         Booking Confirmed!
       </h2>
-      <p className="text-lg mb-2" style={{ color: "#E8A0AA" }}>
+      <p className="text-lg mb-2" style={{ color: "#4A4A4A" }}>
         You're going on {trek.name}! 🏔
       </p>
-      <p className="text-sm mb-8" style={{ color: "#E8A0AA" }}>
+      <p className="text-sm mb-8" style={{ color: "#4A4A4A" }}>
         Batch starts {formatDate(batch.startDate)} · Guide: {batch.guideName}
       </p>
       <div
         className="p-5 rounded-xl text-left max-w-md mx-auto mb-8"
         style={{
-          background: "rgba(26,14,16,0.8)",
-          border: "1px solid rgba(181,82,94,0.25)",
+          background: "rgba(255,255,255,0.9)",
+          border: "1px solid rgba(248,131,121,0.25)",
         }}
       >
-        <h3 className="font-display text-lg mb-4" style={{ color: "#FAD4D8" }}>
+        <h3 className="font-display text-lg mb-4" style={{ color: "#1A1A1A" }}>
           Next Steps
         </h3>
         {NEXT_STEPS.map((s, stepIdx) => (
@@ -1155,15 +1157,15 @@ function SuccessScreen({
             <div
               className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"
               style={{
-                background: "rgba(181,82,94,0.2)",
-                border: "1px solid #B5525E",
+                background: "rgba(248,131,121,0.2)",
+                border: "1px solid #F88379",
               }}
             >
-              <span style={{ color: "#B5525E", fontSize: 11 }}>
+              <span style={{ color: "#F88379", fontSize: 11 }}>
                 {stepIdx + 1}
               </span>
             </div>
-            <span style={{ color: "#E8A0AA" }}>{s}</span>
+            <span style={{ color: "#4A4A4A" }}>{s}</span>
           </div>
         ))}
       </div>
@@ -1171,7 +1173,7 @@ function SuccessScreen({
         <a
           href="/dashboard"
           className="px-6 py-3 rounded-xl text-sm font-semibold"
-          style={{ background: "#B5525E", color: "#FAD4D8" }}
+          style={{ background: "#F88379", color: "#1A1A1A" }}
         >
           Go to Dashboard
         </a>
@@ -1179,9 +1181,9 @@ function SuccessScreen({
           type="button"
           className="px-6 py-3 rounded-xl text-sm font-semibold flex items-center gap-2"
           style={{
-            background: "rgba(181,82,94,0.15)",
-            color: "#E8A0AA",
-            border: "1px solid rgba(181,82,94,0.3)",
+            background: "rgba(248,131,121,0.15)",
+            color: "#4A4A4A",
+            border: "1px solid rgba(248,131,121,0.3)",
           }}
         >
           <Share2 size={14} /> Share
@@ -1314,59 +1316,59 @@ function Step4ReviewPay({
 
   return (
     <div>
-      <h2 className="font-display text-3xl mb-2" style={{ color: "#FAD4D8" }}>
+      <h2 className="font-display text-3xl mb-2" style={{ color: "#1A1A1A" }}>
         Review & Pay
       </h2>
-      <p className="mb-6 text-sm" style={{ color: "#E8A0AA" }}>
+      <p className="mb-6 text-sm" style={{ color: "#4A4A4A" }}>
         Almost there! Review your booking before payment.
       </p>
       <div
         className="p-5 rounded-xl mb-5"
         style={{
-          background: "rgba(26,14,16,0.8)",
-          border: "1px solid rgba(181,82,94,0.25)",
+          background: "rgba(255,255,255,0.9)",
+          border: "1px solid rgba(248,131,121,0.25)",
         }}
       >
         <div className="flex items-center justify-between mb-4">
-          <h3 className="font-display text-lg" style={{ color: "#FAD4D8" }}>
+          <h3 className="font-display text-lg" style={{ color: "#1A1A1A" }}>
             Booking Summary
           </h3>
           <button
             type="button"
             onClick={() => onGoToStep(1)}
             className="text-xs underline"
-            style={{ color: "#B5525E" }}
+            style={{ color: "#F88379" }}
           >
             Edit batch
           </button>
         </div>
         <div className="grid grid-cols-2 gap-3 text-sm">
-          <div style={{ color: "#E8A0AA" }}>Trek</div>
-          <div style={{ color: "#FAD4D8", fontWeight: 600 }}>{trek.name}</div>
-          <div style={{ color: "#E8A0AA" }}>Batch Date</div>
-          <div style={{ color: "#FAD4D8" }}>{formatDate(batch.startDate)}</div>
-          <div style={{ color: "#E8A0AA" }}>Guide</div>
-          <div style={{ color: "#FAD4D8" }}>{batch.guideName}</div>
-          <div style={{ color: "#E8A0AA" }}>Trekkers</div>
-          <div style={{ color: "#FAD4D8" }}>{trekkerCount}</div>
+          <div style={{ color: "#4A4A4A" }}>Trek</div>
+          <div style={{ color: "#1A1A1A", fontWeight: 600 }}>{trek.name}</div>
+          <div style={{ color: "#4A4A4A" }}>Batch Date</div>
+          <div style={{ color: "#1A1A1A" }}>{formatDate(batch.startDate)}</div>
+          <div style={{ color: "#4A4A4A" }}>Guide</div>
+          <div style={{ color: "#1A1A1A" }}>{batch.guideName}</div>
+          <div style={{ color: "#4A4A4A" }}>Trekkers</div>
+          <div style={{ color: "#1A1A1A" }}>{trekkerCount}</div>
         </div>
       </div>
       <div
         className="p-5 rounded-xl mb-5"
         style={{
-          background: "rgba(26,14,16,0.8)",
-          border: "1px solid rgba(181,82,94,0.25)",
+          background: "rgba(255,255,255,0.9)",
+          border: "1px solid rgba(248,131,121,0.25)",
         }}
       >
         <div className="flex items-center justify-between mb-3">
-          <h3 className="font-display text-lg" style={{ color: "#FAD4D8" }}>
+          <h3 className="font-display text-lg" style={{ color: "#1A1A1A" }}>
             Travelers
           </h3>
           <button
             type="button"
             onClick={() => onGoToStep(2)}
             className="text-xs underline"
-            style={{ color: "#B5525E" }}
+            style={{ color: "#F88379" }}
           >
             Edit
           </button>
@@ -1375,19 +1377,19 @@ function Step4ReviewPay({
           <div
             key={`ts-${i}-${travelers[i]?.name || i}`}
             className="flex items-center gap-3 py-2 text-sm border-b last:border-0"
-            style={{ borderColor: "rgba(181,82,94,0.15)" }}
+            style={{ borderColor: "rgba(248,131,121,0.15)" }}
           >
             <span
               className="w-6 h-6 rounded-full flex items-center justify-center text-xs"
-              style={{ background: "#B5525E", color: "#FAD4D8" }}
+              style={{ background: "#F88379", color: "#1A1A1A" }}
             >
               {i + 1}
             </span>
-            <span style={{ color: "#FAD4D8" }}>
+            <span style={{ color: "#1A1A1A" }}>
               {t.name || `Traveler ${i + 1}`}
             </span>
-            <span style={{ color: "#E8A0AA" }}>Age {t.age}</span>
-            <span style={{ color: "#E8A0AA" }}>
+            <span style={{ color: "#4A4A4A" }}>Age {t.age}</span>
+            <span style={{ color: "#4A4A4A" }}>
               {t.mealPreference === "veg" ? "🥗 Veg" : "🍗 Non-veg"}
             </span>
           </div>
@@ -1397,19 +1399,19 @@ function Step4ReviewPay({
         <div
           className="p-5 rounded-xl mb-5"
           style={{
-            background: "rgba(26,14,16,0.8)",
-            border: "1px solid rgba(181,82,94,0.25)",
+            background: "rgba(255,255,255,0.9)",
+            border: "1px solid rgba(248,131,121,0.25)",
           }}
         >
           <div className="flex items-center justify-between mb-3">
-            <h3 className="font-display text-lg" style={{ color: "#FAD4D8" }}>
+            <h3 className="font-display text-lg" style={{ color: "#1A1A1A" }}>
               Add-ons
             </h3>
             <button
               type="button"
               onClick={() => onGoToStep(3)}
               className="text-xs underline"
-              style={{ color: "#B5525E" }}
+              style={{ color: "#F88379" }}
             >
               Edit
             </button>
@@ -1418,10 +1420,10 @@ function Step4ReviewPay({
             <div
               key={a.id}
               className="flex justify-between text-sm py-1.5"
-              style={{ color: "#E8A0AA" }}
+              style={{ color: "#4A4A4A" }}
             >
               <span>{a.name}</span>
-              <span style={{ color: "#FAD4D8" }}>
+              <span style={{ color: "#1A1A1A" }}>
                 ₹
                 {(a.perDay ? a.price * batchDays : a.price).toLocaleString(
                   "en-IN",
@@ -1436,9 +1438,9 @@ function Step4ReviewPay({
           <input
             className="flex-1 px-3 py-2 rounded-lg text-sm border outline-none"
             style={{
-              borderColor: "rgba(181,82,94,0.4)",
-              color: "#FAD4D8",
-              background: "rgba(26,14,16,0.6)",
+              borderColor: "rgba(248,131,121,0.4)",
+              color: "#1A1A1A",
+              background: "rgba(255,255,255,0.8)",
             }}
             value={coupon}
             onChange={(e) => setCoupon(e.target.value)}
@@ -1452,9 +1454,9 @@ function Step4ReviewPay({
             }}
             className="px-4 py-2 rounded-lg text-sm font-semibold"
             style={{
-              background: "rgba(181,82,94,0.3)",
-              color: "#FAD4D8",
-              border: "1px solid rgba(181,82,94,0.4)",
+              background: "rgba(248,131,121,0.3)",
+              color: "#1A1A1A",
+              border: "1px solid rgba(248,131,121,0.4)",
             }}
           >
             Apply
@@ -1467,7 +1469,7 @@ function Step4ReviewPay({
         )}
       </div>
       <div className="mb-6">
-        <h3 className="font-display text-lg mb-3" style={{ color: "#FAD4D8" }}>
+        <h3 className="font-display text-lg mb-3" style={{ color: "#1A1A1A" }}>
           Choose Payment Plan
         </h3>
         <div className="grid grid-cols-2 gap-3">
@@ -1508,26 +1510,26 @@ function Step4ReviewPay({
               style={{
                 background:
                   payMode === pm.id
-                    ? "rgba(181,82,94,0.2)"
-                    : "rgba(26,14,16,0.8)",
+                    ? "rgba(248,131,121,0.2)"
+                    : "rgba(255,255,255,0.9)",
                 border:
                   payMode === pm.id
-                    ? "2px solid #B5525E"
-                    : "2px solid rgba(181,82,94,0.2)",
+                    ? "2px solid #F88379"
+                    : "2px solid rgba(248,131,121,0.2)",
               }}
             >
               <div
                 className="font-semibold text-sm mb-0.5"
-                style={{ color: "#FAD4D8" }}
+                style={{ color: "#1A1A1A" }}
               >
                 {pm.label}
               </div>
-              <div className="text-xs mb-1" style={{ color: "#E8A0AA" }}>
+              <div className="text-xs mb-1" style={{ color: "#4A4A4A" }}>
                 {pm.sub}
               </div>
               <div
                 className="font-display text-base"
-                style={{ color: "#C9A84C" }}
+                style={{ color: "#D4A843" }}
               >
                 ₹{pm.amount.toLocaleString("en-IN")}
               </div>
@@ -1541,9 +1543,9 @@ function Step4ReviewPay({
             type="checkbox"
             checked={termsAccepted}
             onChange={(e) => setTermsAccepted(e.target.checked)}
-            className="w-4 h-4 accent-[#B5525E]"
+            className="w-4 h-4 accent-[#F88379]"
           />
-          <span className="text-sm" style={{ color: "#E8A0AA" }}>
+          <span className="text-sm" style={{ color: "#4A4A4A" }}>
             I agree to the Terms & Conditions and Cancellation Policy
           </span>
         </label>
@@ -1552,9 +1554,9 @@ function Step4ReviewPay({
             type="checkbox"
             checked={whatsapp}
             onChange={(e) => setWhatsapp(e.target.checked)}
-            className="w-4 h-4 accent-[#B5525E]"
+            className="w-4 h-4 accent-[#F88379]"
           />
-          <span className="text-sm" style={{ color: "#E8A0AA" }}>
+          <span className="text-sm" style={{ color: "#4A4A4A" }}>
             📱 Send booking confirmation on WhatsApp
           </span>
         </label>
@@ -1563,9 +1565,9 @@ function Step4ReviewPay({
             type="checkbox"
             checked={gcal}
             onChange={(e) => setGcal(e.target.checked)}
-            className="w-4 h-4 accent-[#B5525E]"
+            className="w-4 h-4 accent-[#F88379]"
           />
-          <span className="text-sm" style={{ color: "#E8A0AA" }}>
+          <span className="text-sm" style={{ color: "#4A4A4A" }}>
             📅 Add trek dates to Google Calendar
           </span>
         </label>
@@ -1574,9 +1576,9 @@ function Step4ReviewPay({
         <div
           className="mb-4 p-3 rounded-lg text-sm"
           style={{
-            background: "rgba(181,82,94,0.15)",
-            color: "#B5525E",
-            border: "1px solid rgba(181,82,94,0.3)",
+            background: "rgba(248,131,121,0.15)",
+            color: "#F88379",
+            border: "1px solid rgba(248,131,121,0.3)",
           }}
         >
           {payError}
@@ -1588,9 +1590,9 @@ function Step4ReviewPay({
           onClick={onBack}
           className="flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold"
           style={{
-            background: "rgba(181,82,94,0.15)",
-            color: "#E8A0AA",
-            border: "1px solid rgba(181,82,94,0.3)",
+            background: "rgba(248,131,121,0.15)",
+            color: "#4A4A4A",
+            border: "1px solid rgba(248,131,121,0.3)",
           }}
         >
           <ChevronLeft size={16} /> Back
@@ -1606,12 +1608,12 @@ function Step4ReviewPay({
           style={{
             background:
               termsAccepted && !createBooking.isPending
-                ? "#B5525E"
-                : "rgba(181,82,94,0.3)",
-            color: "#FAD4D8",
+                ? "#F88379"
+                : "rgba(248,131,121,0.3)",
+            color: "#1A1A1A",
             boxShadow:
               termsAccepted && !createBooking.isPending
-                ? "0 4px 20px rgba(181,82,94,0.4)"
+                ? "0 4px 20px rgba(248,131,121,0.4)"
                 : "none",
             cursor:
               termsAccepted && !createBooking.isPending
@@ -1700,7 +1702,7 @@ export default function BookPage() {
   const baseTotal = trek.basePrice * trekkerCount;
 
   return (
-    <div className="min-h-screen" style={{ background: "#1A0E10" }}>
+    <div className="min-h-screen" style={{ background: "#E6D8C4" }}>
       <div className="relative h-48 overflow-hidden">
         <img
           src={trek.heroImage}
@@ -1711,18 +1713,18 @@ export default function BookPage() {
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(to bottom, rgba(26,14,16,0.4), rgba(26,14,16,0.9))",
+              "linear-gradient(to bottom, rgba(255,255,255,0.5), rgba(255,255,255,0.95))",
           }}
         />
         <div className="absolute inset-0 flex items-end px-6 pb-6">
           <div>
-            <p className="text-xs mb-1" style={{ color: "#E8A0AA" }}>
+            <p className="text-xs mb-1" style={{ color: "#4A4A4A" }}>
               Booking for
             </p>
-            <h1 className="font-display text-3xl" style={{ color: "#FAD4D8" }}>
+            <h1 className="font-display text-3xl" style={{ color: "#1A1A1A" }}>
               {trek.name}
             </h1>
-            <p className="text-sm mt-0.5" style={{ color: "#E8A0AA" }}>
+            <p className="text-sm mt-0.5" style={{ color: "#4A4A4A" }}>
               {trek.durationDays} Days · {trek.difficulty} · ₹
               {trek.basePrice.toLocaleString("en-IN")} per person
             </p>
@@ -1786,14 +1788,14 @@ export default function BookPage() {
             )}
             {step === 4 && !selectedBatch && (
               <div className="text-center py-12">
-                <p style={{ color: "#E8A0AA" }}>
+                <p style={{ color: "#4A4A4A" }}>
                   Please go back and select a batch first.
                 </p>
                 <button
                   type="button"
                   onClick={() => setStep(1)}
                   className="mt-4 px-6 py-2 rounded-xl text-sm"
-                  style={{ background: "#B5525E", color: "#FAD4D8" }}
+                  style={{ background: "#F88379", color: "#1A1A1A" }}
                 >
                   Select Batch
                 </button>

@@ -1,3 +1,4 @@
+import { AdminRoute } from "@/components/AdminRoute";
 import { Layout } from "@/components/Layout";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -37,6 +38,7 @@ const TermsPage = lazy(() => import("@/pages/TermsPage"));
 const PrivacyPage = lazy(() => import("@/pages/PrivacyPage"));
 const SitemapPage = lazy(() => import("@/pages/SitemapPage"));
 const NotFoundPage = lazy(() => import("@/pages/NotFoundPage"));
+const AdminPage = lazy(() => import("@/pages/AdminPage"));
 const PaymentSuccessPage = lazy(() => import("@/pages/PaymentSuccessPage"));
 const PaymentFailurePage = lazy(() => import("@/pages/PaymentFailurePage"));
 
@@ -44,11 +46,11 @@ function PageFallback() {
   return (
     <div
       className="min-h-[60vh] flex items-center justify-center"
-      style={{ background: "#1A0E10" }}
+      style={{ background: "#E6D8C4" }}
     >
       <div
         className="w-8 h-8 rounded-full border-2 border-t-transparent animate-spin"
-        style={{ borderColor: "#B5525E", borderTopColor: "transparent" }}
+        style={{ borderColor: "#F88379", borderTopColor: "transparent" }}
       />
     </div>
   );
@@ -296,6 +298,17 @@ const paymentFailureRoute = createRoute({
     </Suspense>
   ),
 });
+const adminRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/admin",
+  component: () => (
+    <AdminRoute>
+      <Suspense fallback={<PageFallback />}>
+        <AdminPage />
+      </Suspense>
+    </AdminRoute>
+  ),
+});
 const notFoundRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "*",
@@ -332,6 +345,7 @@ const routeTree = rootRoute.addChildren([
   sitemapRoute,
   paymentSuccessRoute,
   paymentFailureRoute,
+  adminRoute,
   notFoundRoute,
 ]);
 

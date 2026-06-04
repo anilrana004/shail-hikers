@@ -80,6 +80,23 @@ export type Difficulty = { 'Easy' : null } |
   { 'Difficult' : null } |
   { 'Moderate' : null };
 export interface FaqVotesPublic { 'notHelpful' : bigint, 'helpful' : bigint }
+export type GuideAvailability = { 'Available' : null } |
+  { 'OnTrek' : null } |
+  { 'OnLeave' : null };
+export interface GuidePublic {
+  'id' : string,
+  'bio' : string,
+  'currentAssignment' : [] | [string],
+  'yearsExperience' : bigint,
+  'name' : string,
+  'designation' : string,
+  'favoriteTrek' : string,
+  'availability' : GuideAvailability,
+  'rating' : number,
+  'photo' : string,
+  'certifications' : Array<string>,
+  'totalTreksLed' : bigint,
+}
 export type LoyaltyTier = { 'SummitMaster' : null } |
   { 'Explorer' : null } |
   { 'Trailblazer' : null };
@@ -152,6 +169,26 @@ export interface UserProfilePublic {
   'loyaltyTier' : LoyaltyTier,
   'totalTreksCompleted' : bigint,
 }
+export interface WaitlistEntryPublic {
+  'id' : string,
+  'status' : WaitlistStatus,
+  'name' : string,
+  'createdAt' : bigint,
+  'email' : string,
+  'notifiedAt' : [] | [bigint],
+  'batchId' : string,
+  'phone' : string,
+  'position' : bigint,
+  'numPeople' : bigint,
+}
+export type WaitlistResult = {
+    'ok' : { 'waitlistId' : string, 'position' : bigint }
+  } |
+  { 'err' : string };
+export type WaitlistStatus = { 'Notified' : null } |
+  { 'Booked' : null } |
+  { 'Waiting' : null } |
+  { 'Expired' : null };
 export interface Yatra {
   'id' : bigint,
   'durationDays' : bigint,
@@ -166,6 +203,11 @@ export interface Yatra {
 }
 export interface _SERVICE {
   'addToWishlist' : ActorMethod<[string], boolean>,
+  'assignGuideToBatch' : ActorMethod<
+    [string, string],
+    { 'ok' : null } |
+      { 'err' : string }
+  >,
   'calculateGroupPrice' : ActorMethod<
     [string, bigint, Array<AddOn>, bigint],
     bigint
@@ -195,6 +237,8 @@ export interface _SERVICE {
     [string, string, string, string],
     UserProfilePublic
   >,
+  'getAdminPrincipal' : ActorMethod<[], [] | [Principal]>,
+  'getAllGuides' : ActorMethod<[], Array<GuidePublic>>,
   'getAllTreks' : ActorMethod<[], Array<Trek>>,
   'getAllYatras' : ActorMethod<[], Array<Yatra>>,
   'getAvailability' : ActorMethod<
@@ -220,15 +264,33 @@ export interface _SERVICE {
   'getCorporateLeads' : ActorMethod<[], Array<CorporateLead>>,
   'getFaqVotes' : ActorMethod<[string, bigint], FaqVotesPublic>,
   'getFeaturedTreks' : ActorMethod<[], Array<Trek>>,
+  'getGuideById' : ActorMethod<[string], [] | [GuidePublic]>,
   'getReviewsByTrek' : ActorMethod<[string], Array<ReviewPublic>>,
   'getStripePublicKey' : ActorMethod<[], string>,
   'getSubscriberCount' : ActorMethod<[], bigint>,
   'getTrekBySlug' : ActorMethod<[string], [] | [Trek]>,
   'getTreksByDifficulty' : ActorMethod<[Difficulty], Array<Trek>>,
   'getUserProfile' : ActorMethod<[], [] | [UserProfilePublic]>,
+  'getWaitlistByBatch' : ActorMethod<[string], Array<WaitlistEntryPublic>>,
+  'getWaitlistPosition' : ActorMethod<[string, string], [] | [bigint]>,
   'getYatraBySlug' : ActorMethod<[string], [] | [Yatra]>,
   'incrementBlogViews' : ActorMethod<[string], boolean>,
+  'initAdmin' : ActorMethod<[], { 'ok' : null } | { 'err' : string }>,
+  'joinWaitlist' : ActorMethod<
+    [string, string, string, string, bigint],
+    WaitlistResult
+  >,
+  'notifyNextOnWaitlist' : ActorMethod<[string], boolean>,
+  'promoteFromWaitlist' : ActorMethod<
+    [string, string],
+    { 'ok' : null } |
+      { 'err' : string }
+  >,
   'removeFromWishlist' : ActorMethod<[string], boolean>,
+  'sendManualWaitlistNotification' : ActorMethod<
+    [string, string, string],
+    boolean
+  >,
   'setStripeSecretKey' : ActorMethod<[string, string], undefined>,
   'submitCorporateLead' : ActorMethod<
     [string, string, string, string, bigint, string, string, string],
@@ -240,7 +302,17 @@ export interface _SERVICE {
   >,
   'subscribe' : ActorMethod<[string, Array<NewsletterPreference>], boolean>,
   'unsubscribe' : ActorMethod<[string], boolean>,
+  'updateGuideAvailability' : ActorMethod<
+    [string, GuideAvailability],
+    { 'ok' : null } |
+      { 'err' : string }
+  >,
   'updatePaymentStatus' : ActorMethod<[bigint, PaymentStatus], boolean>,
+  'upsertGuide' : ActorMethod<
+    [GuidePublic],
+    { 'ok' : null } |
+      { 'err' : string }
+  >,
   'voteFaq' : ActorMethod<[string, bigint, boolean], boolean>,
   'voteHelpful' : ActorMethod<[bigint], boolean>,
 }

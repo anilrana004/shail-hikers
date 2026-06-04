@@ -7,13 +7,13 @@ interface Props {
 export default function TrekPermitsTab({ trek }: Props) {
   return (
     <div className="py-8 space-y-10">
-      <h2 className="font-display text-3xl" style={{ color: "#FAD4D8" }}>
+      <h2 className="font-display text-3xl" style={{ color: "#1A1A1A" }}>
         Permits & Regulations
       </h2>
 
       {/* Permits Table */}
       <section>
-        <h3 className="font-display text-xl mb-5" style={{ color: "#FAD4D8" }}>
+        <h3 className="font-display text-xl mb-5" style={{ color: "#1A1A1A" }}>
           Required Permits
         </h3>
         {trek.permits.length > 0 ? (
@@ -23,12 +23,12 @@ export default function TrekPermitsTab({ trek }: Props) {
                 key={permit.name}
                 className="rounded-2xl p-6 border"
                 style={{
-                  background: "rgba(45,27,30,0.8)",
-                  borderColor: "#E8A0AA22",
+                  background: "rgba(255,255,255,0.9)",
+                  borderColor: "#4A4A4A22",
                 }}
               >
                 <div className="flex items-start justify-between mb-3">
-                  <div className="font-semibold" style={{ color: "#FAD4D8" }}>
+                  <div className="font-semibold" style={{ color: "#1A1A1A" }}>
                     {permit.name}
                   </div>
                   <span
@@ -43,19 +43,19 @@ export default function TrekPermitsTab({ trek }: Props) {
                 </div>
                 <div className="grid md:grid-cols-2 gap-4 text-sm">
                   <div>
-                    <span style={{ color: "#E8A0AA" }}>Issued by: </span>
-                    <span style={{ color: "#FAD4D8" }}>{permit.issuedBy}</span>
+                    <span style={{ color: "#4A4A4A" }}>Issued by: </span>
+                    <span style={{ color: "#1A1A1A" }}>{permit.issuedBy}</span>
                   </div>
                   <div>
-                    <span style={{ color: "#E8A0AA" }}>Cost: </span>
-                    <span style={{ color: "#C9A84C" }}>{permit.cost}</span>
+                    <span style={{ color: "#4A4A4A" }}>Cost: </span>
+                    <span style={{ color: "#D4A843" }}>{permit.cost}</span>
                   </div>
                   <div className="md:col-span-2">
-                    <span style={{ color: "#E8A0AA" }}>How we handle it: </span>
-                    <span style={{ color: "#FAD4D8" }}>{permit.handledBy}</span>
+                    <span style={{ color: "#4A4A4A" }}>How we handle it: </span>
+                    <span style={{ color: "#1A1A1A" }}>{permit.handledBy}</span>
                   </div>
                   <div className="md:col-span-2">
-                    <span style={{ color: "#E8A0AA" }}>
+                    <span style={{ color: "#4A4A4A" }}>
                       Documents required:{" "}
                     </span>
                     {permit.documentsRequired.map((doc) => (
@@ -63,8 +63,8 @@ export default function TrekPermitsTab({ trek }: Props) {
                         key={doc}
                         className="ml-1 text-xs px-2 py-0.5 rounded-full"
                         style={{
-                          background: "rgba(181,82,94,0.2)",
-                          color: "#B5525E",
+                          background: "rgba(248,131,121,0.2)",
+                          color: "#F88379",
                         }}
                       >
                         {doc}
@@ -79,11 +79,11 @@ export default function TrekPermitsTab({ trek }: Props) {
           <div
             className="rounded-2xl p-6 border"
             style={{
-              background: "rgba(45,27,30,0.8)",
-              borderColor: "#E8A0AA22",
+              background: "rgba(255,255,255,0.9)",
+              borderColor: "#4A4A4A22",
             }}
           >
-            <div className="text-sm" style={{ color: "#FAD4D8" }}>
+            <div className="text-sm" style={{ color: "#1A1A1A" }}>
               No special permits required for this trek beyond standard forest
               entry fees, which are included in your package.
             </div>
@@ -94,12 +94,15 @@ export default function TrekPermitsTab({ trek }: Props) {
       {/* Upload Aadhaar CTA */}
       <div
         className="rounded-2xl p-6 border"
-        style={{ background: "rgba(181,82,94,0.1)", borderColor: "#B5525E66" }}
+        style={{
+          background: "rgba(248,131,121,0.1)",
+          borderColor: "#F8837966",
+        }}
       >
-        <div className="font-semibold mb-2" style={{ color: "#FAD4D8" }}>
+        <div className="font-semibold mb-2" style={{ color: "#1A1A1A" }}>
           Upload Your Documents Now
         </div>
-        <div className="text-sm mb-4" style={{ color: "#E8A0AA" }}>
+        <div className="text-sm mb-4" style={{ color: "#4A4A4A" }}>
           Upload your Aadhaar card and medical fitness certificate in your
           dashboard. Our team processes permits 48 hours before your trek
           departure.
@@ -107,7 +110,7 @@ export default function TrekPermitsTab({ trek }: Props) {
         <a
           href="/dashboard"
           className="inline-block px-5 py-2.5 rounded-xl text-sm font-semibold"
-          style={{ background: "#B5525E", color: "#FAD4D8" }}
+          style={{ background: "#F88379", color: "#1A1A1A" }}
         >
           Upload Aadhaar in Dashboard
         </a>
@@ -115,37 +118,40 @@ export default function TrekPermitsTab({ trek }: Props) {
 
       {/* Foreign Nationals */}
       <section>
-        <h3 className="font-display text-xl mb-4" style={{ color: "#FAD4D8" }}>
+        <h3 className="font-display text-xl mb-4" style={{ color: "#1A1A1A" }}>
           Foreign Nationals
         </h3>
         <div
           className="rounded-2xl p-6 border"
-          style={{ background: "rgba(45,27,30,0.8)", borderColor: "#E8A0AA22" }}
+          style={{
+            background: "rgba(255,255,255,0.9)",
+            borderColor: "#4A4A4A22",
+          }}
         >
-          <div className="space-y-3 text-sm" style={{ color: "#FAD4D8" }}>
+          <div className="space-y-3 text-sm" style={{ color: "#1A1A1A" }}>
             <div className="flex items-start gap-3">
-              <span style={{ color: "#C9A84C" }}>01</span>
+              <span style={{ color: "#D4A843" }}>01</span>
               <div>
                 Valid passport required. Photocopies submitted to forest
                 department.
               </div>
             </div>
             <div className="flex items-start gap-3">
-              <span style={{ color: "#C9A84C" }}>02</span>
+              <span style={{ color: "#D4A843" }}>02</span>
               <div>
                 Inner Line Permit (ILP) required for certain sanctuary zones.
                 Shail Hikers arranges this on your behalf.
               </div>
             </div>
             <div className="flex items-start gap-3">
-              <span style={{ color: "#C9A84C" }}>03</span>
+              <span style={{ color: "#D4A843" }}>03</span>
               <div>
                 Process takes 5-7 business days. Please complete booking at
                 least 3 weeks before trek date.
               </div>
             </div>
             <div className="flex items-start gap-3">
-              <span style={{ color: "#C9A84C" }}>04</span>
+              <span style={{ color: "#D4A843" }}>04</span>
               <div>
                 Contact us at Shailhikers@gmail.com for a customised permit
                 checklist for your nationality.
@@ -157,7 +163,7 @@ export default function TrekPermitsTab({ trek }: Props) {
 
       {/* Regulations */}
       <section>
-        <h3 className="font-display text-xl mb-4" style={{ color: "#FAD4D8" }}>
+        <h3 className="font-display text-xl mb-4" style={{ color: "#1A1A1A" }}>
           Trek Regulations
         </h3>
         <div className="space-y-3">
@@ -184,21 +190,21 @@ export default function TrekPermitsTab({ trek }: Props) {
               className="flex items-start gap-4 rounded-xl p-4 border"
               style={{
                 background: "rgba(45,27,30,0.6)",
-                borderColor: "#E8A0AA22",
+                borderColor: "#4A4A4A22",
               }}
             >
               <div
                 className="w-2 h-2 rounded-full mt-2 flex-shrink-0"
-                style={{ background: "#B5525E" }}
+                style={{ background: "#F88379" }}
               />
               <div>
                 <div
                   className="font-semibold text-sm mb-1"
-                  style={{ color: "#FAD4D8" }}
+                  style={{ color: "#1A1A1A" }}
                 >
                   {reg.title}
                 </div>
-                <div className="text-xs" style={{ color: "#E8A0AA" }}>
+                <div className="text-xs" style={{ color: "#4A4A4A" }}>
                   {reg.desc}
                 </div>
               </div>

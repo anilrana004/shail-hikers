@@ -79,7 +79,7 @@ export default function TrekPhotosTab({ trek }: Props) {
   return (
     <div className="py-8 space-y-8">
       <section>
-        <h2 className="font-display text-2xl mb-4" style={{ color: "#FAD4D8" }}>
+        <h2 className="font-display text-2xl mb-4" style={{ color: "#1A1A1A" }}>
           Photo of the Month
         </h2>
         <div className="relative rounded-2xl overflow-hidden h-64">
@@ -92,16 +92,16 @@ export default function TrekPhotosTab({ trek }: Props) {
             className="absolute inset-0 flex flex-col justify-end p-6"
             style={{
               background:
-                "linear-gradient(to top, rgba(26,14,16,0.9), transparent)",
+                "linear-gradient(to top, rgba(255,255,255,0.95), transparent)",
             }}
           >
-            <div className="text-xs mb-1" style={{ color: "#E8A0AA" }}>
+            <div className="text-xs mb-1" style={{ color: "#4A4A4A" }}>
               Featured - January 2025
             </div>
-            <div className="font-display text-xl" style={{ color: "#FAD4D8" }}>
+            <div className="font-display text-xl" style={{ color: "#1A1A1A" }}>
               First light on the {trek.name} summit ridge
             </div>
-            <div className="text-xs mt-1" style={{ color: "#E8A0AA" }}>
+            <div className="text-xs mt-1" style={{ color: "#4A4A4A" }}>
               {PHOTO_META[0].location} / {PHOTO_META[0].altitude} / by{" "}
               {PHOTO_META[0].photographer}
             </div>
@@ -117,9 +117,9 @@ export default function TrekPhotosTab({ trek }: Props) {
             onClick={() => setFilter(f)}
             className="text-xs px-4 py-2 rounded-full transition-colors"
             style={{
-              background: filter === f ? "#B5525E" : "rgba(45,27,30,0.8)",
-              color: "#FAD4D8",
-              border: `1px solid ${filter === f ? "#B5525E" : "#E8A0AA33"}`,
+              background: filter === f ? "#F88379" : "rgba(255,255,255,0.9)",
+              color: "#1A1A1A",
+              border: `1px solid ${filter === f ? "#F88379" : "#4A4A4A33"}`,
             }}
           >
             {f}
@@ -146,10 +146,10 @@ export default function TrekPhotosTab({ trek }: Props) {
               className="absolute bottom-0 left-0 right-0 p-2"
               style={{
                 background:
-                  "linear-gradient(to top, rgba(26,14,16,0.8), transparent)",
+                  "linear-gradient(to top, rgba(255,255,255,0.9), transparent)",
               }}
             >
-              <div className="text-xs" style={{ color: "#E8A0AA" }}>
+              <div className="text-xs" style={{ color: "#4A4A4A" }}>
                 {CATEGORIES[i % CATEGORIES.length]}
               </div>
             </div>
@@ -160,25 +160,28 @@ export default function TrekPhotosTab({ trek }: Props) {
       <button
         type="button"
         className="px-5 py-2.5 rounded-xl text-sm border"
-        style={{ borderColor: "#E8A0AA44", color: "#E8A0AA" }}
+        style={{ borderColor: "#4A4A4A44", color: "#4A4A4A" }}
       >
         Submit Your Photo
       </button>
 
       <section>
-        <h2 className="font-display text-2xl mb-4" style={{ color: "#FAD4D8" }}>
+        <h2 className="font-display text-2xl mb-4" style={{ color: "#1A1A1A" }}>
           360 Degree Panorama
         </h2>
         <div
           className="rounded-2xl flex items-center justify-center h-48 border"
-          style={{ background: "rgba(45,27,30,0.8)", borderColor: "#E8A0AA33" }}
+          style={{
+            background: "rgba(255,255,255,0.9)",
+            borderColor: "#4A4A4A33",
+          }}
         >
           <div className="text-center">
             <div className="text-4xl mb-2">&#127760;</div>
-            <div className="font-semibold" style={{ color: "#FAD4D8" }}>
+            <div className="font-semibold" style={{ color: "#1A1A1A" }}>
               {trek.name} Summit - 360 Degree View
             </div>
-            <div className="text-sm mt-1" style={{ color: "#E8A0AA" }}>
+            <div className="text-sm mt-1" style={{ color: "#4A4A4A" }}>
               Interactive panorama viewer
             </div>
           </div>
@@ -189,7 +192,7 @@ export default function TrekPhotosTab({ trek }: Props) {
         <dialog
           open
           className="fixed inset-0 z-50 flex items-center justify-center m-0 w-full h-full max-w-none max-h-none border-0 p-0"
-          style={{ background: "rgba(26,14,16,0.95)" }}
+          style={{ background: "rgba(255,255,255,0.95)" }}
           onClick={() => setLightbox(null)}
           onKeyDown={(e) => {
             if (e.key === "Escape") setLightbox(null);
@@ -205,7 +208,7 @@ export default function TrekPhotosTab({ trek }: Props) {
               type="button"
               onClick={() => setLightbox(null)}
               className="absolute top-3 right-3 z-10 w-10 h-10 rounded-full flex items-center justify-center"
-              style={{ background: "#B5525E", color: "#FAD4D8" }}
+              style={{ background: "#F88379", color: "#1A1A1A" }}
             >
               x
             </button>
@@ -217,7 +220,7 @@ export default function TrekPhotosTab({ trek }: Props) {
                 )
               }
               className="absolute left-3 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full flex items-center justify-center"
-              style={{ background: "rgba(45,27,30,0.8)", color: "#FAD4D8" }}
+              style={{ background: "rgba(255,255,255,0.9)", color: "#1A1A1A" }}
             >
               &#8249;
             </button>
@@ -229,7 +232,7 @@ export default function TrekPhotosTab({ trek }: Props) {
                 )
               }
               className="absolute right-3 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full flex items-center justify-center"
-              style={{ background: "rgba(45,27,30,0.8)", color: "#FAD4D8" }}
+              style={{ background: "rgba(255,255,255,0.9)", color: "#1A1A1A" }}
             >
               &#8250;
             </button>
@@ -239,11 +242,11 @@ export default function TrekPhotosTab({ trek }: Props) {
               className="w-full rounded-2xl"
             />
             <div className="mt-3 flex items-center justify-between">
-              <div className="text-sm" style={{ color: "#E8A0AA" }}>
+              <div className="text-sm" style={{ color: "#4A4A4A" }}>
                 {PHOTO_META[lightbox % PHOTO_META.length].location} /{" "}
                 {PHOTO_META[lightbox % PHOTO_META.length].altitude}
               </div>
-              <div className="text-sm" style={{ color: "#E8A0AA" }}>
+              <div className="text-sm" style={{ color: "#4A4A4A" }}>
                 by {PHOTO_META[lightbox % PHOTO_META.length].photographer}
               </div>
             </div>
