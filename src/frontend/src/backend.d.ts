@@ -7,30 +7,7 @@ export interface None {
     __kind__: "None";
 }
 export type Option<T> = Some<T> | None;
-export type WaitlistResult = {
-    __kind__: "ok";
-    ok: {
-        waitlistId: string;
-        position: bigint;
-    };
-} | {
-    __kind__: "err";
-    err: string;
-};
 export type Timestamp = bigint;
-export interface CorporateLead {
-    id: bigint;
-    contactName: string;
-    createdAt: Timestamp;
-    headcount: bigint;
-    email: string;
-    preferredDates: string;
-    message: string;
-    preferredTrek: string;
-    companyName: string;
-    phone: string;
-}
-export type Slug = string;
 export interface BlogPostPublic {
     id: bigint;
     title: string;
@@ -45,17 +22,14 @@ export interface BlogPostPublic {
     excerpt: string;
     category: BlogCategory;
 }
-export interface WaitlistEntryPublic {
-    id: string;
-    status: WaitlistStatus;
+export interface AddOn {
     name: string;
-    createdAt: bigint;
-    email: string;
-    notifiedAt?: bigint;
-    batchId: string;
-    phone: string;
-    position: bigint;
-    numPeople: bigint;
+    pricePerPerson: bigint;
+}
+export type Slug = string;
+export interface FaqVotesPublic {
+    notHelpful: bigint;
+    helpful: bigint;
 }
 export interface Trek {
     id: bigint;
@@ -77,9 +51,77 @@ export interface Trek {
     basePrice: bigint;
     nearestRailhead: string;
 }
-export interface FaqVotesPublic {
-    notHelpful: bigint;
-    helpful: bigint;
+export interface BatchAvailability {
+    isSoldOut: boolean;
+    batchId: bigint;
+    seatsAvailable: bigint;
+}
+export interface CorporateLead {
+    id: bigint;
+    contactName: string;
+    createdAt: Timestamp;
+    headcount: bigint;
+    email: string;
+    preferredDates: string;
+    message: string;
+    preferredTrek: string;
+    companyName: string;
+    phone: string;
+}
+export interface GuidePublic {
+    id: string;
+    bio: string;
+    currentAssignment?: string;
+    yearsExperience: bigint;
+    name: string;
+    designation: string;
+    favoriteTrek: string;
+    availability: GuideAvailability;
+    rating: number;
+    photo: string;
+    certifications: Array<string>;
+    totalTreksLed: bigint;
+}
+export interface BatchUpdateInput {
+    status?: string;
+    maxSeats?: bigint;
+    endDate?: string;
+    meetingPoint?: string;
+    guideId?: string;
+    pricePerPerson?: bigint;
+    guideName?: string;
+    trekName?: string;
+    trekSlug?: string;
+    startDate?: string;
+}
+export interface BatchCreateInput {
+    status: string;
+    maxSeats: bigint;
+    endDate: string;
+    meetingPoint: string;
+    guideId?: string;
+    pricePerPerson: bigint;
+    guideName?: string;
+    trekName: string;
+    trekSlug: string;
+    startDate: string;
+}
+export interface AnnouncementPublic {
+    id: string;
+    text: string;
+    isActive: boolean;
+}
+export interface WaitlistEntryPublic {
+    id: string;
+    status: WaitlistStatus;
+    name: string;
+    createdAt: bigint;
+    email: string;
+    notifiedAt?: bigint;
+    batchId: string;
+    phone: string;
+    position: bigint;
+    numPeople: bigint;
 }
 export interface BookingPublic {
     id: bigint;
@@ -121,15 +163,6 @@ export interface UserProfilePublic {
     loyaltyTier: LoyaltyTier;
     totalTreksCompleted: bigint;
 }
-export interface BatchAvailability {
-    isSoldOut: boolean;
-    batchId: bigint;
-    seatsAvailable: bigint;
-}
-export interface AddOn {
-    name: string;
-    pricePerPerson: bigint;
-}
 export type UserId = Principal;
 export interface TravelerInfo {
     age: bigint;
@@ -165,20 +198,16 @@ export interface BatchPublic {
     seatsAvailable: bigint;
     startDate: string;
 }
-export interface GuidePublic {
-    id: string;
-    bio: string;
-    currentAssignment?: string;
-    yearsExperience: bigint;
-    name: string;
-    designation: string;
-    favoriteTrek: string;
-    availability: GuideAvailability;
-    rating: number;
-    photo: string;
-    certifications: Array<string>;
-    totalTreksLed: bigint;
-}
+export type WaitlistResult = {
+    __kind__: "ok";
+    ok: {
+        waitlistId: string;
+        position: bigint;
+    };
+} | {
+    __kind__: "err";
+    err: string;
+};
 export enum BatchStatus {
     Full = "Full",
     Open = "Open",
@@ -252,6 +281,14 @@ export interface backendInterface {
         __kind__: "err";
         err: string;
     }>;
+    createAnnouncement(text: string): Promise<AnnouncementPublic>;
+    createBatch(input: BatchCreateInput): Promise<{
+        __kind__: "ok";
+        ok: BatchPublic;
+    } | {
+        __kind__: "err";
+        err: string;
+    }>;
     createBooking(batchId: bigint, groupSize: bigint, addOns: Array<AddOn>, travelers: Array<TravelerInfo>, applyEarlyBird: boolean): Promise<{
         __kind__: "ok";
         ok: {
@@ -264,7 +301,23 @@ export interface backendInterface {
         err: string;
     }>;
     createOrUpdateProfile(name: string, email: string, phone: string, city: string): Promise<UserProfilePublic>;
+    deleteAnnouncement(id: string): Promise<{
+        __kind__: "ok";
+        ok: null;
+    } | {
+        __kind__: "err";
+        err: string;
+    }>;
+    deleteBatch(batchId: bigint): Promise<{
+        __kind__: "ok";
+        ok: boolean;
+    } | {
+        __kind__: "err";
+        err: string;
+    }>;
+    getActiveAnnouncements(): Promise<Array<AnnouncementPublic>>;
     getAdminPrincipal(): Promise<Principal | null>;
+    getAllAnnouncements(): Promise<Array<AnnouncementPublic>>;
     getAllGuides(): Promise<Array<GuidePublic>>;
     getAllTreks(): Promise<Array<Trek>>;
     getAllYatras(): Promise<Array<Yatra>>;
@@ -279,6 +332,7 @@ export interface backendInterface {
     getAverageRating(trekSlug: string): Promise<bigint>;
     getBatchAvailability(batchId: bigint): Promise<BatchAvailability | null>;
     getBatchById(id: bigint): Promise<BatchPublic | null>;
+    getBatchesAll(): Promise<Array<BatchPublic>>;
     getBatchesByTrek(trekSlug: string): Promise<Array<BatchPublic>>;
     getBlogByCategory(category: BlogCategory): Promise<Array<BlogPostPublic>>;
     getBlogBySlug(slug: string): Promise<BlogPostPublic | null>;
@@ -322,7 +376,28 @@ export interface backendInterface {
     submitReview(trekSlug: string, userName: string, userCity: string, rating: bigint, guideRating: bigint, foodRating: bigint, safetyRating: bigint, reviewText: string): Promise<ReviewPublic>;
     subscribe(email: string, preferences: Array<NewsletterPreference>): Promise<boolean>;
     unsubscribe(email: string): Promise<boolean>;
+    updateAnnouncement(id: string, text: string, isActive: boolean): Promise<{
+        __kind__: "ok";
+        ok: AnnouncementPublic;
+    } | {
+        __kind__: "err";
+        err: string;
+    }>;
+    updateBatch(batchId: bigint, input: BatchUpdateInput): Promise<{
+        __kind__: "ok";
+        ok: BatchPublic;
+    } | {
+        __kind__: "err";
+        err: string;
+    }>;
     updateGuideAvailability(guideId: string, availability: GuideAvailability): Promise<{
+        __kind__: "ok";
+        ok: null;
+    } | {
+        __kind__: "err";
+        err: string;
+    }>;
+    updateGuidePhoto(guideId: string, photoUrl: string): Promise<{
         __kind__: "ok";
         ok: null;
     } | {

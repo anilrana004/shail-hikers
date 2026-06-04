@@ -79,6 +79,37 @@ module {
     #ok;
   };
 
+  // Update only the photo field of an existing guide.
+  // Reads the stored internal record, overwrites the photo URL, and re-inserts.
+  public func updatePhoto(
+    guides   : Map.Map<Text, Guide>,
+    guideId  : Text,
+    photoUrl : Text,
+  ) : { #ok; #err : Text } {
+    switch (guides.get(guideId)) {
+      case null { #err "Guide not found" };
+      case (?guide) {
+        // Guide has var fields so record spread is not allowed; rebuild fully.
+        let updated : Guide = {
+          id                = guide.id;
+          name              = guide.name;
+          photo             = photoUrl;
+          designation       = guide.designation;
+          yearsExperience   = guide.yearsExperience;
+          certifications    = guide.certifications;
+          favoriteTrek      = guide.favoriteTrek;
+          var rating            = guide.rating;
+          var totalTreksLed     = guide.totalTreksLed;
+          var availability      = guide.availability;
+          var currentAssignment = guide.currentAssignment;
+          bio               = guide.bio;
+        };
+        guides.add(guideId, updated);
+        #ok;
+      };
+    };
+  };
+
   // Convert internal record to public (no-var) form.
   public func toPublic(guide : Guide) : GuidePublic {
     {

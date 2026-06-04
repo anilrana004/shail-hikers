@@ -1,4 +1,11 @@
-import { createActor } from "@/backend";
+import {
+  type AnnouncementPublic,
+  type BatchPublic,
+  BatchStatus,
+  GuideAvailability,
+  type GuidePublic,
+  createActor,
+} from "@/backend";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -30,20 +37,24 @@ import {
   Loader2,
   Mail,
   MapPin,
+  Megaphone,
   Phone,
+  Plus,
   Search,
   Shield,
   Star,
+  Trash2,
   TrendingUp,
   Users,
   XCircle,
 } from "lucide-react";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
+import RichTextEditor from "../components/RichTextEditor";
 
 // ─── Types ───────────────────────────────────────────────────────────
 
-type TabKey = "bookings" | "guides" | "batches" | "waitlists";
+type TabKey = "bookings" | "guides" | "batches" | "waitlists" | "announcements";
 
 type BookingStatus = "confirmed" | "pending" | "cancelled" | "completed";
 
@@ -175,7 +186,7 @@ const MOCK_BOOKINGS: Booking[] = [
   },
 ];
 
-const MOCK_GUIDES: Guide[] = [
+const _MOCK_GUIDES: Guide[] = [
   {
     id: "GD-001",
     name: "Deepak Negi",
@@ -219,7 +230,7 @@ const MOCK_GUIDES: Guide[] = [
   },
 ];
 
-const MOCK_BATCHES: Batch[] = [
+const _MOCK_BATCHES: Batch[] = [
   {
     id: "BT-001",
     trekName: "Kedarkantha Trek",
@@ -526,24 +537,120 @@ function BookingsTab() {
 // ─── Tab: Guides ────────────────────────────────────────────────────
 
 function GuidesTab() {
-  const [guides, setGuides] = useState<Guide[]>(MOCK_GUIDES);
-  const [showAddDialog, setShowAddDialog] = useState(false);
-  const [editingGuide, setEditingGuide] = useState<Guide | null>(null);
+  const { actor } = useActor(createActor);
+  const [guides, setGuides] = useState<GuidePublic[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [uploadingId, setUploadingId] = useState<string | null>(null);
+  const [uploadError, setUploadError] = useState<string | null>(null);
+  const [uploadSuccess, setUploadSuccess] = useState<Record<string, string>>(
+    {},
+  );
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleAvailabilityToggle = (guideId: string) => {
-    setGuides((prev) =>
-      prev.map((g) => {
-        if (g.id !== guideId) return g;
-        const next: Guide["availability"][] = [
-          "Available",
-          "OnTrek",
-          "OnLeave",
-        ];
-        const idx = next.indexOf(g.availability);
-        return { ...g, availability: next[(idx + 1) % 3] };
-      }),
-    );
-    toast.success("Guide availability updated");
+  const fetchGuides = useCallback(async () => {
+    if (!actor) return;
+    try {
+      const data = await actor.getAllGuides();
+      setGuides(data);
+    } catch {
+      toast.error("Failed to load guides");
+    } finally {
+      setLoading(false);
+    }
+  }, [actor]);
+
+  useEffect(() => {
+    fetchGuides();
+  }, [fetchGuides]);
+
+  const handleFileSelect = async (guideId: string, file: File) => {
+    // Validation
+    if (!file.type.startsWith("image/")) {
+      setUploadError("Please select an image file.");
+      setUploadingId(guideId);
+      setTimeout(() => {
+        setUploadError(null);
+        setUploadingId(null);
+      }, 2500);
+      return;
+    }
+    if (file.size > 2 * 1024 * 1024) {
+      setUploadError("File too large. Maximum 2MB.");
+      setUploadingId(guideId);
+      setTimeout(() => {
+        setUploadError(null);
+        setUploadingId(null);
+      }, 2500);
+      return;
+    }
+
+    setUploadError(null);
+    setUploadSuccess((prev) => {
+      const next = { ...prev };
+      delete next[guideId];
+      return next;
+    });
+    setUploadingId(guideId);
+
+    try {
+      const url = await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(String(reader.result));
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+      if (!actor) throw new Error("Actor not ready");
+      const result = await actor.updateGuidePhoto(guideId, url);
+      if (result.__kind__ === "ok") {
+        setUploadSuccess((prev) => ({ ...prev, [guideId]: "✓ Photo updated" }));
+        setTimeout(() => {
+          setUploadSuccess((prev) => {
+            const next = { ...prev };
+            delete next[guideId];
+            return next;
+          });
+        }, 3000);
+        await fetchGuides();
+      } else {
+        setUploadError(result.err);
+        setTimeout(() => setUploadError(null), 3000);
+      }
+    } catch {
+      setUploadError("Upload failed — try again");
+      setTimeout(() => setUploadError(null), 3000);
+    } finally {
+      setUploadingId(null);
+    }
+  };
+
+  const handleAvailabilityToggle = async (guideId: string) => {
+    if (!actor) return;
+    const guide = guides.find((g) => g.id === guideId);
+    if (!guide) return;
+    const next: GuideAvailability[] = [
+      GuideAvailability.Available,
+      GuideAvailability.OnTrek,
+      GuideAvailability.OnLeave,
+    ];
+    const idx = next.indexOf(guide.availability);
+    const nextAvail = next[(idx + 1) % 3];
+    try {
+      const result = await actor.updateGuideAvailability(guideId, nextAvail);
+      if (result.__kind__ === "ok") {
+        toast.success("Guide availability updated");
+        await fetchGuides();
+      } else {
+        toast.error(result.err);
+      }
+    } catch {
+      toast.error("Failed to update availability");
+    }
+  };
+
+  const availabilityLabel = (a: GuideAvailability) => {
+    if (a === GuideAvailability.Available) return "Available";
+    if (a === GuideAvailability.OnTrek) return "OnTrek";
+    return "OnLeave";
   };
 
   return (
@@ -555,182 +662,134 @@ function GuidesTab() {
           </h3>
           <p className="text-sm text-[#7A7A7A]">
             {guides.length} guides ·{" "}
-            {guides.filter((g) => g.availability === "Available").length}{" "}
+            {
+              guides.filter(
+                (g) => g.availability === GuideAvailability.Available,
+              ).length
+            }{" "}
             available
           </p>
         </div>
-        <Button
-          onClick={() => setShowAddDialog(true)}
-          className="bg-[#F88379] text-white hover:bg-[#D9604F]"
-          data-ocid="admin.add_guide_button"
-        >
-          <Users className="mr-2 h-4 w-4" />
-          Add Guide
-        </Button>
       </div>
 
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
-        {guides.map((guide) => (
-          <div
-            key={guide.id}
-            className="rounded-xl border border-[#E6D8C4] bg-white p-5 shadow-sm transition-shadow hover:shadow-md"
-          >
-            <div className="flex items-start justify-between">
-              <div className="flex items-center gap-3">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#F5EEE4] font-display text-lg font-bold text-[#F88379]">
-                  {guide.name.charAt(0)}
+      {loading ? (
+        <div className="flex items-center justify-center py-12">
+          <Loader2 className="h-6 w-6 animate-spin text-[#F88379]" />
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+          {guides.map((guide) => (
+            <div
+              key={guide.id}
+              className="rounded-xl border border-[#E6D8C4] bg-white p-5 shadow-sm transition-shadow hover:shadow-md"
+            >
+              <div className="flex items-start justify-between">
+                <div className="flex items-center gap-3">
+                  {guide.photo ? (
+                    <img
+                      src={guide.photo}
+                      alt={guide.name}
+                      className="h-12 w-12 rounded-full object-cover"
+                    />
+                  ) : (
+                    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#F88379] font-display text-lg font-bold text-white">
+                      {guide.name.charAt(0)}
+                    </div>
+                  )}
+                  <div>
+                    <h4 className="font-display font-semibold text-[#1A1A1A]">
+                      {guide.name}
+                    </h4>
+                    <p className="text-sm text-[#7A7A7A]">
+                      {guide.designation}
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h4 className="font-display font-semibold text-[#1A1A1A]">
-                    {guide.name}
-                  </h4>
-                  <p className="text-sm text-[#7A7A7A]">{guide.designation}</p>
-                </div>
+                <StatusBadge status={availabilityLabel(guide.availability)} />
               </div>
-              <StatusBadge status={guide.availability} />
-            </div>
 
-            <div className="mt-4 space-y-2">
-              <div className="flex items-center gap-2 text-sm text-[#4A4A4A]">
-                <Phone className="h-4 w-4 text-[#82C8E5]" />
-                {guide.phone}
-              </div>
-              <div className="flex items-center gap-2 text-sm text-[#4A4A4A]">
-                <Star className="h-4 w-4 text-[#D4A843]" />
-                {guide.rating}/5 · {guide.treksLed} treks led
-              </div>
-              {guide.currentAssignment && (
-                <div className="flex items-center gap-2 text-sm text-[#4A4A4A]">
-                  <MapPin className="h-4 w-4 text-[#F88379]" />
-                  {guide.currentAssignment}
-                </div>
-              )}
-            </div>
-
-            <div className="mt-3 flex flex-wrap gap-1">
-              {guide.certifications.map((cert) => (
-                <Badge
-                  key={cert}
+              <div className="mt-2 flex items-center gap-2">
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/jpeg,image/png"
+                  className="hidden"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) handleFileSelect(guide.id, file);
+                    if (fileInputRef.current) fileInputRef.current.value = "";
+                  }}
+                />
+                <Button
                   variant="outline"
-                  className="border-[#82C8E5] text-[#1A1A1A]"
+                  size="sm"
+                  className="border-[#F88379] text-[#F88379] hover:bg-[#F88379] hover:text-white text-xs h-7 px-2"
+                  onClick={() => fileInputRef.current?.click()}
+                  disabled={uploadingId === guide.id}
+                  data-ocid={`admin.upload_photo_button.${guide.id}`}
                 >
-                  <Award className="mr-1 h-3 w-3 text-[#82C8E5]" />
-                  {cert}
-                </Badge>
-              ))}
-            </div>
+                  {uploadingId === guide.id ? (
+                    <Loader2 className="mr-1 h-3 w-3 animate-spin" />
+                  ) : (
+                    <Plus className="mr-1 h-3 w-3" />
+                  )}
+                  Upload Photo
+                </Button>
+                {uploadError && uploadingId === guide.id && (
+                  <span className="text-xs text-[#F88379]">{uploadError}</span>
+                )}
+                {uploadSuccess[guide.id] && !uploadingId && (
+                  <span className="text-xs text-[#2D6A4F]">
+                    {uploadSuccess[guide.id]}
+                  </span>
+                )}
+              </div>
 
-            <div className="mt-4 flex gap-2">
-              <Button
-                variant="outline"
-                size="sm"
-                className="flex-1 border-[#E6D8C4] text-[#1A1A1A] hover:bg-[#F5EEE4]"
-                onClick={() => setEditingGuide(guide)}
-                data-ocid="admin.edit_guide_button"
-              >
-                Edit
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                className="flex-1 border-[#E6D8C4] text-[#1A1A1A] hover:bg-[#F5EEE4]"
-                onClick={() => handleAvailabilityToggle(guide.id)}
-                data-ocid="admin.toggle_availability_button"
-              >
-                Toggle Status
-              </Button>
-            </div>
-          </div>
-        ))}
-      </div>
+              <div className="mt-3 space-y-2">
+                <div className="flex items-center gap-2 text-sm text-[#4A4A4A]">
+                  <Star className="h-4 w-4 text-[#82C8E5]" />
+                  {guide.yearsExperience.toString()} years exp
+                </div>
+                <div className="flex items-center gap-2 text-sm text-[#4A4A4A]">
+                  <Star className="h-4 w-4 text-[#D4A843]" />
+                  {guide.rating}/5 · {Number(guide.totalTreksLed)} treks led
+                </div>
+                {guide.currentAssignment && (
+                  <div className="flex items-center gap-2 text-sm text-[#4A4A4A]">
+                    <MapPin className="h-4 w-4 text-[#F88379]" />
+                    {guide.currentAssignment}
+                  </div>
+                )}
+              </div>
 
-      {/* Add/Edit Guide Dialog */}
-      <Dialog
-        open={showAddDialog || !!editingGuide}
-        onOpenChange={(open) => {
-          if (!open) {
-            setShowAddDialog(false);
-            setEditingGuide(null);
-          }
-        }}
-      >
-        <DialogContent className="bg-white">
-          <DialogHeader>
-            <DialogTitle className="font-display text-[#1A1A1A]">
-              {editingGuide ? "Edit Guide" : "Add New Guide"}
-            </DialogTitle>
-          </DialogHeader>
-          <div className="space-y-4 py-4">
-            <div>
-              <label
-                htmlFor="guide-name"
-                className="text-sm font-medium text-[#1A1A1A]"
-              >
-                Name
-              </label>
-              <input
-                id="guide-name"
-                type="text"
-                defaultValue={editingGuide?.name}
-                className="mt-1 w-full rounded-lg border border-[#E6D8C4] px-3 py-2 text-sm text-[#1A1A1A] focus:border-[#F88379] focus:outline-none"
-                placeholder="Guide name"
-              />
+              <div className="mt-3 flex flex-wrap gap-1">
+                {guide.certifications.map((cert) => (
+                  <Badge
+                    key={cert}
+                    variant="outline"
+                    className="border-[#82C8E5] text-[#1A1A1A]"
+                  >
+                    <Award className="mr-1 h-3 w-3 text-[#82C8E5]" />
+                    {cert}
+                  </Badge>
+                ))}
+              </div>
+
+              <div className="mt-4 flex gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="flex-1 border-[#E6D8C4] text-[#1A1A1A] hover:bg-[#F5EEE4]"
+                  onClick={() => handleAvailabilityToggle(guide.id)}
+                  data-ocid="admin.toggle_availability_button"
+                >
+                  Toggle Status
+                </Button>
+              </div>
             </div>
-            <div>
-              <label
-                htmlFor="guide-designation"
-                className="text-sm font-medium text-[#1A1A1A]"
-              >
-                Designation
-              </label>
-              <input
-                id="guide-designation"
-                type="text"
-                defaultValue={editingGuide?.designation}
-                className="mt-1 w-full rounded-lg border border-[#E6D8C4] px-3 py-2 text-sm text-[#1A1A1A] focus:border-[#F88379] focus:outline-none"
-                placeholder="e.g. Senior Trek Leader"
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="guide-phone"
-                className="text-sm font-medium text-[#1A1A1A]"
-              >
-                Phone
-              </label>
-              <input
-                id="guide-phone"
-                type="tel"
-                defaultValue={editingGuide?.phone}
-                className="mt-1 w-full rounded-lg border border-[#E6D8C4] px-3 py-2 text-sm text-[#1A1A1A] focus:border-[#F88379] focus:outline-none"
-                placeholder="+91-XXXXX-XXXXX"
-              />
-            </div>
-          </div>
-          <DialogFooter>
-            <Button
-              variant="outline"
-              onClick={() => {
-                setShowAddDialog(false);
-                setEditingGuide(null);
-              }}
-              className="border-[#E6D8C4] text-[#1A1A1A]"
-            >
-              Cancel
-            </Button>
-            <Button
-              onClick={() => {
-                toast.success(editingGuide ? "Guide updated" : "Guide added");
-                setShowAddDialog(false);
-                setEditingGuide(null);
-              }}
-              className="bg-[#F88379] text-white hover:bg-[#D9604F]"
-            >
-              {editingGuide ? "Save Changes" : "Add Guide"}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
@@ -738,25 +797,274 @@ function GuidesTab() {
 // ─── Tab: Batches ────────────────────────────────────────────────────
 
 function BatchesTab() {
-  const [batches, setBatches] = useState<Batch[]>(MOCK_BATCHES);
-  const [assigningBatch, setAssigningBatch] = useState<Batch | null>(null);
+  const { actor } = useActor(createActor);
+  const [batches, setBatches] = useState<BatchPublic[]>([]);
+  const [guides, setGuides] = useState<GuidePublic[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [assigningBatch, setAssigningBatch] = useState<BatchPublic | null>(
+    null,
+  );
   const [selectedGuide, setSelectedGuide] = useState("");
 
-  const guides = MOCK_GUIDES;
+  // Modal state
+  const [showModal, setShowModal] = useState(false);
+  const [modalMode, setModalMode] = useState<"create" | "edit">("create");
+  const [editingBatchId, setEditingBatchId] = useState<bigint | null>(null);
+  const [submitting, setSubmitting] = useState(false);
 
-  const handleAssignGuide = () => {
-    if (!assigningBatch || !selectedGuide) return;
-    const guide = guides.find((g) => g.id === selectedGuide);
-    setBatches((prev) =>
-      prev.map((b) =>
-        b.id === assigningBatch.id
-          ? { ...b, guideId: selectedGuide, guideName: guide?.name }
-          : b,
-      ),
+  // Form state
+  const [formTrek, setFormTrek] = useState("");
+  const [formStartDate, setFormStartDate] = useState("");
+  const [formEndDate, setFormEndDate] = useState("");
+  const [formPrice, setFormPrice] = useState("");
+  const [formMaxSeats, setFormMaxSeats] = useState("");
+  const [formMeetingPoint, setFormMeetingPoint] = useState("");
+  const [formGuide, setFormGuide] = useState("");
+  const [formStatus, setFormStatus] = useState("active");
+  const [formErrors, setFormErrors] = useState<Record<string, string>>({});
+
+  const TREK_OPTIONS = [
+    { label: "Kedarkantha", value: "kedarkantha" },
+    { label: "Har Ki Dun", value: "har-ki-dun" },
+    { label: "Chandernahan Lake", value: "chandernahan-lake" },
+    { label: "Chaainsheel Bugyal", value: "chaainsheel-bugyal" },
+    { label: "Buran Ghati", value: "buran-ghati" },
+    { label: "Ruinsara Tal", value: "ruinsara-tal" },
+    { label: "Rupin Pass", value: "rupin-pass" },
+    { label: "Bali Pass", value: "bali-pass" },
+    { label: "Dayara Bugyal", value: "dayara-bugyal" },
+    { label: "Nag Tibba", value: "nag-tibba" },
+    { label: "Chopta Chandrashila", value: "chopta-chandrashila" },
+    { label: "Phulara Ridge", value: "phulara-ridge" },
+    { label: "Borasu Pass", value: "borasu-pass" },
+    { label: "Valley of Flowers", value: "valley-of-flowers" },
+  ];
+
+  const fetchBatches = useCallback(async () => {
+    if (!actor) return;
+    try {
+      const [batchData, guideData] = await Promise.all([
+        actor.getBatchesAll(),
+        actor.getAllGuides(),
+      ]);
+      setBatches(batchData);
+      setGuides(guideData);
+    } catch {
+      toast.error("Failed to load batches");
+    } finally {
+      setLoading(false);
+    }
+  }, [actor]);
+
+  useEffect(() => {
+    fetchBatches();
+  }, [fetchBatches]);
+
+  const resetForm = () => {
+    setFormTrek("");
+    setFormStartDate("");
+    setFormEndDate("");
+    setFormPrice("");
+    setFormMaxSeats("");
+    setFormMeetingPoint("");
+    setFormGuide("");
+    setFormStatus("active");
+    setFormErrors({});
+    setEditingBatchId(null);
+  };
+
+  const openCreateModal = () => {
+    resetForm();
+    setModalMode("create");
+    setShowModal(true);
+  };
+
+  const openEditModal = (batch: BatchPublic) => {
+    setModalMode("edit");
+    setEditingBatchId(batch.id);
+    setFormTrek(batch.trekSlug);
+    setFormStartDate(batch.startDate);
+    setFormEndDate(batch.endDate);
+    setFormPrice(String(batch.pricePerPerson));
+    setFormMaxSeats(String(batch.totalSeats));
+    setFormMeetingPoint("");
+    setFormGuide(batch.guideId || "");
+    setFormStatus(
+      batch.status === BatchStatus.Open
+        ? "active"
+        : batch.status === BatchStatus.Completed
+          ? "completed"
+          : batch.status === BatchStatus.Cancelled
+            ? "cancelled"
+            : "active",
     );
-    toast.success(`Assigned ${guide?.name} to ${assigningBatch.trekName}`);
+    setFormErrors({});
+    setShowModal(true);
+  };
+
+  const validateForm = (): boolean => {
+    const errors: Record<string, string> = {};
+    if (!formTrek) errors.trek = "Trek is required";
+    if (!formStartDate) errors.startDate = "Start date is required";
+    if (!formEndDate) errors.endDate = "End date is required";
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    if (formStartDate) {
+      const sd = new Date(formStartDate);
+      sd.setHours(0, 0, 0, 0);
+      if (sd < today) errors.startDate = "Start date must be today or later";
+    }
+    if (formStartDate && formEndDate) {
+      const sd = new Date(formStartDate);
+      const ed = new Date(formEndDate);
+      if (ed <= sd) errors.endDate = "End date must be after start date";
+    }
+
+    const price = Number(formPrice);
+    if (!formPrice || price <= 0) errors.price = "Price must be greater than 0";
+
+    const seats = Number(formMaxSeats);
+    if (!formMaxSeats || seats < 1 || seats > 50)
+      errors.maxSeats = "Max seats must be between 1 and 50";
+
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
+  const handleSubmit = async () => {
+    if (!actor) return;
+    if (!validateForm()) return;
+
+    setSubmitting(true);
+    try {
+      const trekName =
+        TREK_OPTIONS.find((t) => t.value === formTrek)?.label || formTrek;
+
+      if (modalMode === "create") {
+        const result = await actor.createBatch({
+          trekSlug: formTrek,
+          trekName,
+          startDate: formStartDate,
+          endDate: formEndDate,
+          pricePerPerson: BigInt(formPrice),
+          maxSeats: BigInt(formMaxSeats),
+          meetingPoint: formMeetingPoint || "Dehradun ISBT",
+          guideId: formGuide || undefined,
+          status: formStatus,
+        });
+        if (result.__kind__ === "ok") {
+          toast.success("Batch created successfully");
+          setShowModal(false);
+          resetForm();
+          await fetchBatches();
+        } else {
+          toast.error(result.err);
+        }
+      } else if (modalMode === "edit" && editingBatchId !== null) {
+        const input: import("@/backend").BatchUpdateInput = {
+          trekSlug: formTrek,
+          trekName,
+          startDate: formStartDate,
+          endDate: formEndDate,
+          pricePerPerson: BigInt(formPrice),
+          maxSeats: BigInt(formMaxSeats),
+          meetingPoint: formMeetingPoint || undefined,
+          guideId: formGuide || undefined,
+          status: formStatus,
+        };
+        const result = await actor.updateBatch(editingBatchId, input);
+        if (result.__kind__ === "ok") {
+          toast.success("Batch updated successfully");
+          setShowModal(false);
+          resetForm();
+          await fetchBatches();
+        } else {
+          toast.error(result.err);
+        }
+      }
+    } catch {
+      toast.error("Failed to save batch");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handleDelete = async (batchId: bigint) => {
+    if (!actor) return;
+    if (!window.confirm("Delete this batch? This action cannot be undone."))
+      return;
+    try {
+      const result = await actor.deleteBatch(batchId);
+      if (result.__kind__ === "ok") {
+        toast.success("Batch deleted");
+        setBatches((prev) => prev.filter((b) => b.id !== batchId));
+      } else {
+        toast.error(result.err);
+      }
+    } catch {
+      toast.error("Failed to delete batch");
+    }
+  };
+
+  const handleAssignGuide = async () => {
+    if (!actor || !assigningBatch || !selectedGuide) return;
+    try {
+      const result = await actor.assignGuideToBatch(
+        String(assigningBatch.id),
+        selectedGuide,
+      );
+      if (result.__kind__ === "ok") {
+        toast.success("Guide assigned successfully");
+        await fetchBatches();
+      } else {
+        toast.error(result.err);
+      }
+    } catch {
+      toast.error("Failed to assign guide");
+    }
     setAssigningBatch(null);
     setSelectedGuide("");
+  };
+
+  const statusBadgeClass = (status: string) => {
+    const s = status.toLowerCase();
+    if (s === "active" || s === "open") return "bg-[#F88379] text-white";
+    if (s === "cancelled") return "bg-red-100 text-red-700";
+    if (s === "completed" || s === "full") return "bg-[#82C8E5] text-[#1A1A1A]";
+    return "bg-[#E6D8C4] text-[#1A1A1A]";
+  };
+
+  const seatsBarColor = (booked: bigint, total: bigint) => {
+    const ratio = Number(booked) / Number(total);
+    if (ratio > 0.8) return "#F88379";
+    if (ratio > 0.5) return "#D4A843";
+    return "#2D6A4F";
+  };
+
+  const trekNameFromSlug = (slug: string) => {
+    const map: Record<string, string> = {
+      kedarkantha: "Kedarkantha Trek",
+      "har-ki-dun": "Har Ki Dun Trek",
+      "chandernahan-lake": "Chandernahan Lake Trek",
+      "chaainsheel-bugyal": "Chaainsheel Bugyal Trek",
+      "buran-ghati": "Buran Ghati Trek",
+      "ruinsara-tal": "Ruinsara Tal Trek",
+      "rupin-pass": "Rupin Pass Trek",
+      "bali-pass": "Bali Pass Trek",
+      "dayara-bugyal": "Dayara Bugyal Trek",
+      "nag-tibba": "Nag Tibba Trek",
+      "chopta-chandrashila": "Chopta Chandrashila Trek",
+      "phulara-ridge": "Phulara Ridge Trek",
+      "borasu-pass": "Borasu Pass Trek",
+      "valley-of-flowers": "Valley of Flowers Trek",
+    };
+    return map[slug] || slug;
+  };
+
+  const guideName = (guideId: string) => {
+    const g = guides.find((x) => x.id === guideId);
+    return g?.name;
   };
 
   return (
@@ -770,106 +1078,158 @@ function BatchesTab() {
         />
         <StatCard
           label="Open"
-          value={batches.filter((b) => b.status === "open").length.toString()}
+          value={batches
+            .filter((b) => b.status === BatchStatus.Open)
+            .length.toString()}
           icon={CheckCircle2}
           color="bg-[#2D6A4F]"
         />
         <StatCard
           label="Full"
-          value={batches.filter((b) => b.status === "full").length.toString()}
+          value={batches
+            .filter((b) => b.status === BatchStatus.Full)
+            .length.toString()}
           icon={AlertCircle}
           color="bg-[#D4A843]"
         />
         <StatCard
           label="With Guide"
-          value={batches.filter((b) => b.guideName).length.toString()}
+          value={batches.filter((b) => b.guideId).length.toString()}
           icon={Users}
           color="bg-[#82C8E5]"
         />
       </div>
 
       <div className="rounded-xl border border-[#E6D8C4] bg-white shadow-sm">
-        <div className="border-b border-[#E6D8C4] p-4">
+        <div className="flex flex-col gap-4 border-b border-[#E6D8C4] p-4 sm:flex-row sm:items-center sm:justify-between">
           <h3 className="font-display text-lg font-semibold text-[#1A1A1A]">
             Batch Management
           </h3>
+          <button
+            type="button"
+            onClick={openCreateModal}
+            className="inline-flex items-center gap-2 rounded-lg bg-[#F88379] px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-[#D9604F]"
+            data-ocid="admin.create_batch_button"
+          >
+            <Plus className="h-4 w-4" />
+            Create New Batch
+          </button>
         </div>
 
-        <div className="overflow-x-auto">
-          <Table>
-            <TableHeader>
-              <TableRow className="bg-[#F5EEE4]">
-                <TableHead className="text-[#1A1A1A]">Batch ID</TableHead>
-                <TableHead className="text-[#1A1A1A]">Trek</TableHead>
-                <TableHead className="text-[#1A1A1A]">Dates</TableHead>
-                <TableHead className="text-[#1A1A1A]">Seats</TableHead>
-                <TableHead className="text-[#1A1A1A]">Price</TableHead>
-                <TableHead className="text-[#1A1A1A]">Status</TableHead>
-                <TableHead className="text-[#1A1A1A]">Guide</TableHead>
-                <TableHead className="text-[#1A1A1A]">Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {batches.map((batch) => (
-                <TableRow key={batch.id}>
-                  <TableCell className="font-mono text-sm text-[#1A1A1A]">
-                    {batch.id}
-                  </TableCell>
-                  <TableCell className="text-[#1A1A1A]">
-                    {batch.trekName}
-                  </TableCell>
-                  <TableCell className="text-[#1A1A1A]">
-                    <div className="text-sm">{batch.startDate}</div>
-                    <div className="text-xs text-[#7A7A7A]">
-                      to {batch.endDate}
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex items-center gap-2">
-                      <div className="h-2 w-16 rounded-full bg-[#E6D8C4]">
-                        <div
-                          className="h-2 rounded-full bg-[#F88379]"
-                          style={{
-                            width: `${(batch.seatsBooked / batch.seatsTotal) * 100}%`,
-                          }}
-                        />
-                      </div>
-                      <span className="text-sm text-[#1A1A1A]">
-                        {batch.seatsBooked}/{batch.seatsTotal}
-                      </span>
-                    </div>
-                  </TableCell>
-                  <TableCell className="font-medium text-[#D4A843]">
-                    ₹{batch.price.toLocaleString()}
-                  </TableCell>
-                  <TableCell>
-                    <StatusBadge status={batch.status} />
-                  </TableCell>
-                  <TableCell>
-                    {batch.guideName ? (
-                      <span className="text-sm text-[#1A1A1A]">
-                        {batch.guideName}
-                      </span>
-                    ) : (
-                      <span className="text-sm text-[#7A7A7A]">Unassigned</span>
-                    )}
-                  </TableCell>
-                  <TableCell>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="border-[#F88379] text-[#F88379] hover:bg-[#F88379] hover:text-white"
-                      onClick={() => setAssigningBatch(batch)}
-                      data-ocid="admin.assign_guide_button"
-                    >
-                      {batch.guideName ? "Reassign" : "Assign Guide"}
-                    </Button>
-                  </TableCell>
+        {loading ? (
+          <div className="flex items-center justify-center py-12">
+            <Loader2 className="h-6 w-6 animate-spin text-[#F88379]" />
+          </div>
+        ) : (
+          <div className="overflow-x-auto">
+            <Table>
+              <TableHeader>
+                <TableRow className="bg-[#F5EEE4]">
+                  <TableHead className="text-[#1A1A1A]">Batch ID</TableHead>
+                  <TableHead className="text-[#1A1A1A]">Trek</TableHead>
+                  <TableHead className="text-[#1A1A1A]">Dates</TableHead>
+                  <TableHead className="text-[#1A1A1A]">Seats</TableHead>
+                  <TableHead className="text-[#1A1A1A]">Price</TableHead>
+                  <TableHead className="text-[#1A1A1A]">Status</TableHead>
+                  <TableHead className="text-[#1A1A1A]">Guide</TableHead>
+                  <TableHead className="text-[#1A1A1A]">Actions</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </div>
+              </TableHeader>
+              <TableBody>
+                {batches.map((batch) => (
+                  <TableRow key={String(batch.id)}>
+                    <TableCell className="font-mono text-sm text-[#1A1A1A]">
+                      {String(batch.id)}
+                    </TableCell>
+                    <TableCell className="text-[#1A1A1A]">
+                      {trekNameFromSlug(batch.trekSlug)}
+                    </TableCell>
+                    <TableCell className="text-[#1A1A1A]">
+                      <div className="text-sm">{batch.startDate}</div>
+                      <div className="text-xs text-[#7A7A7A]">
+                        to {batch.endDate}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-2">
+                        <div className="h-2 w-16 rounded-full bg-[#E6D8C4]">
+                          <div
+                            className="h-2 rounded-full"
+                            style={{
+                              width: `${(Number(batch.bookedSeats) / Number(batch.totalSeats)) * 100}%`,
+                              backgroundColor: seatsBarColor(
+                                batch.bookedSeats,
+                                batch.totalSeats,
+                              ),
+                            }}
+                          />
+                        </div>
+                        <span className="text-sm text-[#1A1A1A]">
+                          {String(batch.bookedSeats)}/{String(batch.totalSeats)}
+                        </span>
+                      </div>
+                    </TableCell>
+                    <TableCell className="font-medium text-[#D4A843]">
+                      ₹{Number(batch.pricePerPerson).toLocaleString()}
+                    </TableCell>
+                    <TableCell>
+                      <Badge
+                        className={`${statusBadgeClass(batch.status)} font-medium`}
+                      >
+                        {batch.status}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>
+                      {guideName(batch.guideId) ? (
+                        <span className="text-sm text-[#1A1A1A]">
+                          {guideName(batch.guideId)}
+                        </span>
+                      ) : (
+                        <span className="text-sm text-[#7A7A7A]">
+                          Unassigned
+                        </span>
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="border-[#F88379] text-[#F88379] hover:bg-[#F88379] hover:text-white h-7 px-2 text-xs"
+                          onClick={() => {
+                            setAssigningBatch(batch);
+                            setSelectedGuide(batch.guideId || "");
+                          }}
+                          data-ocid="admin.assign_guide_button"
+                        >
+                          {batch.guideId ? "Reassign" : "Assign Guide"}
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="border-[#F88379] text-[#F88379] hover:bg-[#F88379] hover:text-white h-7 px-2 text-xs"
+                          onClick={() => openEditModal(batch)}
+                          data-ocid="admin.edit_batch_button"
+                        >
+                          Edit
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="border-red-300 text-red-600 hover:bg-red-50 hover:text-red-700 h-7 px-2 text-xs"
+                          onClick={() => handleDelete(batch.id)}
+                          data-ocid="admin.delete_batch_button"
+                        >
+                          <Trash2 className="h-3 w-3" />
+                        </Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+        )}
       </div>
 
       {/* Assign Guide Dialog */}
@@ -880,7 +1240,8 @@ function BatchesTab() {
         <DialogContent className="bg-white">
           <DialogHeader>
             <DialogTitle className="font-display text-[#1A1A1A]">
-              Assign Guide to {assigningBatch?.trekName}
+              Assign Guide to{" "}
+              {assigningBatch ? trekNameFromSlug(assigningBatch.trekSlug) : ""}
             </DialogTitle>
           </DialogHeader>
           <div className="py-4">
@@ -901,7 +1262,7 @@ function BatchesTab() {
             >
               <option value="">Choose a guide...</option>
               {guides
-                .filter((g) => g.availability === "Available")
+                .filter((g) => g.availability === GuideAvailability.Available)
                 .map((g) => (
                   <option key={g.id} value={g.id}>
                     {g.name} — {g.designation} ({g.rating}★)
@@ -923,6 +1284,235 @@ function BatchesTab() {
               className="bg-[#F88379] text-white hover:bg-[#D9604F]"
             >
               Assign Guide
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Create / Edit Batch Modal */}
+      <Dialog
+        open={showModal}
+        onOpenChange={(open) => {
+          if (!open) {
+            setShowModal(false);
+            resetForm();
+          }
+        }}
+      >
+        <DialogContent className="bg-white max-w-2xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="font-display text-[#1A1A1A]">
+              {modalMode === "create" ? "Create New Batch" : "Edit Batch"}
+            </DialogTitle>
+          </DialogHeader>
+
+          <div className="space-y-4 py-2">
+            {/* Trek */}
+            <div>
+              <label
+                htmlFor="batch-trek"
+                className="text-sm font-medium text-[#1A1A1A]"
+              >
+                Trek <span className="text-[#F88379]">*</span>
+              </label>
+              <select
+                id="batch-trek"
+                value={formTrek}
+                onChange={(e) => setFormTrek(e.target.value)}
+                className="mt-1 w-full rounded-lg border border-[#E6D8C4] bg-white px-3 py-2 text-sm text-[#1A1A1A] focus:border-[#F88379] focus:outline-none"
+              >
+                <option value="">Select a trek...</option>
+                {TREK_OPTIONS.map((t) => (
+                  <option key={t.value} value={t.value}>
+                    {t.label}
+                  </option>
+                ))}
+              </select>
+              {formErrors.trek && (
+                <p className="mt-1 text-xs text-red-500">{formErrors.trek}</p>
+              )}
+            </div>
+
+            {/* Dates */}
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <div>
+                <label
+                  htmlFor="batch-start"
+                  className="text-sm font-medium text-[#1A1A1A]"
+                >
+                  Start Date <span className="text-[#F88379]">*</span>
+                </label>
+                <input
+                  id="batch-start"
+                  type="date"
+                  value={formStartDate}
+                  onChange={(e) => setFormStartDate(e.target.value)}
+                  className="mt-1 w-full rounded-lg border border-[#E6D8C4] bg-white px-3 py-2 text-sm text-[#1A1A1A] focus:border-[#F88379] focus:outline-none"
+                />
+                {formErrors.startDate && (
+                  <p className="mt-1 text-xs text-red-500">
+                    {formErrors.startDate}
+                  </p>
+                )}
+              </div>
+              <div>
+                <label
+                  htmlFor="batch-end"
+                  className="text-sm font-medium text-[#1A1A1A]"
+                >
+                  End Date <span className="text-[#F88379]">*</span>
+                </label>
+                <input
+                  id="batch-end"
+                  type="date"
+                  value={formEndDate}
+                  onChange={(e) => setFormEndDate(e.target.value)}
+                  className="mt-1 w-full rounded-lg border border-[#E6D8C4] bg-white px-3 py-2 text-sm text-[#1A1A1A] focus:border-[#F88379] focus:outline-none"
+                />
+                {formErrors.endDate && (
+                  <p className="mt-1 text-xs text-red-500">
+                    {formErrors.endDate}
+                  </p>
+                )}
+              </div>
+            </div>
+
+            {/* Price & Seats */}
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <div>
+                <label
+                  htmlFor="batch-price"
+                  className="text-sm font-medium text-[#1A1A1A]"
+                >
+                  Price Per Person (₹) <span className="text-[#F88379]">*</span>
+                </label>
+                <input
+                  id="batch-price"
+                  type="number"
+                  min={0}
+                  value={formPrice}
+                  onChange={(e) => setFormPrice(e.target.value)}
+                  placeholder="e.g. 5999"
+                  className="mt-1 w-full rounded-lg border border-[#E6D8C4] bg-white px-3 py-2 text-sm text-[#1A1A1A] focus:border-[#F88379] focus:outline-none"
+                />
+                {formErrors.price && (
+                  <p className="mt-1 text-xs text-red-500">
+                    {formErrors.price}
+                  </p>
+                )}
+              </div>
+              <div>
+                <label
+                  htmlFor="batch-seats"
+                  className="text-sm font-medium text-[#1A1A1A]"
+                >
+                  Max Seats <span className="text-[#F88379]">*</span>
+                </label>
+                <input
+                  id="batch-seats"
+                  type="number"
+                  min={1}
+                  max={50}
+                  value={formMaxSeats}
+                  onChange={(e) => setFormMaxSeats(e.target.value)}
+                  placeholder="e.g. 12"
+                  className="mt-1 w-full rounded-lg border border-[#E6D8C4] bg-white px-3 py-2 text-sm text-[#1A1A1A] focus:border-[#F88379] focus:outline-none"
+                />
+                {formErrors.maxSeats && (
+                  <p className="mt-1 text-xs text-red-500">
+                    {formErrors.maxSeats}
+                  </p>
+                )}
+              </div>
+            </div>
+
+            {/* Meeting Point */}
+            <div>
+              <label
+                htmlFor="batch-meeting"
+                className="text-sm font-medium text-[#1A1A1A]"
+              >
+                Meeting Point
+              </label>
+              <input
+                id="batch-meeting"
+                type="text"
+                value={formMeetingPoint}
+                onChange={(e) => setFormMeetingPoint(e.target.value)}
+                placeholder="e.g. Dehradun ISBT Gate 3"
+                className="mt-1 w-full rounded-lg border border-[#E6D8C4] bg-white px-3 py-2 text-sm text-[#1A1A1A] focus:border-[#F88379] focus:outline-none"
+              />
+            </div>
+
+            {/* Guide & Status */}
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <div>
+                <label
+                  htmlFor="batch-guide"
+                  className="text-sm font-medium text-[#1A1A1A]"
+                >
+                  Guide
+                </label>
+                <select
+                  id="batch-guide"
+                  value={formGuide}
+                  onChange={(e) => setFormGuide(e.target.value)}
+                  className="mt-1 w-full rounded-lg border border-[#E6D8C4] bg-white px-3 py-2 text-sm text-[#1A1A1A] focus:border-[#F88379] focus:outline-none"
+                >
+                  <option value="">Unassigned</option>
+                  {guides.map((g) => (
+                    <option key={g.id} value={g.id}>
+                      {g.name} — {g.designation}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label
+                  htmlFor="batch-status"
+                  className="text-sm font-medium text-[#1A1A1A]"
+                >
+                  Status
+                </label>
+                <select
+                  id="batch-status"
+                  value={formStatus}
+                  onChange={(e) => setFormStatus(e.target.value)}
+                  className="mt-1 w-full rounded-lg border border-[#E6D8C4] bg-white px-3 py-2 text-sm text-[#1A1A1A] focus:border-[#F88379] focus:outline-none"
+                >
+                  <option value="active">Active</option>
+                  <option value="completed">Completed</option>
+                  <option value="cancelled">Cancelled</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => {
+                setShowModal(false);
+                resetForm();
+              }}
+              className="border-[#E6D8C4] text-[#1A1A1A]"
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={handleSubmit}
+              disabled={submitting}
+              className="bg-[#F88379] text-white hover:bg-[#D9604F]"
+              data-ocid="admin.submit_batch_button"
+            >
+              {submitting ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : null}
+              {submitting
+                ? "Saving..."
+                : modalMode === "create"
+                  ? "Create Batch"
+                  : "Update Batch"}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -1106,6 +1696,234 @@ function WaitlistsTab() {
   );
 }
 
+// ─── Tab: Announcements ──────────────────────────────────────────────
+
+function AnnouncementsTab() {
+  const { actor } = useActor(createActor);
+  const [announcements, setAnnouncements] = useState<AnnouncementPublic[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [showAddForm, setShowAddForm] = useState(false);
+  const [newText, setNewText] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+
+  const fetchAll = useCallback(async () => {
+    if (!actor) return;
+    try {
+      const data = await actor.getAllAnnouncements();
+      setAnnouncements(data);
+    } catch {
+      toast.error("Failed to load announcements");
+    } finally {
+      setLoading(false);
+    }
+  }, [actor]);
+
+  useEffect(() => {
+    fetchAll();
+  }, [fetchAll]);
+
+  const handleToggle = async (a: AnnouncementPublic) => {
+    if (!actor) return;
+    try {
+      const result = await actor.updateAnnouncement(a.id, a.text, !a.isActive);
+      if (result.__kind__ === "ok") {
+        toast.success(
+          a.isActive ? "Announcement deactivated" : "Announcement activated",
+        );
+        setAnnouncements((prev) =>
+          prev.map((item) => (item.id === a.id ? result.ok : item)),
+        );
+      } else {
+        toast.error(result.err);
+      }
+    } catch {
+      toast.error("Failed to update announcement");
+    }
+  };
+
+  const handleDelete = async (id: string) => {
+    if (!actor) return;
+    try {
+      const result = await actor.deleteAnnouncement(id);
+      if (result.__kind__ === "ok") {
+        toast.success("Announcement deleted");
+        setAnnouncements((prev) => prev.filter((a) => a.id !== id));
+      } else {
+        toast.error(result.err);
+      }
+    } catch {
+      toast.error("Failed to delete announcement");
+    }
+  };
+
+  const handleCreate = async () => {
+    if (!actor || !newText.trim()) return;
+    setSubmitting(true);
+    try {
+      const created = await actor.createAnnouncement(newText.trim());
+      toast.success("Announcement created");
+      setAnnouncements((prev) => [created, ...prev]);
+      setNewText("");
+      setShowAddForm(false);
+    } catch {
+      toast.error("Failed to create announcement");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const activeCount = announcements.filter((a) => a.isActive).length;
+
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h3 className="font-display text-lg font-semibold text-[#1A1A1A]">
+            Announcements
+          </h3>
+          <p className="text-sm text-[#7A7A7A]">
+            {announcements.length} total · {activeCount} active
+          </p>
+        </div>
+        <Button
+          onClick={() => setShowAddForm((v) => !v)}
+          className="bg-[#F88379] text-white hover:bg-[#D9604F]"
+          data-ocid="admin.add_announcement_button"
+        >
+          <Plus className="mr-2 h-4 w-4" />
+          Add Announcement
+        </Button>
+      </div>
+
+      {showAddForm && (
+        <div className="rounded-xl border border-[#E6D8C4] bg-white p-5 shadow-sm">
+          <label
+            htmlFor="announcement-text"
+            className="text-sm font-medium text-[#1A1A1A]"
+          >
+            Announcement Text
+          </label>
+          <div className="mt-2">
+            <RichTextEditor
+              value={newText}
+              onChange={(html) => setNewText(html)}
+              placeholder="e.g. 🏔 Kedarkantha Winter Batch — Jan 15 | 3 Seats Left"
+            />
+          </div>
+          <div className="mt-3 flex justify-end gap-2">
+            <Button
+              variant="outline"
+              onClick={() => {
+                setShowAddForm(false);
+                setNewText("");
+              }}
+              className="border-[#E6D8C4] text-[#1A1A1A]"
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={handleCreate}
+              disabled={!newText.trim() || submitting}
+              className="bg-[#F88379] text-white hover:bg-[#D9604F]"
+              data-ocid="admin.submit_announcement_button"
+            >
+              {submitting ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <Plus className="mr-2 h-4 w-4" />
+              )}
+              Create
+            </Button>
+          </div>
+        </div>
+      )}
+
+      {loading ? (
+        <div className="flex items-center justify-center py-12">
+          <Loader2 className="h-6 w-6 animate-spin text-[#F88379]" />
+        </div>
+      ) : announcements.length === 0 ? (
+        <div className="rounded-xl border border-[#E6D8C4] bg-white p-8 text-center shadow-sm">
+          <Megaphone className="mx-auto h-8 w-8 text-[#7A7A7A]" />
+          <p className="mt-3 text-sm text-[#7A7A7A]">
+            No announcements yet. Create one to show in the navbar ticker.
+          </p>
+        </div>
+      ) : (
+        <div className="space-y-3">
+          {announcements.map((a) => (
+            <div
+              key={a.id}
+              className={`rounded-xl border bg-white p-4 shadow-sm transition-shadow hover:shadow-md ${
+                a.isActive
+                  ? "border-l-4 border-[#F88379] border-t border-r border-b border-[#E6D8C4]"
+                  : "border-[#E6D8C4]"
+              }`}
+              style={
+                a.isActive
+                  ? { borderLeftWidth: 4, borderLeftColor: "#F88379" }
+                  : undefined
+              }
+            >
+              <div className="flex items-start justify-between gap-4">
+                <div className="min-w-0 flex-1">
+                  <p
+                    className={`text-sm font-medium ${
+                      a.isActive ? "text-[#1A1A1A]" : "text-[#7A7A7A]"
+                    }`}
+                  >
+                    {a.text}
+                  </p>
+                  <div className="mt-1.5 flex items-center gap-2">
+                    {a.isActive ? (
+                      <Badge className="bg-[#F88379] text-white font-medium">
+                        Active
+                      </Badge>
+                    ) : (
+                      <Badge
+                        variant="outline"
+                        className="border-[#7A7A7A] text-[#7A7A7A] font-medium"
+                      >
+                        Inactive
+                      </Badge>
+                    )}
+                    <span className="text-xs text-[#7A7A7A] font-mono">
+                      ID: {a.id}
+                    </span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 shrink-0">
+                  <button
+                    type="button"
+                    onClick={() => handleToggle(a)}
+                    className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
+                      a.isActive
+                        ? "bg-[#E6D8C4] text-[#1A1A1A] hover:bg-[#D9604F] hover:text-white"
+                        : "bg-[#2D6A4F] text-white hover:bg-[#1A4A2F]"
+                    }`}
+                    data-ocid={`admin.toggle_announcement.${a.id}`}
+                  >
+                    {a.isActive ? "Deactivate" : "Activate"}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleDelete(a.id)}
+                    className="p-1.5 rounded-lg text-[#F88379] hover:bg-[#F88379] hover:text-white transition-colors"
+                    aria-label="Delete announcement"
+                    data-ocid={`admin.delete_announcement.${a.id}`}
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ─── Main Admin Page ─────────────────────────────────────────────────
 
 export default function AdminPage() {
@@ -1149,6 +1967,7 @@ export default function AdminPage() {
     { key: "guides", label: "Guides", icon: Users },
     { key: "batches", label: "Batches", icon: Calendar },
     { key: "waitlists", label: "Waitlists", icon: ListOrdered },
+    { key: "announcements", label: "Announcements", icon: Megaphone },
   ];
 
   return (
@@ -1240,6 +2059,7 @@ export default function AdminPage() {
             {activeTab === "guides" && <GuidesTab />}
             {activeTab === "batches" && <BatchesTab />}
             {activeTab === "waitlists" && <WaitlistsTab />}
+            {activeTab === "announcements" && <AnnouncementsTab />}
           </main>
         </div>
       </div>

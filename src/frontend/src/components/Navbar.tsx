@@ -1,4 +1,5 @@
-import { useInternetIdentity } from "@caffeineai/core-infrastructure";
+import { type AnnouncementPublic, createActor } from "@/backend";
+import { useActor, useInternetIdentity } from "@caffeineai/core-infrastructure";
 import { Link, useRouterState } from "@tanstack/react-router";
 import {
   BarChart2,
@@ -18,6 +19,14 @@ import {
 } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
+
+const AnnouncementText: React.FC<{ html: string }> = ({ html }) => {
+  const spanRef = useRef<HTMLSpanElement>(null);
+  useEffect(() => {
+    if (spanRef.current) spanRef.current.innerHTML = html;
+  }, [html]);
+  return <span ref={spanRef} />;
+};
 
 const ALL_TREKS = [
   {
@@ -295,20 +304,48 @@ function NavRightActions({
   );
 }
 
+const FALLBACK_ANNOUNCEMENTS = [
+  "🏔 Kedarkantha Winter Batch — Jan 15 | 3 Seats Left",
+  "Valley of Flowers 2025 — Registrations Open",
+  "Har Ki Dun Spring Batch — Feb 10 | Limited Seats",
+  "Early Bird: Book 60 days ahead, Save 10% →",
+  "Buran Ghati Summer: Jul 5 | 4 Seats Left",
+];
+
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [activeMega, setActiveMega] = useState<MegaSection>(null);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [announcements, setAnnouncements] = useState<AnnouncementPublic[]>([]);
+  const [announcementsLoaded, setAnnouncementsLoaded] = useState(false);
   const routerState = useRouterState();
   const pathname = routerState.location.pathname;
   const megaTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const { actor } = useActor(createActor);
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 60);
     window.addEventListener("scroll", handler, { passive: true });
     return () => window.removeEventListener("scroll", handler);
   }, []);
+
+  useEffect(() => {
+    async function fetchAnnouncements() {
+      if (!actor) return;
+      try {
+        const data = await actor.getActiveAnnouncements();
+        setAnnouncements(data);
+      } catch {
+        // keep fallback state
+      } finally {
+        setAnnouncementsLoaded(true);
+      }
+    }
+    fetchAnnouncements();
+    const interval = setInterval(fetchAnnouncements, 60000);
+    return () => clearInterval(interval);
+  }, [actor]);
 
   const openMega = (section: MegaSection) => {
     if (megaTimer.current) clearTimeout(megaTimer.current);
@@ -327,32 +364,34 @@ export function Navbar() {
   return (
     <header className="fixed top-0 inset-x-0 z-40" data-ocid="navbar">
       {/* Announcement bar */}
-      <div
-        style={{ background: "#F88379" }}
-        className="overflow-hidden hidden md:block"
-      >
-        <div className="py-1.5 flex">
+      {(() => {
+        const activeTexts =
+          announcementsLoaded && announcements.length > 0
+            ? announcements.filter((a) => a.isActive).map((a) => a.text)
+            : FALLBACK_ANNOUNCEMENTS;
+        if (announcementsLoaded && activeTexts.length === 0) return null;
+        const tickerText = activeTexts.join(" · ");
+        return (
           <div
-            className="animate-marquee whitespace-nowrap flex items-center gap-12 text-xs font-medium"
-            style={{ color: "#1A1A1A" }}
+            style={{ background: "#F88379" }}
+            className="overflow-hidden hidden md:block"
           >
-            {[0, 1].map((i) => (
-              <span key={i} className="flex items-center gap-8">
-                <span>🏔 Kedarkantha Winter Batch — Jan 15 | 3 Seats Left</span>
-                <span>·</span>
-                <span>Valley of Flowers 2025 — Registrations Open</span>
-                <span>·</span>
-                <span>Har Ki Dun Spring Batch — Feb 10 | Limited Seats</span>
-                <span>·</span>
-                <span>Early Bird: Book 60 days ahead, Save 10% →</span>
-                <span>·</span>
-                <span>Buran Ghati Summer: Jul 5 | 4 Seats Left</span>
-                <span>·</span>
-              </span>
-            ))}
+            <div className="py-1.5 flex">
+              <div
+                className="animate-marquee whitespace-nowrap flex items-center gap-12 text-xs font-medium"
+                style={{ color: "#1A1A1A" }}
+              >
+                {[0, 1].map((i) => (
+                  <span key={i} className="flex items-center gap-8">
+                    <AnnouncementText html={tickerText} />
+                    <span>·</span>
+                  </span>
+                ))}
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+        );
+      })()}
 
       {/* Main nav */}
       <nav

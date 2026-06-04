@@ -11,10 +11,27 @@ import type { IDL } from '@icp-sdk/core/candid';
 import type { Principal } from '@icp-sdk/core/principal';
 
 export interface AddOn { 'name' : string, 'pricePerPerson' : bigint }
+export interface AnnouncementPublic {
+  'id' : string,
+  'text' : string,
+  'isActive' : boolean,
+}
 export interface BatchAvailability {
   'isSoldOut' : boolean,
   'batchId' : bigint,
   'seatsAvailable' : bigint,
+}
+export interface BatchCreateInput {
+  'status' : string,
+  'maxSeats' : bigint,
+  'endDate' : string,
+  'meetingPoint' : string,
+  'guideId' : [] | [string],
+  'pricePerPerson' : bigint,
+  'guideName' : [] | [string],
+  'trekName' : string,
+  'trekSlug' : string,
+  'startDate' : string,
 }
 export interface BatchPublic {
   'id' : bigint,
@@ -33,6 +50,18 @@ export type BatchStatus = { 'Full' : null } |
   { 'Open' : null } |
   { 'Cancelled' : null } |
   { 'Completed' : null };
+export interface BatchUpdateInput {
+  'status' : [] | [string],
+  'maxSeats' : [] | [bigint],
+  'endDate' : [] | [string],
+  'meetingPoint' : [] | [string],
+  'guideId' : [] | [string],
+  'pricePerPerson' : [] | [bigint],
+  'guideName' : [] | [string],
+  'trekName' : [] | [string],
+  'trekSlug' : [] | [string],
+  'startDate' : [] | [string],
+}
 export type BlogCategory = { 'Stories' : null } |
   { 'Gear' : null } |
   { 'TrekTips' : null } |
@@ -222,6 +251,12 @@ export interface _SERVICE {
     { 'ok' : BookingPublic } |
       { 'err' : string }
   >,
+  'createAnnouncement' : ActorMethod<[string], AnnouncementPublic>,
+  'createBatch' : ActorMethod<
+    [BatchCreateInput],
+    { 'ok' : BatchPublic } |
+      { 'err' : string }
+  >,
   'createBooking' : ActorMethod<
     [bigint, bigint, Array<AddOn>, Array<TravelerInfo>, boolean],
     {
@@ -237,7 +272,19 @@ export interface _SERVICE {
     [string, string, string, string],
     UserProfilePublic
   >,
+  'deleteAnnouncement' : ActorMethod<
+    [string],
+    { 'ok' : null } |
+      { 'err' : string }
+  >,
+  'deleteBatch' : ActorMethod<
+    [bigint],
+    { 'ok' : boolean } |
+      { 'err' : string }
+  >,
+  'getActiveAnnouncements' : ActorMethod<[], Array<AnnouncementPublic>>,
   'getAdminPrincipal' : ActorMethod<[], [] | [Principal]>,
+  'getAllAnnouncements' : ActorMethod<[], Array<AnnouncementPublic>>,
   'getAllGuides' : ActorMethod<[], Array<GuidePublic>>,
   'getAllTreks' : ActorMethod<[], Array<Trek>>,
   'getAllYatras' : ActorMethod<[], Array<Yatra>>,
@@ -255,6 +302,7 @@ export interface _SERVICE {
   'getAverageRating' : ActorMethod<[string], bigint>,
   'getBatchAvailability' : ActorMethod<[bigint], [] | [BatchAvailability]>,
   'getBatchById' : ActorMethod<[bigint], [] | [BatchPublic]>,
+  'getBatchesAll' : ActorMethod<[], Array<BatchPublic>>,
   'getBatchesByTrek' : ActorMethod<[string], Array<BatchPublic>>,
   'getBlogByCategory' : ActorMethod<[BlogCategory], Array<BlogPostPublic>>,
   'getBlogBySlug' : ActorMethod<[string], [] | [BlogPostPublic]>,
@@ -302,8 +350,23 @@ export interface _SERVICE {
   >,
   'subscribe' : ActorMethod<[string, Array<NewsletterPreference>], boolean>,
   'unsubscribe' : ActorMethod<[string], boolean>,
+  'updateAnnouncement' : ActorMethod<
+    [string, string, boolean],
+    { 'ok' : AnnouncementPublic } |
+      { 'err' : string }
+  >,
+  'updateBatch' : ActorMethod<
+    [bigint, BatchUpdateInput],
+    { 'ok' : BatchPublic } |
+      { 'err' : string }
+  >,
   'updateGuideAvailability' : ActorMethod<
     [string, GuideAvailability],
+    { 'ok' : null } |
+      { 'err' : string }
+  >,
+  'updateGuidePhoto' : ActorMethod<
+    [string, string],
     { 'ok' : null } |
       { 'err' : string }
   >,

@@ -26,6 +26,8 @@ import FaqsApi "mixins/faqs-api";
 import WaitlistApi "mixins/waitlist-api";
 import GuidesApi "mixins/guides-api";
 import AdminApi "mixins/admin-api";
+import AnnouncementsLib "lib/announcements";
+import AnnouncementsApi "mixins/announcements-api";
 
 actor {
   // ── Stable state (typed only; values come from migration chain) ──────────────
@@ -48,12 +50,14 @@ actor {
   let leadState      : { var nextLeadId    : Nat };
   let stripeState    : { var stripeSecretKey : Text; var stripePublicKey : Text };
   // Admin principal wrapped in a record so all mixins share the same reference
-  let adminState     : { var adminPrincipal : ?Principal };
+  let adminState          : { var adminPrincipal : ?Principal };
+  let announcements       : List.List<AnnouncementsLib.Announcement>;
+  let announcementState   : { var nextAnnouncementId : Nat };
 
   // ── Mixin composition (all public API lives here) ─────────────────────────────
   include TreksApi(treks);
   include YatrasApi(yatras);
-  include BatchesApi(batches);
+  include BatchesApi(batches, adminState);
   include BookingsApi(bookings, bookingState, batches, treks, stripeState, adminState, users);
   include UsersApi(users);
   include ReviewsApi(reviews, reviewState);
@@ -63,6 +67,7 @@ actor {
   include FaqsApi(faqVotes);
   include WaitlistApi(waitlists, adminState);
   include GuidesApi(guides, adminState);
+  include AnnouncementsApi(announcements, announcementState, adminState);
   include AdminApi(adminState);
 };
 

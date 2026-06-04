@@ -53,4 +53,14 @@ mixin (
     if (not isAdminGuides(caller)) { return #err "Unauthorized" };
     GuidesLib.upsert(guides, guide);
   };
+
+  // ── Admin: convenience wrapper — update only the photo field of a guide ──────
+  // Reads the existing record, applies the new photoUrl, and re-upserts.
+  public shared ({ caller }) func updateGuidePhoto(
+    guideId  : Text,
+    photoUrl : Text,
+  ) : async { #ok; #err : Text } {
+    if (not isAdminGuides(caller)) { return #err "Unauthorized" };
+    GuidesLib.updatePhoto(guides, guideId, photoUrl);
+  };
 };

@@ -124,6 +124,129 @@ module {
     };
   };
 
+  // Returns all batches (admin use)
+  public func getAll(batches : List.List<Batch>) : [BatchPublic] {
+    batches.map<Batch, BatchPublic>(func(b) { toPublic(b) }).toArray();
+  };
+
+  // Derives the next batch ID by finding max existing ID and adding 1
+  func nextId(batches : List.List<Batch>) : Nat {
+    var maxId : Nat = 0;
+    for (b in batches.values()) {
+      if (b.id > maxId) { maxId := b.id };
+    };
+    maxId + 1;
+  };
+
+  // Maps status text to BatchStatus variant
+  func parseStatus(s : Text) : Common.BatchStatus {
+    if (s == "cancelled") { #Cancelled }
+    else if (s == "draft") { #Completed }  // no Draft variant; map draft → Completed
+    else { #Open };
+  };
+
+  // Creates a new batch; returns the new BatchPublic or an error message
+  public func createBatch(
+    batches : List.List<Batch>,
+    input   : BatchTypes.BatchCreateInput,
+  ) : { #ok : BatchPublic; #err : Text } {
+    let id = nextId(batches);
+    let guideId = switch (input.guideId) { case (?g) g; case null "" };
+    let batch : Batch = {
+      id;
+      trekSlug       = input.trekSlug;
+      startDate      = input.startDate;
+      endDate        = input.endDate;
+      totalSeats     = input.maxSeats;
+      var bookedSeats = 0;
+      pricePerPerson = input.pricePerPerson;
+      guideId;
+      var status     = parseStatus(input.status);
+    };
+    batches.add(batch);
+    #ok(toPublic(batch));
+  };
+
+  // Updates an existing batch by ID; returns updated BatchPublic or error
+  public func updateBatch(
+    batches  : List.List<Batch>,
+    batchId  : Nat,
+    input    : BatchTypes.BatchUpdateInput,
+  ) : { #ok : BatchPublic; #err : Text } {
+    switch (batches.find(func(b) { b.id == batchId })) {
+      case null { #err("Batch not found") };
+      case (?b) {
+        // Mutable fields can be updated in place
+        switch (input.status) {
+          case (?s) { b.status := parseStatus(s) };
+          case null {};
+        };
+        switch (input.maxSeats) {
+          case (?v) {
+            // Only allow expanding seats, not shrinking below already booked
+            if (v >= b.bookedSeats) {
+              // Replace the batch record with updated totalSeats using mapInPlace
+              batches.mapInPlace(func(existing) {
+                if (existing.id == batchId) {
+                  ({
+                    id             = existing.id;
+                    trekSlug       = switch (input.trekSlug)     { case (?s) s; case null existing.trekSlug };
+                    startDate      = switch (input.startDate)    { case (?s) s; case null existing.startDate };
+                    endDate        = switch (input.endDate)      { case (?s) s; case null existing.endDate };
+                    totalSeats     = v;
+                    var bookedSeats = existing.bookedSeats;
+                    pricePerPerson = switch (input.pricePerPerson) { case (?p) p; case null existing.pricePerPerson };
+                    guideId        = switch (input.guideId)      { case (?g) g; case null existing.guideId };
+                    var status     = b.status;
+                  } : Batch);
+                } else { existing };
+              });
+            };
+          };
+          case null {
+            // No seat change — still may need to rebuild for immutable field changes
+            let hasImmutableChange =
+              input.trekSlug != null or input.startDate != null or
+              input.endDate != null or input.pricePerPerson != null or input.guideId != null;
+            if (hasImmutableChange) {
+              batches.mapInPlace(func(existing) {
+                if (existing.id == batchId) {
+                  ({
+                    id             = existing.id;
+                    trekSlug       = switch (input.trekSlug)     { case (?s) s; case null existing.trekSlug };
+                    startDate      = switch (input.startDate)    { case (?s) s; case null existing.startDate };
+                    endDate        = switch (input.endDate)      { case (?s) s; case null existing.endDate };
+                    totalSeats     = existing.totalSeats;
+                    var bookedSeats = existing.bookedSeats;
+                    pricePerPerson = switch (input.pricePerPerson) { case (?p) p; case null existing.pricePerPerson };
+                    guideId        = switch (input.guideId)      { case (?g) g; case null existing.guideId };
+                    var status     = b.status;
+                  } : Batch);
+                } else { existing };
+              });
+            };
+          };
+        };
+        // Re-fetch the updated batch to return fresh state
+        switch (batches.find(func(x) { x.id == batchId })) {
+          case (?updated) { #ok(toPublic(updated)) };
+          case null { #ok(toPublic(b)) };
+        };
+      };
+    };
+  };
+
+  // Deletes a batch by ID; returns true on success or error if not found
+  public func deleteBatch(
+    batches : List.List<Batch>,
+    batchId : Nat,
+  ) : { #ok : Bool; #err : Text } {
+    let before = batches.size();
+    batches.retain(func(b) { b.id != batchId });
+    if (batches.size() < before) { #ok(true) }
+    else { #err("Batch not found") };
+  };
+
   // Builds initial seed batches (3–4 per trek)
   public func seedData() : List.List<Batch> {
     let data = List.empty<Batch>();

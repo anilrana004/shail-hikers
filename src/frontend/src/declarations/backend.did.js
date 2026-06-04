@@ -45,6 +45,42 @@ export const BookingPublic = IDL.Record({
   'batchId' : IDL.Nat,
   'stripeSessionId' : IDL.Opt(IDL.Text),
 });
+export const AnnouncementPublic = IDL.Record({
+  'id' : IDL.Text,
+  'text' : IDL.Text,
+  'isActive' : IDL.Bool,
+});
+export const BatchCreateInput = IDL.Record({
+  'status' : IDL.Text,
+  'maxSeats' : IDL.Nat,
+  'endDate' : IDL.Text,
+  'meetingPoint' : IDL.Text,
+  'guideId' : IDL.Opt(IDL.Text),
+  'pricePerPerson' : IDL.Nat,
+  'guideName' : IDL.Opt(IDL.Text),
+  'trekName' : IDL.Text,
+  'trekSlug' : IDL.Text,
+  'startDate' : IDL.Text,
+});
+export const BatchStatus = IDL.Variant({
+  'Full' : IDL.Null,
+  'Open' : IDL.Null,
+  'Cancelled' : IDL.Null,
+  'Completed' : IDL.Null,
+});
+export const BatchPublic = IDL.Record({
+  'id' : IDL.Nat,
+  'status' : BatchStatus,
+  'endDate' : IDL.Text,
+  'guideId' : IDL.Text,
+  'pricePerPerson' : IDL.Nat,
+  'totalSeats' : IDL.Nat,
+  'bookedSeats' : IDL.Nat,
+  'isSoldOut' : IDL.Bool,
+  'trekSlug' : Slug,
+  'seatsAvailable' : IDL.Nat,
+  'startDate' : IDL.Text,
+});
 export const LoyaltyTier = IDL.Variant({
   'SummitMaster' : IDL.Null,
   'Explorer' : IDL.Null,
@@ -119,25 +155,6 @@ export const Yatra = IDL.Record({
   'category' : IDL.Text,
   'basePrice' : IDL.Nat,
   'nextDeparture' : IDL.Text,
-});
-export const BatchStatus = IDL.Variant({
-  'Full' : IDL.Null,
-  'Open' : IDL.Null,
-  'Cancelled' : IDL.Null,
-  'Completed' : IDL.Null,
-});
-export const BatchPublic = IDL.Record({
-  'id' : IDL.Nat,
-  'status' : BatchStatus,
-  'endDate' : IDL.Text,
-  'guideId' : IDL.Text,
-  'pricePerPerson' : IDL.Nat,
-  'totalSeats' : IDL.Nat,
-  'bookedSeats' : IDL.Nat,
-  'isSoldOut' : IDL.Bool,
-  'trekSlug' : Slug,
-  'seatsAvailable' : IDL.Nat,
-  'startDate' : IDL.Text,
 });
 export const BatchAvailability = IDL.Record({
   'isSoldOut' : IDL.Bool,
@@ -223,6 +240,18 @@ export const NewsletterPreference = IDL.Variant({
   'WeatherAlerts' : IDL.Null,
   'NewBatches' : IDL.Null,
 });
+export const BatchUpdateInput = IDL.Record({
+  'status' : IDL.Opt(IDL.Text),
+  'maxSeats' : IDL.Opt(IDL.Nat),
+  'endDate' : IDL.Opt(IDL.Text),
+  'meetingPoint' : IDL.Opt(IDL.Text),
+  'guideId' : IDL.Opt(IDL.Text),
+  'pricePerPerson' : IDL.Opt(IDL.Nat),
+  'guideName' : IDL.Opt(IDL.Text),
+  'trekName' : IDL.Opt(IDL.Text),
+  'trekSlug' : IDL.Opt(IDL.Text),
+  'startDate' : IDL.Opt(IDL.Text),
+});
 
 export const idlService = IDL.Service({
   'addToWishlist' : IDL.Func([IDL.Text], [IDL.Bool], []),
@@ -246,6 +275,12 @@ export const idlService = IDL.Service({
       [IDL.Variant({ 'ok' : BookingPublic, 'err' : IDL.Text })],
       [],
     ),
+  'createAnnouncement' : IDL.Func([IDL.Text], [AnnouncementPublic], []),
+  'createBatch' : IDL.Func(
+      [BatchCreateInput],
+      [IDL.Variant({ 'ok' : BatchPublic, 'err' : IDL.Text })],
+      [],
+    ),
   'createBooking' : IDL.Func(
       [IDL.Nat, IDL.Nat, IDL.Vec(AddOn), IDL.Vec(TravelerInfo), IDL.Bool],
       [
@@ -265,7 +300,27 @@ export const idlService = IDL.Service({
       [UserProfilePublic],
       [],
     ),
+  'deleteAnnouncement' : IDL.Func(
+      [IDL.Text],
+      [IDL.Variant({ 'ok' : IDL.Null, 'err' : IDL.Text })],
+      [],
+    ),
+  'deleteBatch' : IDL.Func(
+      [IDL.Nat],
+      [IDL.Variant({ 'ok' : IDL.Bool, 'err' : IDL.Text })],
+      [],
+    ),
+  'getActiveAnnouncements' : IDL.Func(
+      [],
+      [IDL.Vec(AnnouncementPublic)],
+      ['query'],
+    ),
   'getAdminPrincipal' : IDL.Func([], [IDL.Opt(IDL.Principal)], ['query']),
+  'getAllAnnouncements' : IDL.Func(
+      [],
+      [IDL.Vec(AnnouncementPublic)],
+      ['query'],
+    ),
   'getAllGuides' : IDL.Func([], [IDL.Vec(GuidePublic)], ['query']),
   'getAllTreks' : IDL.Func([], [IDL.Vec(Trek)], ['query']),
   'getAllYatras' : IDL.Func([], [IDL.Vec(Yatra)], ['query']),
@@ -290,6 +345,7 @@ export const idlService = IDL.Service({
       ['query'],
     ),
   'getBatchById' : IDL.Func([IDL.Nat], [IDL.Opt(BatchPublic)], ['query']),
+  'getBatchesAll' : IDL.Func([], [IDL.Vec(BatchPublic)], ['query']),
   'getBatchesByTrek' : IDL.Func([IDL.Text], [IDL.Vec(BatchPublic)], ['query']),
   'getBlogByCategory' : IDL.Func(
       [BlogCategory],
@@ -379,8 +435,23 @@ export const idlService = IDL.Service({
       [],
     ),
   'unsubscribe' : IDL.Func([IDL.Text], [IDL.Bool], []),
+  'updateAnnouncement' : IDL.Func(
+      [IDL.Text, IDL.Text, IDL.Bool],
+      [IDL.Variant({ 'ok' : AnnouncementPublic, 'err' : IDL.Text })],
+      [],
+    ),
+  'updateBatch' : IDL.Func(
+      [IDL.Nat, BatchUpdateInput],
+      [IDL.Variant({ 'ok' : BatchPublic, 'err' : IDL.Text })],
+      [],
+    ),
   'updateGuideAvailability' : IDL.Func(
       [IDL.Text, GuideAvailability],
+      [IDL.Variant({ 'ok' : IDL.Null, 'err' : IDL.Text })],
+      [],
+    ),
+  'updateGuidePhoto' : IDL.Func(
+      [IDL.Text, IDL.Text],
       [IDL.Variant({ 'ok' : IDL.Null, 'err' : IDL.Text })],
       [],
     ),
@@ -427,6 +498,42 @@ export const idlFactory = ({ IDL }) => {
     'trekSlug' : Slug,
     'batchId' : IDL.Nat,
     'stripeSessionId' : IDL.Opt(IDL.Text),
+  });
+  const AnnouncementPublic = IDL.Record({
+    'id' : IDL.Text,
+    'text' : IDL.Text,
+    'isActive' : IDL.Bool,
+  });
+  const BatchCreateInput = IDL.Record({
+    'status' : IDL.Text,
+    'maxSeats' : IDL.Nat,
+    'endDate' : IDL.Text,
+    'meetingPoint' : IDL.Text,
+    'guideId' : IDL.Opt(IDL.Text),
+    'pricePerPerson' : IDL.Nat,
+    'guideName' : IDL.Opt(IDL.Text),
+    'trekName' : IDL.Text,
+    'trekSlug' : IDL.Text,
+    'startDate' : IDL.Text,
+  });
+  const BatchStatus = IDL.Variant({
+    'Full' : IDL.Null,
+    'Open' : IDL.Null,
+    'Cancelled' : IDL.Null,
+    'Completed' : IDL.Null,
+  });
+  const BatchPublic = IDL.Record({
+    'id' : IDL.Nat,
+    'status' : BatchStatus,
+    'endDate' : IDL.Text,
+    'guideId' : IDL.Text,
+    'pricePerPerson' : IDL.Nat,
+    'totalSeats' : IDL.Nat,
+    'bookedSeats' : IDL.Nat,
+    'isSoldOut' : IDL.Bool,
+    'trekSlug' : Slug,
+    'seatsAvailable' : IDL.Nat,
+    'startDate' : IDL.Text,
   });
   const LoyaltyTier = IDL.Variant({
     'SummitMaster' : IDL.Null,
@@ -502,25 +609,6 @@ export const idlFactory = ({ IDL }) => {
     'category' : IDL.Text,
     'basePrice' : IDL.Nat,
     'nextDeparture' : IDL.Text,
-  });
-  const BatchStatus = IDL.Variant({
-    'Full' : IDL.Null,
-    'Open' : IDL.Null,
-    'Cancelled' : IDL.Null,
-    'Completed' : IDL.Null,
-  });
-  const BatchPublic = IDL.Record({
-    'id' : IDL.Nat,
-    'status' : BatchStatus,
-    'endDate' : IDL.Text,
-    'guideId' : IDL.Text,
-    'pricePerPerson' : IDL.Nat,
-    'totalSeats' : IDL.Nat,
-    'bookedSeats' : IDL.Nat,
-    'isSoldOut' : IDL.Bool,
-    'trekSlug' : Slug,
-    'seatsAvailable' : IDL.Nat,
-    'startDate' : IDL.Text,
   });
   const BatchAvailability = IDL.Record({
     'isSoldOut' : IDL.Bool,
@@ -606,6 +694,18 @@ export const idlFactory = ({ IDL }) => {
     'WeatherAlerts' : IDL.Null,
     'NewBatches' : IDL.Null,
   });
+  const BatchUpdateInput = IDL.Record({
+    'status' : IDL.Opt(IDL.Text),
+    'maxSeats' : IDL.Opt(IDL.Nat),
+    'endDate' : IDL.Opt(IDL.Text),
+    'meetingPoint' : IDL.Opt(IDL.Text),
+    'guideId' : IDL.Opt(IDL.Text),
+    'pricePerPerson' : IDL.Opt(IDL.Nat),
+    'guideName' : IDL.Opt(IDL.Text),
+    'trekName' : IDL.Opt(IDL.Text),
+    'trekSlug' : IDL.Opt(IDL.Text),
+    'startDate' : IDL.Opt(IDL.Text),
+  });
   
   return IDL.Service({
     'addToWishlist' : IDL.Func([IDL.Text], [IDL.Bool], []),
@@ -629,6 +729,12 @@ export const idlFactory = ({ IDL }) => {
         [IDL.Variant({ 'ok' : BookingPublic, 'err' : IDL.Text })],
         [],
       ),
+    'createAnnouncement' : IDL.Func([IDL.Text], [AnnouncementPublic], []),
+    'createBatch' : IDL.Func(
+        [BatchCreateInput],
+        [IDL.Variant({ 'ok' : BatchPublic, 'err' : IDL.Text })],
+        [],
+      ),
     'createBooking' : IDL.Func(
         [IDL.Nat, IDL.Nat, IDL.Vec(AddOn), IDL.Vec(TravelerInfo), IDL.Bool],
         [
@@ -648,7 +754,27 @@ export const idlFactory = ({ IDL }) => {
         [UserProfilePublic],
         [],
       ),
+    'deleteAnnouncement' : IDL.Func(
+        [IDL.Text],
+        [IDL.Variant({ 'ok' : IDL.Null, 'err' : IDL.Text })],
+        [],
+      ),
+    'deleteBatch' : IDL.Func(
+        [IDL.Nat],
+        [IDL.Variant({ 'ok' : IDL.Bool, 'err' : IDL.Text })],
+        [],
+      ),
+    'getActiveAnnouncements' : IDL.Func(
+        [],
+        [IDL.Vec(AnnouncementPublic)],
+        ['query'],
+      ),
     'getAdminPrincipal' : IDL.Func([], [IDL.Opt(IDL.Principal)], ['query']),
+    'getAllAnnouncements' : IDL.Func(
+        [],
+        [IDL.Vec(AnnouncementPublic)],
+        ['query'],
+      ),
     'getAllGuides' : IDL.Func([], [IDL.Vec(GuidePublic)], ['query']),
     'getAllTreks' : IDL.Func([], [IDL.Vec(Trek)], ['query']),
     'getAllYatras' : IDL.Func([], [IDL.Vec(Yatra)], ['query']),
@@ -673,6 +799,7 @@ export const idlFactory = ({ IDL }) => {
         ['query'],
       ),
     'getBatchById' : IDL.Func([IDL.Nat], [IDL.Opt(BatchPublic)], ['query']),
+    'getBatchesAll' : IDL.Func([], [IDL.Vec(BatchPublic)], ['query']),
     'getBatchesByTrek' : IDL.Func(
         [IDL.Text],
         [IDL.Vec(BatchPublic)],
@@ -774,8 +901,23 @@ export const idlFactory = ({ IDL }) => {
         [],
       ),
     'unsubscribe' : IDL.Func([IDL.Text], [IDL.Bool], []),
+    'updateAnnouncement' : IDL.Func(
+        [IDL.Text, IDL.Text, IDL.Bool],
+        [IDL.Variant({ 'ok' : AnnouncementPublic, 'err' : IDL.Text })],
+        [],
+      ),
+    'updateBatch' : IDL.Func(
+        [IDL.Nat, BatchUpdateInput],
+        [IDL.Variant({ 'ok' : BatchPublic, 'err' : IDL.Text })],
+        [],
+      ),
     'updateGuideAvailability' : IDL.Func(
         [IDL.Text, GuideAvailability],
+        [IDL.Variant({ 'ok' : IDL.Null, 'err' : IDL.Text })],
+        [],
+      ),
+    'updateGuidePhoto' : IDL.Func(
+        [IDL.Text, IDL.Text],
         [IDL.Variant({ 'ok' : IDL.Null, 'err' : IDL.Text })],
         [],
       ),

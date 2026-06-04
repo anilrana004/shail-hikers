@@ -208,6 +208,19 @@ type BlogCategory =
    TrekTips;
    YatraGuides;
  };
+type BatchUpdateInput = 
+ record {
+   endDate: opt text;
+   guideId: opt text;
+   guideName: opt text;
+   maxSeats: opt nat;
+   meetingPoint: opt text;
+   pricePerPerson: opt nat;
+   startDate: opt text;
+   status: opt text;
+   trekName: opt text;
+   trekSlug: opt text;
+ };
 type BatchStatus = 
  variant {
    Cancelled;
@@ -229,11 +242,30 @@ type BatchPublic =
    totalSeats: nat;
    trekSlug: Slug;
  };
+type BatchCreateInput = 
+ record {
+   endDate: text;
+   guideId: opt text;
+   guideName: opt text;
+   maxSeats: nat;
+   meetingPoint: text;
+   pricePerPerson: nat;
+   startDate: text;
+   status: text;
+   trekName: text;
+   trekSlug: text;
+ };
 type BatchAvailability = 
  record {
    batchId: nat;
    isSoldOut: bool;
    seatsAvailable: nat;
+ };
+type AnnouncementPublic = 
+ record {
+   id: text;
+   isActive: bool;
+   "text": text;
  };
 type AddOn = 
  record {
@@ -258,6 +290,12 @@ service : {
       err: text;
       ok: BookingPublic;
     });
+  createAnnouncement: ("text": text) -> (AnnouncementPublic);
+  createBatch: (input: BatchCreateInput) ->
+   (variant {
+      err: text;
+      ok: BatchPublic;
+    });
   createBooking: (batchId: nat, groupSize: nat, addOns: vec AddOn, travelers:
    vec TravelerInfo, applyEarlyBird: bool) ->
    (variant {
@@ -270,7 +308,17 @@ service : {
     });
   createOrUpdateProfile: (name: text, email: text, phone: text, city:
    text) -> (UserProfilePublic);
+  deleteAnnouncement: (id: text) -> (variant {
+                                       err: text;
+                                       ok;
+                                     });
+  deleteBatch: (batchId: nat) -> (variant {
+                                    err: text;
+                                    ok: bool;
+                                  });
+  getActiveAnnouncements: () -> (vec AnnouncementPublic) query;
   getAdminPrincipal: () -> (opt principal) query;
+  getAllAnnouncements: () -> (vec AnnouncementPublic) query;
   getAllGuides: () -> (vec GuidePublic) query;
   getAllTreks: () -> (vec Trek) query;
   getAllYatras: () -> (vec Yatra) query;
@@ -286,6 +334,7 @@ service : {
   getAverageRating: (trekSlug: text) -> (nat) query;
   getBatchAvailability: (batchId: nat) -> (opt BatchAvailability) query;
   getBatchById: (id: nat) -> (opt BatchPublic) query;
+  getBatchesAll: () -> (vec BatchPublic) query;
   getBatchesByTrek: (trekSlug: text) -> (vec BatchPublic) query;
   getBlogByCategory: (category: BlogCategory) -> (vec BlogPostPublic) query;
   getBlogBySlug: (slug: text) -> (opt BlogPostPublic) query;
@@ -330,11 +379,26 @@ service : {
    text) -> (ReviewPublic);
   subscribe: (email: text, preferences: vec NewsletterPreference) -> (bool);
   unsubscribe: (email: text) -> (bool);
+  updateAnnouncement: (id: text, "text": text, isActive: bool) ->
+   (variant {
+      err: text;
+      ok: AnnouncementPublic;
+    });
+  updateBatch: (batchId: nat, input: BatchUpdateInput) ->
+   (variant {
+      err: text;
+      ok: BatchPublic;
+    });
   updateGuideAvailability: (guideId: text, availability:
    GuideAvailability) -> (variant {
                             err: text;
                             ok;
                           });
+  updateGuidePhoto: (guideId: text, photoUrl: text) ->
+   (variant {
+      err: text;
+      ok;
+    });
   updatePaymentStatus: (id: nat, status: PaymentStatus) -> (bool);
   upsertGuide: (guide: GuidePublic) -> (variant {
                                           err: text;

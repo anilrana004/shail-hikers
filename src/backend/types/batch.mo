@@ -34,4 +34,32 @@ module {
     seatsAvailable : Nat;
     isSoldOut : Bool;
   };
+
+  // Input for creating a new batch (admin)
+  public type BatchCreateInput = {
+    trekSlug    : Text;
+    trekName    : Text;
+    startDate   : Text;
+    endDate     : Text;
+    pricePerPerson : Nat;
+    maxSeats    : Nat;
+    meetingPoint : Text;
+    guideId     : ?Text;
+    guideName   : ?Text;
+    status      : Text; // "active" | "draft" | "cancelled"
+  };
+
+  // Input for updating an existing batch (admin) — all fields optional
+  public type BatchUpdateInput = {
+    trekSlug     : ?Text;
+    trekName     : ?Text;
+    startDate    : ?Text;
+    endDate      : ?Text;
+    pricePerPerson : ?Nat;
+    maxSeats     : ?Nat;
+    meetingPoint : ?Text;
+    guideId      : ?Text;
+    guideName    : ?Text;
+    status       : ?Text;
+  };
 };
